@@ -4,6 +4,8 @@ import { Box, Heading, Input, Stack } from "@chakra-ui/react";
 import { Field } from "../../components/ui/field.jsx";
 import { Radio, RadioGroup } from "../../components/ui/radio.jsx";
 import { Button } from "../../components/ui/button.jsx";
+import { toaster } from "../../components/ui/toaster.jsx";
+import { useNavigate } from "react-router-dom";
 
 export function MemberSignup() {
   const [memberId, setMemberId] = useState("");
@@ -11,14 +13,25 @@ export function MemberSignup() {
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState(null);
 
+  const navigate = useNavigate();
+
   function handleSaveClick() {
     axios
       .post("/api/member/signup", { memberId, password, nickname, gender })
       .then((res) => {
-        console.log("성공");
+        const message = res.data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+        navigate("/");
       })
       .catch((e) => {
-        console.log("실패");
+        const message = e.response.data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
       })
       .finally(() => {
         console.log("성공,실패든 무조건 실행");
