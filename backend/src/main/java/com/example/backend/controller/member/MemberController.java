@@ -7,6 +7,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/api/member")
@@ -53,11 +55,32 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<Map<String, Object>> signup(@RequestBody Member member) {
         System.out.println("member = " + member);
+
+        // 오류 메시지를 담을 리스트
+        List<String> errors = new ArrayList<>();
+
+        // 비밀번호가 입력되지 않은 경우
+        if (member.getPassword() == null || member.getPassword().trim().isEmpty()) {
+            errors.add("비밀번호를 입력해 주세요");
+        }
+
+        // 성별이 선택되지 않은 경우
+        if (member.getGender() == null || member.getGender().isEmpty()) {
+            errors.add("성별을 선택해 주세요");
+        }
+
+        // 오류 메시지가 있으면 하나로 합쳐서 반환
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message",
+                    Map.of("type", "warning",
+                            "text", String.join(" 그리고 ", errors))));
+        }
+
         try {
             if (service.MemberAdd(member)) {
                 return ResponseEntity.ok().body(Map.of("message",
                         Map.of("type", "success",
-                                "text", "회원 가입되었습니다.")));
+                                "text", "회원 가입되었습니다")));
             } else {
                 return ResponseEntity.ok().body(Map.of("message",
                         Map.of("type", "error",

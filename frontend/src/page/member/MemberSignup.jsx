@@ -23,7 +23,7 @@ export function MemberSignup() {
         const message = res.data.message;
         toaster.create({
           type: message.type,
-          description: message.text,
+          description: message.text, // 여러 오류가 있을 경우 한 번에 표시
         });
         // TODO: login 으로 이동
         navigate("/");
@@ -32,7 +32,7 @@ export function MemberSignup() {
         const message = e.response.data.message;
         toaster.create({
           type: message.type,
-          description: message.text,
+          description: message.text, // 백엔드에서 반환된 오류 메시지 표시
         });
       })
       .finally(() => {
