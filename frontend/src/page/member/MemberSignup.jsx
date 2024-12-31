@@ -58,6 +58,24 @@ export function MemberSignup() {
       });
   };
 
+  // 회원 가입 아이디 중복 체크
+  const handleNicknameCheckClick = () => {
+    axios
+      .get("/api/member/check", {
+        params: {
+          nickname: nickname,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        const message = data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+      });
+  };
+
   return (
     <Box>
       <Heading>회원 가입</Heading>
@@ -80,10 +98,15 @@ export function MemberSignup() {
           />
         </Field>
         <Field label={"별명"}>
-          <Input
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
+          <Group attached w={"100%"}>
+            <Input
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+            <Button onClick={handleNicknameCheckClick} variant={"outline"}>
+              중복확인
+            </Button>
+          </Group>
         </Field>
         <Field label={"성별"}>
           <RadioGroup

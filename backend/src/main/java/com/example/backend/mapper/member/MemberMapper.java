@@ -22,4 +22,11 @@ public interface MemberMapper {
             WHERE member_id = #{memberId}
             """)
     Member selectById(String memberId);
+
+    // 회원 가입 별명 중복 체크
+    @Select("""
+            SELECT * FROM member
+            WHERE nickname=#{nickname}
+            """)
+    Member selectByNickName(String nickname);
 }

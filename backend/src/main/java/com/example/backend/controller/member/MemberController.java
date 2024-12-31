@@ -16,7 +16,7 @@ public class MemberController {
     final MemberService service;
 
     // 회원 가입 아이디 중복 체크
-    @GetMapping("check")
+    @GetMapping(value = "check", params = "memberId")
     public ResponseEntity<Map<String, Object>> checkId(@RequestParam String memberId) {
         if (service.checkId(memberId)) {
             // 이미 있으면
@@ -28,6 +28,23 @@ public class MemberController {
             // 없으면
             return ResponseEntity.ok().body(Map.of(
                     "message", Map.of("type", "info", "text", "사용 가능한 아이디 입니다."),
+                    "available", true));
+        }
+    }
+
+    // 회원 가입 별명 중복 체크
+    @GetMapping(value = "check", params = "nickname")
+    public ResponseEntity<Map<String, Object>> checkNickname(@RequestParam String nickname) {
+        if (service.checkNickname(nickname)) {
+            // 이미 있으면
+            return ResponseEntity.ok().body(Map.of(
+                    "message", Map.of("type", "warning", "text", "이미 사용중인 별명 입니다."),
+                    "available", false)
+            );
+        } else {
+            // 없으면
+            return ResponseEntity.ok().body(Map.of(
+                    "message", Map.of("type", "info", "text", "사용 가능한 별명 입니다."),
                     "available", true));
         }
     }

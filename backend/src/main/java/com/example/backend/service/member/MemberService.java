@@ -22,4 +22,10 @@ public class MemberService {
     public boolean checkId(String memberId) {
         return mapper.selectById(memberId) != null;
     }
+
+    // 회원 가입 별명 중복 체크
+    public boolean checkNickname(String nickname) {
+        Member member = mapper.selectByNickName(nickname);
+        return member != null;
+    }
 }
