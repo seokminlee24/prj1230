@@ -17,4 +17,9 @@ public class MemberService {
         int cnt = mapper.insert(member);
         return cnt == 1;
     }
+
+    // 회원 가입 아이디 중복 체크
+    public boolean checkId(String memberId) {
+        return mapper.selectById(memberId) != null;
+    }
 }
