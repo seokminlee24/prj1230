@@ -17,6 +17,22 @@ import java.util.Map;
 public class MemberController {
     final MemberService service;
 
+    //회원 정보 보기에서 삭제
+    @DeleteMapping("remove")
+    public ResponseEntity<Map<String, Object>> remove(@RequestBody Member member) {
+        if (service.remove(member)) {
+            // 성공
+            return ResponseEntity.ok().body(Map.of("message",
+                    Map.of("type", "success",
+                            "text", "회원정보를 삭제하였습니다.")));
+        } else {
+            // 실패
+            return ResponseEntity.ok().body(Map.of("message",
+                    Map.of("type", "warning",
+                            "text", "정확한 정보를 입력해주세요.")));
+        }
+    }
+
     //회원 정보 보기
     @GetMapping("{memberId}")
     public Member getMember(@PathVariable String memberId) {
