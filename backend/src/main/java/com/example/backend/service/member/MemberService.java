@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -27,5 +29,10 @@ public class MemberService {
     public boolean checkNickname(String nickname) {
         Member member = mapper.selectByNickName(nickname);
         return member != null;
+    }
+
+    // 회원 리스트
+    public List<Member> list() {
+        return mapper.selectAll();
     }
 }

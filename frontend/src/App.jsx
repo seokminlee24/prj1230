@@ -3,6 +3,7 @@ import axios from "axios";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RootLayout } from "./page/root/RootLayout.jsx";
 import { MemberSignup } from "./page/member/MemberSignup.jsx";
+import { MemberList } from "./page/member/MemberList.jsx";
 
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/member/signup",
         element: <MemberSignup />,
+      },
+      {
+        path: "/member/list",
+        element: <MemberList />,
       },
     ],
   },

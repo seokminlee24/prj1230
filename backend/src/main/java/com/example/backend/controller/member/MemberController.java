@@ -17,6 +17,12 @@ import java.util.Map;
 public class MemberController {
     final MemberService service;
 
+    //회원 리스트
+    @GetMapping("list")
+    public List<Member> list() {
+        return service.list();
+    }
+
     // 회원 가입 아이디 중복 체크
     @GetMapping(value = "check", params = "memberId")
     public ResponseEntity<Map<String, Object>> checkId(@RequestParam String memberId) {
