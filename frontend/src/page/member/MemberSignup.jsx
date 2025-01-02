@@ -135,6 +135,7 @@ export function MemberSignup() {
         <Field label={"아이디"}>
           <Group attached w={"100%"}>
             <Input
+              placeholder={"아이디 입력을 하세요."}
               value={memberId}
               onChange={(e) => {
                 setIdCheck(false);
@@ -148,12 +149,14 @@ export function MemberSignup() {
         </Field>
         <Field label={"비밀번호"}>
           <Input
+            placeholder={"비밀번호를 입력해주세요."}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Field>
         <Field label={"비밀번호 확인"}>
           <Input
+            placeholder={"비밀번호를 재입력해주세요."}
             value={passwordCheck}
             onChange={(e) => setPasswordCheck(e.target.value)}
           />
@@ -161,6 +164,7 @@ export function MemberSignup() {
         <Field label={"별명"}>
           <Group attached w={"100%"}>
             <Input
+              placeholder={"별명를 입력해주세요."}
               value={nickname}
               onChange={(e) => {
                 setNicknameCheck(false);
@@ -173,6 +177,11 @@ export function MemberSignup() {
           </Group>
         </Field>
         <Field label={"성별"}>
+          {!gender && ( // 성별이 선택되지 않았을 떄 메세지 표시
+            <Box color="gray.500" mt={2} fontSize={"sm"}>
+              성별을 선택해야 합니다.
+            </Box>
+          )}
           <RadioGroup
             value={gender}
             onChange={(e) => setGender(e.target.value)}
