@@ -17,6 +17,15 @@ import java.util.Map;
 public class MemberController {
     final MemberService service;
 
+    // 로그인
+    @PostMapping("login")
+    public void login(@RequestBody Member member) {
+        String token = service.token(member);
+        if (token != null) {
+        } else {
+        }
+    }
+
     // 회원 정보 보기에서 수정
     @PutMapping("update")
     public ResponseEntity<Map<String, Object>> update(@RequestBody Member member) {

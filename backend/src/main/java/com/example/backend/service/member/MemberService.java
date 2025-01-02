@@ -67,4 +67,15 @@ public class MemberService {
         }
         return cnt == 1;
     }
+
+    // 로그인
+    public String token(Member member) {
+        Member db = mapper.selectById(member.getMemberId());
+        if (db != null) {
+            if (db.getPassword().equals(member.getPassword())) {
+                // token 만들어서 리턴
+            }
+        }
+        return null;
+    }
 }
