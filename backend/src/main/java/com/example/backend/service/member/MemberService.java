@@ -55,4 +55,16 @@ public class MemberService {
         }
         return cnt == 1;
     }
+
+    // 회원 정보 수정
+    public boolean update(Member member) {
+        int cnt = 0;
+        Member db = mapper.selectById(member.getMemberId());
+        if (db != null) {
+            if (db.getPassword().equals(member.getOldPassword())) {
+                cnt = mapper.update(member);
+            }
+        }
+        return cnt == 1;
+    }
 }

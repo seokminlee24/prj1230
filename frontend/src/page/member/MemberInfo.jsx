@@ -77,10 +77,13 @@ export function MemberInfo() {
         <Field label={"성별"}>
           <Input readOnly value={genderText} />
         </Field>
-        <Field label={"암호"}>
+        <Field label={"비밀번호"}>
           <Input type={"datetime-local"} readOnly value={member.inserted} />
         </Field>
         <Box>
+          <Button onClick={() => navigate(`/member/edit/${memberId}`)}>
+            수정
+          </Button>
           <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
             <DialogTrigger asChild>
               <Button colorPalette={"red"}>탈퇴</Button>
@@ -91,9 +94,9 @@ export function MemberInfo() {
               </DialogHeader>
               <DialogBody>
                 <Stack gap={5}>
-                  <Field label={"암호"}>
+                  <Field label={"비밀번호"}>
                     <Input
-                      placeholder={"암호를 입력해주세요."}
+                      placeholder={"비밀번호를 입력해주세요."}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
