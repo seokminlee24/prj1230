@@ -1,14 +1,20 @@
 import { Box, Table } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function MemberList() {
   const [memberList, setMemberList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // 회원목록 요청
     axios.get("/api/member/list").then((res) => setMemberList(res.data));
   }, []);
+
+  function handleRowClick(memberId) {
+    navigate(`/member/${memberId}`);
+  }
 
   return (
     <Box>
@@ -33,11 +39,14 @@ export function MemberList() {
             </Table.Row>
           ) : (
             memberList.map((member) => (
-              <Table.Row key={member.memberId}>
+              <Table.Row
+                onClick={() => handleRowClick(member.memberId)}
+                key={member.memberId}
+              >
                 <Table.Cell textAlign="center">{member.memberId}</Table.Cell>
                 <Table.Cell textAlign="center">{member.nickname}</Table.Cell>
                 <Table.Cell textAlign="center">
-                  {member.inserted.replace(/-/g, ".").replace("T", " ")}
+                  {member.inserted.replace("T", " ")}
                 </Table.Cell>
               </Table.Row>
             ))

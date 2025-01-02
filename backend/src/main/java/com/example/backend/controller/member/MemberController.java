@@ -17,6 +17,13 @@ import java.util.Map;
 public class MemberController {
     final MemberService service;
 
+    //회원 정보 보기
+    @GetMapping("{memberId}")
+    public Member getMember(@PathVariable String memberId) {
+
+        return service.get(memberId);
+    }
+
     //회원 리스트
     @GetMapping("list")
     public List<Member> list() {
