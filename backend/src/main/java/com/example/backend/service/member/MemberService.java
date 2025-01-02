@@ -102,4 +102,11 @@ public class MemberService {
     public boolean hasAccess(String memberId, Authentication authentication) {
         return memberId.equals(authentication.getName());
     }
+
+    public boolean isAdmin(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .map(a -> a.toString())
+                .anyMatch(s -> s.equals("SCOPE_admin"));
+    }
 }

@@ -82,10 +82,10 @@ public class MemberController {
 
     //회원 정보 보기
     @GetMapping("{memberId}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Member> getMember(@PathVariable String memberId, Authentication authentication) {
 
-        if (service.hasAccess(memberId, authentication)) {
+        if (service.hasAccess(memberId, authentication) || service.isAdmin(authentication)) {
             return ResponseEntity.ok(service.get(memberId));
         } else {
             return ResponseEntity.status(403).build();
