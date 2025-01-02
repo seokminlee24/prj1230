@@ -20,6 +20,12 @@ public class MemberController {
     // 회원 가입 아이디 중복 체크
     @GetMapping(value = "check", params = "memberId")
     public ResponseEntity<Map<String, Object>> checkId(@RequestParam String memberId) {
+        if (memberId == null || memberId.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "message", Map.of("type", "error", "text", "아이디를 입력해주세요.")
+            ));
+        }
+
         if (service.checkId(memberId)) {
             // 이미 있으면
             return ResponseEntity.ok().body(Map.of(
@@ -37,6 +43,11 @@ public class MemberController {
     // 회원 가입 별명 중복 체크
     @GetMapping(value = "check", params = "nickname")
     public ResponseEntity<Map<String, Object>> checkNickname(@RequestParam String nickname) {
+        if (nickname == null || nickname.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "message", Map.of("type", "error", "text", "별명을 입력해주세요.")
+            ));
+        }
         if (service.checkNickname(nickname)) {
             // 이미 있으면
             return ResponseEntity.ok().body(Map.of(

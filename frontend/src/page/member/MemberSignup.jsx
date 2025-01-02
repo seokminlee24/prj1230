@@ -43,7 +43,6 @@ export function MemberSignup() {
       });
   }
 
-  // 회원 가입 아이디 중복 체크
   const handleIdCheckClick = () => {
     axios
       .get("/api/member/check", {
@@ -53,17 +52,36 @@ export function MemberSignup() {
       })
       .then((res) => res.data)
       .then((data) => {
-        const message = data.message;
+        const message = data.message; // 백엔드에서 반환된 메시지 사용
         toaster.create({
           type: message.type,
           description: message.text,
         });
 
-        setIdCheck(data.available);
+        setIdCheck(data.available); // 사용 가능 여부 업데이트
+      })
+      .catch((error) => {
+        // 에러 응답 처리
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          const message = error.response.data.message; // 백엔드 에러 메시지
+          toaster.create({
+            type: message.type,
+            description: message.text,
+          });
+        } else {
+          toaster.create({
+            type: "error",
+            description: "아이디 중복 체크 중 알 수 없는 오류가 발생했습니다.",
+          });
+        }
       });
   };
 
-  // 회원 가입 아이디 중복 체크
+  // 회원 가입 별명 중복 체크
   const handleNicknameCheckClick = () => {
     axios
       .get("/api/member/check", {
@@ -73,12 +91,32 @@ export function MemberSignup() {
       })
       .then((res) => res.data)
       .then((data) => {
-        const message = data.message;
+        const message = data.message; // 백엔드에서 반환된 메시지 사용
         toaster.create({
           type: message.type,
           description: message.text,
         });
-        setNicknameCheck(data.available);
+
+        setNicknameCheck(data.available); // 사용 가능 여부 업데이트
+      })
+      .catch((error) => {
+        // 에러 응답 처리
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          const message = error.response.data.message; // 백엔드 에러 메시지
+          toaster.create({
+            type: message.type,
+            description: message.text,
+          });
+        } else {
+          toaster.create({
+            type: "error",
+            description: "별명 중복 체크 중 알 수 없는 오류가 발생했습니다.",
+          });
+        }
       });
   };
 
