@@ -11,6 +11,9 @@ export function MemberSignup() {
   const [memberId, setMemberId] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [idCheck, setIdCheck] = useState(false);
+  const [nicknameCheck, setNicknameCheck] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [gender, setGender] = useState(null);
 
   const navigate = useNavigate();
@@ -55,6 +58,8 @@ export function MemberSignup() {
           type: message.type,
           description: message.text,
         });
+
+        setIdCheck(data.available);
       });
   };
 
@@ -73,8 +78,17 @@ export function MemberSignup() {
           type: message.type,
           description: message.text,
         });
+        setNicknameCheck(data.available);
       });
   };
+
+  // 가입 버튼 비활성화 여부
+  let disabled = true;
+  if (idCheck && nicknameCheck && gender) {
+    if (password === passwordCheck) {
+      disabled = false;
+    }
+  }
 
   return (
     <Box>
@@ -84,7 +98,10 @@ export function MemberSignup() {
           <Group attached w={"100%"}>
             <Input
               value={memberId}
-              onChange={(e) => setMemberId(e.target.value)}
+              onChange={(e) => {
+                setIdCheck(false);
+                setMemberId(e.target.value);
+              }}
             />
             <Button onClick={handleIdCheckClick} variant={"outline"}>
               중복확인
@@ -97,11 +114,20 @@ export function MemberSignup() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Field>
+        <Field label={"비밀번호 확인"}>
+          <Input
+            value={passwordCheck}
+            onChange={(e) => setPasswordCheck(e.target.value)}
+          />
+        </Field>
         <Field label={"별명"}>
           <Group attached w={"100%"}>
             <Input
               value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
+              onChange={(e) => {
+                setNicknameCheck(false);
+                setNickname(e.target.value);
+              }}
             />
             <Button onClick={handleNicknameCheckClick} variant={"outline"}>
               중복확인
@@ -121,7 +147,9 @@ export function MemberSignup() {
         </Field>
 
         <Box>
-          <Button onClick={handleSaveClick}>가입</Button>
+          <Button disabled={disabled} onClick={handleSaveClick}>
+            가입
+          </Button>
         </Box>
       </Stack>
     </Box>
