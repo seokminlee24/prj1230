@@ -25,15 +25,23 @@ export function MemberList() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {memberList.map((member) => (
-            <Table.Row key={member.memberId}>
-              <Table.Cell textAlign="center">{member.memberId}</Table.Cell>
-              <Table.Cell textAlign="center">{member.nickname}</Table.Cell>
-              <Table.Cell textAlign="center">
-                {member.inserted.replace(/-/g, ".").replace("T", " ")}
+          {memberList.length === 0 ? (
+            <Table.Row>
+              <Table.Cell colSpan={3} textAlign="center">
+                회원 가입자들이 없습니다.
               </Table.Cell>
             </Table.Row>
-          ))}
+          ) : (
+            memberList.map((member) => (
+              <Table.Row key={member.memberId}>
+                <Table.Cell textAlign="center">{member.memberId}</Table.Cell>
+                <Table.Cell textAlign="center">{member.nickname}</Table.Cell>
+                <Table.Cell textAlign="center">
+                  {member.inserted.replace(/-/g, ".").replace("T", " ")}
+                </Table.Cell>
+              </Table.Row>
+            ))
+          )}
         </Table.Body>
       </Table.Root>
     </Box>
