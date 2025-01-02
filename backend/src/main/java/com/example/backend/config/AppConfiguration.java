@@ -34,6 +34,7 @@ public class AppConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(c -> c.disable());
         http.oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()));
         return http.build();
     }
