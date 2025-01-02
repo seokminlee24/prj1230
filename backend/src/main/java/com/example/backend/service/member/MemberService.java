@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -77,6 +78,10 @@ public class MemberService {
     // 로그인
     public String token(Member member) {
         Member db = mapper.selectById(member.getMemberId());
+
+        List<String> auths = mapper.selectAuthByMemberId(member.getMemberId());
+        String authsString = auths.stream()
+                .collect(Collectors.joining(" "));
         if (db != null) {
             if (db.getPassword().equals(member.getPassword())) {
                 // token 만들어서 리턴
@@ -85,7 +90,7 @@ public class MemberService {
                         .subject(member.getMemberId())
                         .issuedAt(Instant.now())
                         .expiresAt(Instant.now().plusSeconds(60 * 60 * 24 * 7))
-//                        .claim("scope", "")
+                        .claim("scope", authsString)
                         .build();
                 return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
             }

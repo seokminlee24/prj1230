@@ -53,4 +53,11 @@ public interface MemberMapper {
                         WHERE member_id = #{memberId}
             """)
     int update(Member member);
+
+    @Select("""
+            SELECT auth
+            FROM auth
+            WHERE admin_id = #{memberId}
+            """)
+    List<String> selectAuthByMemberId(String memberId);
 }
