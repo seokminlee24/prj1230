@@ -7,9 +7,10 @@ export function RootLayout() {
   return (
     <Stack>
       <Box>
-        {location.pathname === "/" ||
+        {/*{location.pathname === "/" ||
           location.pathname === "/member/signup" ||
-          location.pathname === "/member/login" || <Navbar />}
+          location.pathname === "/member/login" || <Navbar />}*/}
+        <Navbar />
       </Box>
       <Box>
         <Outlet />
