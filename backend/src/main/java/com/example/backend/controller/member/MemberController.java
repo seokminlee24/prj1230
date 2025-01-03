@@ -38,9 +38,10 @@ public class MemberController {
 
     // 회원 정보 보기에서 수정
     @PutMapping("update")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> update(@RequestBody Member member,
                                                       Authentication authentication) {
-        if (service.hasAccess(member.getMemberId(), authentication)) {
+        if (service.hasAccess(member.getMemberId(), authentication) || service.isAdmin(authentication)) {
             if (service.update(member)) {
                 // 성공
                 return ResponseEntity.ok().body(Map.of("message",
@@ -60,9 +61,9 @@ public class MemberController {
 
     //회원 정보 보기에서 삭제
     @DeleteMapping("remove")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> remove(@RequestBody Member member, Authentication authentication) {
-        if (service.hasAccess(member.getMemberId(), authentication)) {
+        if (service.hasAccess(member.getMemberId(), authentication) || service.isAdmin(authentication)) {
             if (service.remove(member)) {
                 // 성공
                 return ResponseEntity.ok().body(Map.of("message",
