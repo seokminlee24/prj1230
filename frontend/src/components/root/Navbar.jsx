@@ -24,7 +24,7 @@ export function Navbar() {
       >
         로그아웃
       </Box>
-      <Box>{authentication.id}</Box>
+      <Box>{authentication.nickname}</Box>
     </Flex>
   );
 }

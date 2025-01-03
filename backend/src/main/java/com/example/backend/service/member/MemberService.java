@@ -91,6 +91,7 @@ public class MemberService {
                         .issuedAt(Instant.now())
                         .expiresAt(Instant.now().plusSeconds(60 * 60 * 24 * 7))
                         .claim("scope", authsString)
+                        .claim("nickname", db.getNickname()) // 닉네임 추가
                         .build();
                 return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
             }
