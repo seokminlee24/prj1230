@@ -54,7 +54,7 @@ export function Navbar() {
                 </MenuTrigger>
 
                 {/* Menu Content: 드롭다운 메뉴 */}
-                <MenuContent position="absolute" right="1">
+                <MenuContent position="absolute" right="1" padding={0}>
                   <Box
                     onClick={() => {
                       navigate(`/member/${authentication.id}`);
