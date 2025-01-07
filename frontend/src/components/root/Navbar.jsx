@@ -66,6 +66,17 @@ export function Navbar() {
                   >
                     정보보기
                   </Box>
+                  <Box
+                    onClick={() => {
+                      navigate("/inquire/inquireAdd");
+                    }}
+                    padding="0.5rem"
+                    cursor="pointer"
+                    textAlign={"center"}
+                    _hover={{ backgroundColor: "red.100", color: "red.800" }}
+                  >
+                    문의하기
+                  </Box>
                   {authentication.isAdmin && (
                     <Box
                       onClick={() => navigate("/member/list")}

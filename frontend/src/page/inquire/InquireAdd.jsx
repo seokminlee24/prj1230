@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 
-export function inquireAdd() {
+export function InquireAdd() {
   return (
     <Box>
       <p>ㅇㅇ</p>

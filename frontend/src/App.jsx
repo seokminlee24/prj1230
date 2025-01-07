@@ -8,6 +8,7 @@ import { MemberInfo } from "./page/member/MemberInfo.jsx";
 import { MemberEdit } from "./page/member/MemberEdit.jsx";
 import { MemberLogin } from "./page/member/MemberLogin.jsx";
 import AuthenticationProvider from "./components/context/AuthenticationProvider.jsx";
+import { InquireAdd } from "./page/inquire/InquireAdd.jsx";
 
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "member/edit/:memberId",
         element: <MemberEdit />,
+      },
+      {
+        path: "inquire/inquireAdd",
+        element: <InquireAdd />,
       },
     ],
   },
