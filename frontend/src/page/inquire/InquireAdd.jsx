@@ -11,11 +11,11 @@ export function InquireAdd() {
   const [inquireTitle, setInquireTitle] = useState("");
   const [inquireContent, setInquireContent] = useState("");
   const [inquireWriter, setInquireWriter] = useState("");
-  const [process, setProcess] = useState(false);
+  const [progress, setProgress] = useState(false);
   const navigate = useNavigate();
 
   const handleSaveClick = () => {
-    setProcess(true);
+    setProgress(true);
     axios
       .post("/api/inquire/inquireAdd", {
         inquireCategory: inquireCategory,
@@ -40,9 +40,14 @@ export function InquireAdd() {
         });
       })
       .finally(() => {
-        setProcess(false);
+        setProgress(false);
       });
   };
+
+  const disabled = !(
+    inquireTitle.trim().length > 0 && inquireContent.trim().length > 0
+  );
+
   return (
     <Box>
       <Heading>문의 글 작성</Heading>
@@ -84,7 +89,13 @@ export function InquireAdd() {
           />
         </Field>
         <Box>
-          <Button onClick={handleSaveClick}>저장</Button>
+          <Button
+            disabled={disabled}
+            loading={progress}
+            onClick={handleSaveClick}
+          >
+            저장
+          </Button>
         </Box>
       </Stack>
     </Box>
