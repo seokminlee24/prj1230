@@ -3,9 +3,11 @@ package com.example.backend.controller.inquire;
 import com.example.backend.dto.inquire.Inquire;
 import com.example.backend.service.inquire.InquireService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/api/inquire")
 @RestController
@@ -27,7 +29,16 @@ public class InquireController {
 
     // 문의글 작성
     @PostMapping("inquireAdd")
-    public void inquireAdd(@RequestBody Inquire inquire) {
-        service.inquireAdd(inquire);
+    public ResponseEntity<Map<String, Object>> inquireAdd(@RequestBody Inquire inquire) {
+        if (service.inquireAdd(inquire)) {
+            return ResponseEntity.ok()
+                    .body(Map.of("message", Map.of("type", "success",
+                                    "text", STR."\{inquire.getInquireId()}번 게시물이 등록되었습니다"),
+                            "data", inquire));
+        } else {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("message", Map.of("type", "warning",
+                            "text", "게시물 등록이 실패하였습니다.")));
+        }
     }
 }

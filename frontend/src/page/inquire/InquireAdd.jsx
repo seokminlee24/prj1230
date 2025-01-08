@@ -4,6 +4,7 @@ import { Field } from "../../components/ui/field.jsx";
 import axios from "axios";
 import { Button } from "../../components/ui/button.jsx";
 import { useNavigate } from "react-router-dom";
+import { toaster } from "../../components/ui/toaster.jsx";
 
 export function InquireAdd() {
   const [inquireCategory, setInquireCategory] = useState("");
@@ -13,13 +14,29 @@ export function InquireAdd() {
   const navigate = useNavigate();
 
   const handleSaveClick = () => {
-    axios.post("/api/inquire/inquireAdd", {
-      inquireCategory: inquireCategory,
-      inquireTitle: inquireTitle,
-      inquireContent: inquireContent,
-      inquireWriter: inquireWriter,
-    });
-    navigate("/inquire/inquireList");
+    axios
+      .post("/api/inquire/inquireAdd", {
+        inquireCategory: inquireCategory,
+        inquireTitle: inquireTitle,
+        inquireContent: inquireContent,
+        inquireWriter: inquireWriter,
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        const message = data.message;
+        toaster.create({
+          description: message.text,
+          type: message.type,
+        });
+        navigate(`/inquire/${data.data.inquireId}`);
+      })
+      .catch((e) => {
+        const message = e.response.data.message;
+        toaster.create({
+          description: message.text,
+          type: message.type,
+        });
+      });
   };
   return (
     <Box>

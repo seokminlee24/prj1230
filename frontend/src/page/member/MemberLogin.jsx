@@ -26,7 +26,6 @@ export function MemberLogin() {
         // "/"로 이동
         navigate("/");
         // login
-        console.log(data.token);
         authentication.login(data.token);
       })
       .catch((e) => {

@@ -14,8 +14,9 @@ import java.util.List;
 public class InquireService {
     final InquireMapper mapper;
 
-    public void inquireAdd(Inquire inquire) {
-        mapper.insert(inquire);
+    public boolean inquireAdd(Inquire inquire) {
+        int cnt = mapper.insert(inquire);
+        return cnt == 1;
     }
 
     public List<Inquire> inquireList() {

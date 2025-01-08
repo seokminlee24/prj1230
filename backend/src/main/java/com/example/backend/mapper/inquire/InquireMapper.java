@@ -3,6 +3,7 @@ package com.example.backend.mapper.inquire;
 import com.example.backend.dto.inquire.Inquire;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface InquireMapper {
                         (inquire_id,inquire_category,inquire_title,inquire_content,inquire_writer)
             VALUES (#{inquireId}, #{inquireCategory}, #{inquireTitle},#{inquireContent},#{inquireWriter})
             """)
+    @Options(keyProperty = "inquireId", useGeneratedKeys = true)
     int insert(Inquire inquire);
 
     @Select("""
