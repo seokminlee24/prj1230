@@ -26,4 +26,11 @@ public class InquireService {
     public Inquire getInquire(Integer inquireId) {
         return mapper.selectByInquireId(inquireId);
     }
+
+    public boolean validate(Inquire inquire) {
+        boolean inquireTitle = inquire.getInquireTitle().trim().length() > 0;
+        boolean inquireContent = inquire.getInquireContent().trim().length() > 0;
+
+        return inquireTitle && inquireContent;
+    }
 }
