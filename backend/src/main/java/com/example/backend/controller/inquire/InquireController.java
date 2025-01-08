@@ -13,15 +13,21 @@ import java.util.List;
 public class InquireController {
     final InquireService service;
 
-    // 문의글 작성
-    @PostMapping("inquireAdd")
-    public void inquireAdd(@RequestBody Inquire inquire) {
-        service.inquireAdd(inquire);
+    // 문의글 보기
+    @GetMapping("{inquireId}")
+    public Inquire getInquire(@PathVariable Integer inquireId) {
+        return service.getInquire(inquireId);
     }
 
     // 문의글 리스트
     @GetMapping("inquireList")
     public List<Inquire> inquireList() {
         return service.inquireList();
+    }
+
+    // 문의글 작성
+    @PostMapping("inquireAdd")
+    public void inquireAdd(@RequestBody Inquire inquire) {
+        service.inquireAdd(inquire);
     }
 }

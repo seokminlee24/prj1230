@@ -22,4 +22,12 @@ public interface InquireMapper {
                 ORDER BY inquire_id DESC
             """)
     List<Inquire> selectInquireAll();
+
+
+    @Select("""
+            SELECT *
+            FROM prj1230.inquire
+            WHERE inquire_id = (#{inquireId})
+            """)
+    Inquire selectByInquireId(Integer inquireId);
 }

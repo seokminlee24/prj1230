@@ -36,7 +36,7 @@ export function InquireAdd() {
               border: "1px solid #CBD5E0",
             }}
           >
-            <option value=""> 문의 유형 선택</option>
+            <option value="all"> 문의 유형 선택</option>
             <option value="declaration"> 신고</option>
             <option value="utilization"> 이용 안내</option>
             <option value="account"> 계정 문의</option>

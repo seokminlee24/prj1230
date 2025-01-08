@@ -30,6 +30,10 @@ export function InquireList() {
     navigate("/inquire/inquireAdd");
   };
 
+  function handleRowClick(inquireId) {
+    navigate(`/inquire/${inquireId}`);
+  }
+
   return (
     <Box>
       <Heading>문의글 목록</Heading>
@@ -46,7 +50,10 @@ export function InquireList() {
         </TableHeader>
         <TableBody>
           {inquireList.map((inquire) => (
-            <TableRow key={inquire.inquireId}>
+            <TableRow
+              onClick={() => handleRowClick(inquire.inquireId)}
+              key={inquire.inquireId}
+            >
               <TableCell textAlign="center">{inquire.inquireId}</TableCell>
               <TableCell textAlign="center">{inquire.inquireTitle}</TableCell>
               <TableCell textAlign="center">{inquire.inquireWriter}</TableCell>

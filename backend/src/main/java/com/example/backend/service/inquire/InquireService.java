@@ -15,12 +15,14 @@ public class InquireService {
     final InquireMapper mapper;
 
     public void inquireAdd(Inquire inquire) {
-        /*int cnt = mapper.insert(inquire);
-        return cnt == 1;*/
         mapper.insert(inquire);
     }
 
     public List<Inquire> inquireList() {
         return mapper.selectInquireAll();
+    }
+
+    public Inquire getInquire(Integer inquireId) {
+        return mapper.selectByInquireId(inquireId);
     }
 }
