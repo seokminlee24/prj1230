@@ -11,9 +11,11 @@ export function InquireAdd() {
   const [inquireTitle, setInquireTitle] = useState("");
   const [inquireContent, setInquireContent] = useState("");
   const [inquireWriter, setInquireWriter] = useState("");
+  const [process, setProcess] = useState(false);
   const navigate = useNavigate();
 
   const handleSaveClick = () => {
+    setProcess(true);
     axios
       .post("/api/inquire/inquireAdd", {
         inquireCategory: inquireCategory,
@@ -36,6 +38,9 @@ export function InquireAdd() {
           description: message.text,
           type: message.type,
         });
+      })
+      .finally(() => {
+        setProcess(false);
       });
   };
   return (
