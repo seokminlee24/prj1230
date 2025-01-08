@@ -3,12 +3,14 @@ import { useState } from "react";
 import { Field } from "../../components/ui/field.jsx";
 import axios from "axios";
 import { Button } from "../../components/ui/button.jsx";
+import { useNavigate } from "react-router-dom";
 
 export function InquireAdd() {
   const [inquireCategory, setInquireCategory] = useState("");
   const [inquireTitle, setInquireTitle] = useState("");
   const [inquireContent, setInquireContent] = useState("");
   const [inquireWriter, setInquireWriter] = useState("");
+  const navigate = useNavigate();
 
   const handleSaveClick = () => {
     axios.post("/api/inquire/inquireAdd", {
@@ -17,7 +19,7 @@ export function InquireAdd() {
       inquireContent: inquireContent,
       inquireWriter: inquireWriter,
     });
-    console.log(inquireCategory, inquireTitle, inquireContent, inquireWriter);
+    navigate("/inquire/inquireList");
   };
   return (
     <Box>
