@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -16,5 +18,9 @@ public class InquireService {
         /*int cnt = mapper.insert(inquire);
         return cnt == 1;*/
         mapper.insert(inquire);
+    }
+
+    public List<Inquire> inquireList() {
+        return mapper.selectInquireAll();
     }
 }

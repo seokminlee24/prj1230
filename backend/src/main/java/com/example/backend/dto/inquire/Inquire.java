@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class Inquire {
-    private int inquireId;
+    private Integer inquireId;
     private String inquireCategory;
     private String inquireTitle;
     private String inquireContent;
