@@ -39,7 +39,8 @@ public class InquireService {
         return cnt == 1;
     }
 
-    public void inquireUpdate(Inquire inquire) {
-        mapper.inquireUpdate(inquire);
+    public boolean inquireUpdate(Inquire inquire) {
+        int cnt = mapper.inquireUpdate(inquire);
+        return cnt == 1;
     }
 }

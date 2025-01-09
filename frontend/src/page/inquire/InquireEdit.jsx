@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Heading,
@@ -20,17 +20,43 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
+import { toaster } from "../../components/ui/toaster.jsx";
 
 export function InquireEdit() {
   const [inquire, setInquire] = useState(null);
+  const [progress, setProgress] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const { inquireId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`/api/inquire/${inquireId}`).then((res) => setInquire(res.data));
   }, []);
 
   const handleSaveClick = () => {
-    axios.put("/api/inquire/inquireUpdate", inquire);
+    setProgress(true);
+    axios
+      .put("/api/inquire/inquireUpdate", inquire)
+      .then((res) => res.data)
+      .then((data) => {
+        toaster.create({
+          type: data.message.type,
+          description: data.message.text,
+        });
+        navigate(`/inquire/${inquire.inquireId}`);
+      })
+      .catch((e) => {
+        const message = e.response.data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+      })
+      .finally(() => {
+        setProgress(false);
+        setDialogOpen(false);
+      });
   };
 
   if (inquire === null) {
@@ -78,7 +104,10 @@ export function InquireEdit() {
           />
         </Field>
         <Box>
-          <DialogRoot>
+          <DialogRoot
+            open={dialogOpen}
+            onOpenChange={(e) => setDialogOpen(e.open)}
+          >
             <DialogTrigger asChild>
               <Button colorPalette={"cyan"} variant={"outline"}>
                 저장
@@ -93,7 +122,11 @@ export function InquireEdit() {
                 <DialogActionTrigger>
                   <Button variant={"outline"}>취소</Button>
                 </DialogActionTrigger>
-                <Button colorPalette={"blue"} onClick={handleSaveClick}>
+                <Button
+                  loading={progress}
+                  colorPalette={"blue"}
+                  onClick={handleSaveClick}
+                >
                   저장
                 </Button>
               </DialogFooter>
