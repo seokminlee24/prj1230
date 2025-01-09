@@ -33,4 +33,9 @@ public class InquireService {
 
         return inquireTitle && inquireContent;
     }
+
+    public boolean inquireRemove(int inquireId) {
+        int cnt = mapper.inquireDeleteByInquireId(inquireId);
+        return cnt == 1;
+    }
 }

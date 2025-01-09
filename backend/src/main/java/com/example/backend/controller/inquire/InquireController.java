@@ -15,6 +15,20 @@ import java.util.Map;
 public class InquireController {
     final InquireService service;
 
+    //문의글 삭제
+    @DeleteMapping("/delete/{inquireId}")
+    public ResponseEntity<Map<String, Object>> inquireDelete(@PathVariable int inquireId) {
+        if (service.inquireRemove(inquireId)) {
+            return ResponseEntity.ok()
+                    .body(Map.of("message", Map.of("type", "success"
+                            , "text", STR."\{inquireId}번 문의글이 삭제되었습니다.")));
+        } else {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("message", Map.of("type", "error"
+                            , "text", "문의글 삭제 중 문제가 발생하였습니다.")));
+        }
+    }
+
     // 문의글 보기
     @GetMapping("{inquireId}")
     public Inquire getInquire(@PathVariable Integer inquireId) {

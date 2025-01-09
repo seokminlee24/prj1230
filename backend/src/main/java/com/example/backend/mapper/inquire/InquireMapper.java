@@ -1,10 +1,7 @@
 package com.example.backend.mapper.inquire;
 
 import com.example.backend.dto.inquire.Inquire;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,4 +29,10 @@ public interface InquireMapper {
             WHERE inquire_id = (#{inquireId})
             """)
     Inquire selectByInquireId(Integer inquireId);
+
+    @Delete("""
+            DELETE FROM inquire
+            WHERE inquire_id = (#{inquireId})
+            """)
+    int inquireDeleteByInquireId(int inquireId);
 }

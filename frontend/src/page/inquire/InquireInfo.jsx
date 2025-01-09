@@ -1,12 +1,15 @@
 import { Box, Heading, Input, Spinner, Stack } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
+import { Button } from "../../components/ui/button.jsx";
+import { toaster } from "../../components/ui/toaster.jsx";
 
 export function InquireInfo() {
   const { inquireId } = useParams();
   const [inquire, setInquire] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`/api/inquire/${inquireId}`).then((res) => {
@@ -14,6 +17,29 @@ export function InquireInfo() {
       console.log(res.data);
     });
   }, []);
+
+  // 문의글 삭제
+  function handleDeleteClick() {
+    axios
+      .delete(`/api/inquire/delete/${inquireId}`)
+      .then((res) => res.data)
+      .then((data) => {
+        toaster.create({
+          type: data.message.type,
+          description: data.message.text,
+        });
+        navigate("/inquire/inquireList");
+      })
+      .catch((e) => {
+        const data = e.response.data;
+        toaster.create({
+          type: data.message.type,
+          description: data.message.text,
+        });
+      });
+  }
+
+  // 문의글 수정
 
   if (inquire == null) {
     return <Spinner />;
@@ -48,6 +74,10 @@ export function InquireInfo() {
           <Input value={inquire.inserted} type={"datetime-local"} />
         </Field>
       </Stack>
+      <Box>
+        <Button onClick={handleDeleteClick}>삭제</Button>
+        <Button>수정</Button>
+      </Box>
     </Box>
   );
 }
