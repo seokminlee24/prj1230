@@ -9,6 +9,10 @@ CREATE TABLE inquire
 );
 
 SELECT *
+FROM inquire
+WHERE inquire_id = 76;
+
+SELECT *
 from inquire;
 
 DROP TABLE inquire;

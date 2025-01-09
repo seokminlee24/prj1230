@@ -15,7 +15,13 @@ import java.util.Map;
 public class InquireController {
     final InquireService service;
 
-    //문의글 삭제
+    // 문의글 수정
+    @PutMapping("/inquireUpdate")
+    public void inquireUpdate(@RequestBody Inquire inquire) {
+        service.inquireUpdate(inquire);
+    }
+
+    // 문의글 삭제
     @DeleteMapping("/delete/{inquireId}")
     public ResponseEntity<Map<String, Object>> inquireDelete(@PathVariable int inquireId) {
         if (service.inquireRemove(inquireId)) {

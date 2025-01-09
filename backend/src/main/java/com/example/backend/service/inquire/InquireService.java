@@ -38,4 +38,8 @@ public class InquireService {
         int cnt = mapper.inquireDeleteByInquireId(inquireId);
         return cnt == 1;
     }
+
+    public void inquireUpdate(Inquire inquire) {
+        mapper.inquireUpdate(inquire);
+    }
 }

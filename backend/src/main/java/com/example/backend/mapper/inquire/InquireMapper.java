@@ -35,4 +35,13 @@ public interface InquireMapper {
             WHERE inquire_id = (#{inquireId})
             """)
     int inquireDeleteByInquireId(int inquireId);
+
+    @Update("""
+                    UPDATE inquire
+                    set inquire_category=#{inquireCategory},
+                        inquire_title=#{inquireTitle},
+                        inquire_content=#{inquireContent}
+                    WHERE inquire_id=#{inquireId}
+            """)
+    int inquireUpdate(Inquire inquire);
 }

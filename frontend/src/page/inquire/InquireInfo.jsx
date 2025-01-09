@@ -1,4 +1,11 @@
-import { Box, Heading, Input, Spinner, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Input,
+  Spinner,
+  Stack,
+  Textarea,
+} from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -74,7 +81,7 @@ export function InquireInfo() {
           <Input value={inquire.inquireTitle} />
         </Field>
         <Field label="문의 내용" readOnly>
-          <Input value={inquire.inquireContent} />
+          <Textarea value={inquire.inquireContent} />
         </Field>
         <Field label="작성자" readOnly>
           <Input value={inquire.inquireWriter} />
@@ -84,7 +91,6 @@ export function InquireInfo() {
         </Field>
       </Stack>
       <Box>
-        {/*<Button onClick={handleDeleteClick}>삭제</Button>*/}
         <DialogRoot>
           <DialogTrigger asChild>
             <Button colorPalette={"red"} variant={"outline"}>
@@ -106,7 +112,12 @@ export function InquireInfo() {
             </DialogFooter>
           </DialogContent>
         </DialogRoot>
-        <Button>수정</Button>
+        <Button
+          colorPalette={"cyan"}
+          onClick={() => navigate(`/inquire/inquireEdit/${inquireId}`)}
+        >
+          수정
+        </Button>
       </Box>
     </Box>
   );
