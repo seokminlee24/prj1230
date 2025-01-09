@@ -11,6 +11,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
+import {
+  DialogActionTrigger,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+} from "../../components/ui/dialog.jsx";
 
 export function InquireEdit() {
   const [inquire, setInquire] = useState(null);
@@ -69,7 +78,27 @@ export function InquireEdit() {
           />
         </Field>
         <Box>
-          <Button onClick={handleSaveClick}>저장</Button>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button colorPalette={"cyan"} variant={"outline"}>
+                저장
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>저장 확인</DialogHeader>
+              <DialogBody>
+                <p>{inquireId}번 문의글 수정하시겠습니까?</p>
+              </DialogBody>
+              <DialogFooter>
+                <DialogActionTrigger>
+                  <Button variant={"outline"}>취소</Button>
+                </DialogActionTrigger>
+                <Button colorPalette={"blue"} onClick={handleSaveClick}>
+                  저장
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </DialogRoot>
         </Box>
       </Stack>
     </Box>
