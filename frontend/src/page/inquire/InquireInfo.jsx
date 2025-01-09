@@ -5,6 +5,15 @@ import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
 import { toaster } from "../../components/ui/toaster.jsx";
+import {
+  DialogActionTrigger,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+} from "../../components/ui/dialog.jsx";
 
 export function InquireInfo() {
   const { inquireId } = useParams();
@@ -75,7 +84,28 @@ export function InquireInfo() {
         </Field>
       </Stack>
       <Box>
-        <Button onClick={handleDeleteClick}>삭제</Button>
+        {/*<Button onClick={handleDeleteClick}>삭제</Button>*/}
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <Button colorPalette={"red"} variant={"outline"}>
+              삭제
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>삭제 확인</DialogHeader>
+            <DialogBody>
+              <p>{inquire.inquireId}번 삭제하시겠습니까?</p>
+            </DialogBody>
+            <DialogFooter>
+              <DialogActionTrigger>
+                <Button variant={"outline"}>취소</Button>
+              </DialogActionTrigger>
+              <Button colorPalette={"red"} onClick={handleDeleteClick}>
+                삭제
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </DialogRoot>
         <Button>수정</Button>
       </Box>
     </Box>
