@@ -3,6 +3,8 @@ import axios from "axios";
 import {
   Box,
   Heading,
+  HStack,
+  Table,
   TableBody,
   TableCell,
   TableColumnHeader,
@@ -10,21 +12,34 @@ import {
   TableRoot,
   TableRow,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "../../components/ui/button.jsx";
+import {
+  PaginationItems,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+} from "../../components/ui/pagination.jsx";
 
 export function InquireList() {
   const [inquireList, setInquireList] = useState([]);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     axios
-      .get("/api/inquire/inquireList")
+      .get("/api/inquire/inquireList", {
+        params: searchParams,
+      })
       .then((res) => res.data)
       .then((data) => {
         setInquireList(data);
       });
-  }, []);
+  }, [searchParams]);
+
+  // page 번호
+  const pageParam = searchParams.get("page") ? searchParams.get("page") : "1";
+  const page = Number(pageParam);
 
   const handleGoInquireAdd = () => {
     navigate("/inquire/inquireAdd");
@@ -32,6 +47,13 @@ export function InquireList() {
 
   function handleRowClick(inquireId) {
     navigate(`/inquire/${inquireId}`);
+  }
+
+  function handlePageChange(e) {
+    console.log(e.page);
+    const nextSearchParams = new URLSearchParams(searchParams);
+    nextSearchParams.set("page", e.page);
+    setSearchParams(nextSearchParams);
   }
 
   // 카테고리 매핑 설정
@@ -69,11 +91,27 @@ export function InquireList() {
               <TableCell textAlign="center">
                 {categoryMap[inquire.inquireCategory]}
               </TableCell>
-              <TableCell textAlign="center">{inquire.inserted}</TableCell>
+              <Table.Cell textAlign="center">
+                {inquire.inserted.replace("T", " ")}
+              </Table.Cell>
             </TableRow>
           ))}
         </TableBody>
       </TableRoot>
+      <Box>
+        <PaginationRoot
+          onPageChange={handlePageChange}
+          count={1500}
+          pageSize={10}
+          page={page}
+        >
+          <HStack>
+            <PaginationPrevTrigger />
+            <PaginationItems />
+            <PaginationNextTrigger />
+          </HStack>
+        </PaginationRoot>
+      </Box>
     </Box>
   );
 }
