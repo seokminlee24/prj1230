@@ -106,7 +106,7 @@ export function InquireList() {
           ))}
         </TableBody>
       </TableRoot>
-      <Box>
+      <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
         <PaginationRoot
           onPageChange={handlePageChange}
           count={count}
