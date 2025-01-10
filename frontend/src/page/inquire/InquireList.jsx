@@ -27,14 +27,20 @@ export function InquireList() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    const controller = new AbortController();
     axios
       .get("/api/inquire/inquireList", {
         params: searchParams,
+        signal: controller.signal,
       })
       .then((res) => res.data)
       .then((data) => {
         setInquireList(data);
       });
+
+    return () => {
+      controller.abort();
+    };
   }, [searchParams]);
 
   // page 번호
