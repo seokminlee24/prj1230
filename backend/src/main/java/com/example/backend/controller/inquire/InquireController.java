@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/api/inquire")
@@ -56,7 +55,7 @@ public class InquireController {
 
     // 문의글 리스트
     @GetMapping("inquireList")
-    public List<Inquire> inquireList(@RequestParam(value = "page", defaultValue = "1") Integer page) {
+    public Map<String, Object> inquireList(@RequestParam(value = "page", defaultValue = "1") Integer page) {
         return service.inquireList(page);
     }
 

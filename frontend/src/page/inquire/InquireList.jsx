@@ -23,6 +23,7 @@ import {
 
 export function InquireList() {
   const [inquireList, setInquireList] = useState([]);
+  const [count, setCount] = useState(0);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -35,7 +36,8 @@ export function InquireList() {
       })
       .then((res) => res.data)
       .then((data) => {
-        setInquireList(data);
+        setInquireList(data.inquireList);
+        setCount(data.count);
       });
 
     return () => {
@@ -107,7 +109,7 @@ export function InquireList() {
       <Box>
         <PaginationRoot
           onPageChange={handlePageChange}
-          count={1500}
+          count={count}
           pageSize={10}
           page={page}
         >

@@ -52,4 +52,10 @@ public interface InquireMapper {
             LIMIT #{offset}, 10
             """)
     List<Inquire> selectInquirePage(Integer offset);
+
+    @Select("""
+            SELECT COUNT(*)
+            FROM prj1230.inquire
+            """)
+    Integer inquireCountAll();
 }

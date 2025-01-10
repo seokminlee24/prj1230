@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -19,9 +19,10 @@ public class InquireService {
         return cnt == 1;
     }
 
-    public List<Inquire> inquireList(Integer page) {
+    public Map<String, Object> inquireList(Integer page) {
         //mapper.selectInquireAll();
-        return mapper.selectInquirePage((page - 1) * 10);
+        mapper.selectInquirePage((page - 1) * 10);
+        return Map.of("inquireList", mapper.selectInquirePage((page - 1) * 10), "count", mapper.inquireCountAll());
     }
 
     public Inquire getInquire(Integer inquireId) {
