@@ -56,8 +56,8 @@ public class InquireController {
 
     // 문의글 리스트
     @GetMapping("inquireList")
-    public List<Inquire> inquireList() {
-        return service.inquireList();
+    public List<Inquire> inquireList(@RequestParam(value = "page", defaultValue = "1") Integer page) {
+        return service.inquireList(page);
     }
 
     // 문의글 작성

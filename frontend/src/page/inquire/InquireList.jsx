@@ -34,6 +34,15 @@ export function InquireList() {
     navigate(`/inquire/${inquireId}`);
   }
 
+  // 카테고리 매핑 설정
+  const categoryMap = {
+    all: "문의 유형 선택",
+    declaration: "신고",
+    utilization: "이용 안내",
+    account: "계정 문의",
+    Other: "기타 문의",
+  };
+
   return (
     <Box>
       <Heading>문의글 목록</Heading>
@@ -58,7 +67,7 @@ export function InquireList() {
               <TableCell textAlign="center">{inquire.inquireTitle}</TableCell>
               <TableCell textAlign="center">{inquire.inquireWriter}</TableCell>
               <TableCell textAlign="center">
-                {inquire.inquireCategory}
+                {categoryMap[inquire.inquireCategory]}
               </TableCell>
               <TableCell textAlign="center">{inquire.inserted}</TableCell>
             </TableRow>

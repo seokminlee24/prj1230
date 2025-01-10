@@ -19,8 +19,9 @@ public class InquireService {
         return cnt == 1;
     }
 
-    public List<Inquire> inquireList() {
-        return mapper.selectInquireAll();
+    public List<Inquire> inquireList(Integer page) {
+        //mapper.selectInquireAll();
+        return mapper.selectInquirePage((page - 1) * 10);
     }
 
     public Inquire getInquire(Integer inquireId) {

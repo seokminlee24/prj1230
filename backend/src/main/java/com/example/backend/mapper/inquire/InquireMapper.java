@@ -44,4 +44,12 @@ public interface InquireMapper {
                     WHERE inquire_id=#{inquireId}
             """)
     int inquireUpdate(Inquire inquire);
+
+    @Select("""
+            SELECT inquire_id,inquire_title,inquire_writer,inquire_category,inserted
+            FROM prj1230.inquire
+            ORDER BY inquire_id DESC
+            LIMIT #{offset}, 10
+            """)
+    List<Inquire> selectInquirePage(Integer offset);
 }
