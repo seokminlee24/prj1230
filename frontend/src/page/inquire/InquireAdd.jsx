@@ -21,7 +21,6 @@ export function InquireAdd() {
         inquireCategory: inquireCategory,
         inquireTitle: inquireTitle,
         inquireContent: inquireContent,
-        inquireWriter: inquireWriter,
       })
       .then((res) => res.data)
       .then((data) => {
@@ -81,12 +80,7 @@ export function InquireAdd() {
             value={inquireContent}
             onChange={(e) => setInquireContent(e.target.value)}
           />
-        </Field>
-        <Field label={"작성자"}>
-          <Input
-            value={inquireWriter}
-            onChange={(e) => setInquireWriter(e.target.value)}
-          />
+          1
         </Field>
         <Box>
           <Button

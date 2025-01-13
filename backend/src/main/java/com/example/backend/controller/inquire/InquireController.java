@@ -4,6 +4,7 @@ import com.example.backend.dto.inquire.Inquire;
 import com.example.backend.service.inquire.InquireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -61,9 +62,9 @@ public class InquireController {
 
     // 문의글 작성
     @PostMapping("inquireAdd")
-    public ResponseEntity<Map<String, Object>> inquireAdd(@RequestBody Inquire inquire) {
+    public ResponseEntity<Map<String, Object>> inquireAdd(@RequestBody Inquire inquire, Authentication authentication) {
         if (service.validate(inquire)) {
-            if (service.inquireAdd(inquire)) {
+            if (service.inquireAdd(inquire, authentication)) {
                 return ResponseEntity.ok()
                         .body(Map.of("message", Map.of("type", "success",
                                         "text", STR."\{inquire.getInquireId()}번 게시물이 등록되었습니다"),

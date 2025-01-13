@@ -3,6 +3,7 @@ package com.example.backend.service.inquire;
 import com.example.backend.dto.inquire.Inquire;
 import com.example.backend.mapper.inquire.InquireMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,8 @@ import java.util.Map;
 public class InquireService {
     final InquireMapper mapper;
 
-    public boolean inquireAdd(Inquire inquire) {
+    public boolean inquireAdd(Inquire inquire, Authentication authentication) {
+        inquire.setInquireWriter(authentication.getName());
         int cnt = mapper.insert(inquire);
         return cnt == 1;
     }
