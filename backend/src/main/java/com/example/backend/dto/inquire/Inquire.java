@@ -11,5 +11,6 @@ public class Inquire {
     private String inquireTitle;
     private String inquireContent;
     private String inquireWriter;
+    private String nickname;
     private LocalDateTime inserted;
 }

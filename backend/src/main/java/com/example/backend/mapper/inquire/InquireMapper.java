@@ -24,9 +24,10 @@ public interface InquireMapper {
 
 
     @Select("""
-            SELECT *
-            FROM prj1230.inquire
-            WHERE inquire_id = (#{inquireId})
+            SELECT i.inquire_id, i.inquire_category, i.inquire_title, i.inquire_content,i.inquire_writer AS memberId, m.nickname AS inquireWriter, i.inserted
+            FROM prj1230.inquire i
+            LEFT JOIN member m ON i.inquire_writer = m.member_id
+            WHERE i.inquire_id = (#{inquireId})
             """)
     Inquire selectByInquireId(Integer inquireId);
 
@@ -46,9 +47,10 @@ public interface InquireMapper {
     int inquireUpdate(Inquire inquire);
 
     @Select("""
-            SELECT inquire_id,inquire_title,inquire_writer,inquire_category,inserted
-            FROM prj1230.inquire
-            ORDER BY inquire_id DESC
+            SELECT i.inquire_id, i.inquire_category, i.inquire_title, i.inquire_content,i.inquire_writer AS memberId, m.nickname AS inquireWriter, i.inserted
+            FROM prj1230.inquire i
+            LEFT JOIN member m ON i.inquire_writer = m.member_id
+            ORDER BY i.inquire_id DESC
             LIMIT #{offset}, 10
             """)
     List<Inquire> selectInquirePage(Integer offset);
