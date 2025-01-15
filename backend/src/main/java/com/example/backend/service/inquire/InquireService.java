@@ -47,4 +47,12 @@ public class InquireService {
         int cnt = mapper.inquireUpdate(inquire);
         return cnt == 1;
     }
+
+    public boolean hasAccess(int inquireId, Authentication authentication) {
+        Inquire inquire = mapper.selectByInquireId(inquireId);
+        // 디버깅용 출력
+        System.out.println("DB MemberId: " + inquire.getMemberId());
+        System.out.println("Authenticated User: " + authentication.getName());
+        return inquire.getMemberId().equals(authentication.getName());
+    }
 }

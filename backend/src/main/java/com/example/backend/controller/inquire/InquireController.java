@@ -4,6 +4,7 @@ import com.example.backend.dto.inquire.Inquire;
 import com.example.backend.service.inquire.InquireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,15 +37,22 @@ public class InquireController {
 
     // 문의글 삭제
     @DeleteMapping("/delete/{inquireId}")
-    public ResponseEntity<Map<String, Object>> inquireDelete(@PathVariable int inquireId) {
-        if (service.inquireRemove(inquireId)) {
-            return ResponseEntity.ok()
-                    .body(Map.of("message", Map.of("type", "success"
-                            , "text", STR."\{inquireId}번 문의글이 삭제되었습니다.")));
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Map<String, Object>> inquireDelete(@PathVariable int inquireId, Authentication authentication) {
+        if (service.hasAccess(inquireId, authentication)) {
+            if (service.inquireRemove(inquireId)) {
+                return ResponseEntity.ok()
+                        .body(Map.of("message", Map.of("type", "success"
+                                , "text", STR."\{inquireId}번 문의글이 삭제되었습니다.")));
+            } else {
+                return ResponseEntity.internalServerError()
+                        .body(Map.of("message", Map.of("type", "error"
+                                , "text", "문의글 삭제 중 문제가 발생하였습니다.")));
+            }
         } else {
-            return ResponseEntity.internalServerError()
+            return ResponseEntity.status(403)
                     .body(Map.of("message", Map.of("type", "error"
-                            , "text", "문의글 삭제 중 문제가 발생하였습니다.")));
+                            , "text", "삭제 권한이 없습니다.")));
         }
     }
 
