@@ -7,7 +7,7 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
@@ -21,8 +21,10 @@ import {
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
 import { toaster } from "../../components/ui/toaster.jsx";
+import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 
 export function InquireEdit() {
+  const { id, isAdmin } = useContext(AuthenticationContext);
   const [inquire, setInquire] = useState(null);
   const [progress, setProgress] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -62,6 +64,9 @@ export function InquireEdit() {
   if (inquire === null) {
     return <Spinner />;
   }
+
+  // 본인 또는 관리자 여부 확인
+  const canEdit = isAdmin || id === inquire.memberId;
 
   // 제목이나 본문이 비어있는 지 확인
   const disabled = !(
@@ -109,40 +114,42 @@ export function InquireEdit() {
             }
           />
         </Field>
-        <Box>
-          <DialogRoot
-            open={dialogOpen}
-            onOpenChange={(e) => setDialogOpen(e.open)}
-          >
-            <DialogTrigger asChild>
-              <Button
-                disabled={disabled}
-                colorPalette={"cyan"}
-                variant={"outline"}
-              >
-                저장
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>저장 확인</DialogHeader>
-              <DialogBody>
-                <p>{inquireId}번 문의글 수정하시겠습니까?</p>
-              </DialogBody>
-              <DialogFooter>
-                <DialogActionTrigger>
-                  <Button variant={"outline"}>취소</Button>
-                </DialogActionTrigger>
+        {canEdit && (
+          <Box>
+            <DialogRoot
+              open={dialogOpen}
+              onOpenChange={(e) => setDialogOpen(e.open)}
+            >
+              <DialogTrigger asChild>
                 <Button
-                  loading={progress}
-                  colorPalette={"blue"}
-                  onClick={handleSaveClick}
+                  disabled={disabled}
+                  colorPalette={"cyan"}
+                  variant={"outline"}
                 >
                   저장
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </DialogRoot>
-        </Box>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>저장 확인</DialogHeader>
+                <DialogBody>
+                  <p>{inquireId}번 문의글 수정하시겠습니까?</p>
+                </DialogBody>
+                <DialogFooter>
+                  <DialogActionTrigger>
+                    <Button variant={"outline"}>취소</Button>
+                  </DialogActionTrigger>
+                  <Button
+                    loading={progress}
+                    colorPalette={"blue"}
+                    onClick={handleSaveClick}
+                  >
+                    저장
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
+          </Box>
+        )}
       </Stack>
     </Box>
   );
