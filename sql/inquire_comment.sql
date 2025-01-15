@@ -8,3 +8,6 @@ CREATE TABLE inquire_comment
     inquire_comment    VARCHAR(300) NOT NULL,
     inserted           DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+SELECT *
+FROM inquire_comment;
