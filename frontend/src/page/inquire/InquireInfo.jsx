@@ -7,7 +7,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
@@ -21,8 +21,10 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
+import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 
 export function InquireInfo() {
+  const { id, isAdmin } = useContext(AuthenticationContext);
   const { inquireId } = useParams();
   const [inquire, setInquire] = useState(null);
   const navigate = useNavigate();
@@ -70,6 +72,9 @@ export function InquireInfo() {
     Other: "기타 문의",
   };
 
+  // 본인 또는 관리자 여부 확인
+  const canEditOrDelete = isAdmin || id === inquire.memberId;
+
   return (
     <Box>
       <Heading>{inquireId}번 게시물</Heading>
@@ -90,35 +95,37 @@ export function InquireInfo() {
           <Input value={inquire.inserted} type={"datetime-local"} />
         </Field>
       </Stack>
-      <Box>
-        <DialogRoot>
-          <DialogTrigger asChild>
-            <Button colorPalette={"red"} variant={"outline"}>
-              삭제
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>삭제 확인</DialogHeader>
-            <DialogBody>
-              <p>{inquire.inquireId}번 삭제하시겠습니까?</p>
-            </DialogBody>
-            <DialogFooter>
-              <DialogActionTrigger>
-                <Button variant={"outline"}>취소</Button>
-              </DialogActionTrigger>
-              <Button colorPalette={"red"} onClick={handleDeleteClick}>
+      {canEditOrDelete && (
+        <Box>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button colorPalette={"red"} variant={"outline"}>
                 삭제
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </DialogRoot>
-        <Button
-          colorPalette={"cyan"}
-          onClick={() => navigate(`/inquire/inquireEdit/${inquireId}`)}
-        >
-          수정
-        </Button>
-      </Box>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>삭제 확인</DialogHeader>
+              <DialogBody>
+                <p>{inquire.inquireId}번 삭제하시겠습니까?</p>
+              </DialogBody>
+              <DialogFooter>
+                <DialogActionTrigger>
+                  <Button variant={"outline"}>취소</Button>
+                </DialogActionTrigger>
+                <Button colorPalette={"red"} onClick={handleDeleteClick}>
+                  삭제
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </DialogRoot>
+          <Button
+            colorPalette={"cyan"}
+            onClick={() => navigate(`/inquire/inquireEdit/${inquireId}`)}
+          >
+            수정
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
