@@ -37,9 +37,9 @@ public class InquireController {
 
     // 문의글 삭제
     @DeleteMapping("/delete/{inquireId}")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> inquireDelete(@PathVariable int inquireId, Authentication authentication) {
-        if (service.hasAccess(inquireId, authentication)) {
+        if (service.hasAccess(inquireId, authentication) || service.isAdmin(authentication)) {
             if (service.inquireRemove(inquireId)) {
                 return ResponseEntity.ok()
                         .body(Map.of("message", Map.of("type", "success"

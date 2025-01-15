@@ -55,4 +55,11 @@ public class InquireService {
         System.out.println("Authenticated User: " + authentication.getName());
         return inquire.getMemberId().equals(authentication.getName());
     }
+
+    public boolean isAdmin(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .map(a -> a.toString())
+                .anyMatch(s -> s.equals("SCOPE_admin"));
+    }
 }
