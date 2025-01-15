@@ -18,20 +18,27 @@ public class InquireController {
 
     // 문의글 수정
     @PutMapping("/inquireUpdate")
-    public ResponseEntity<Map<String, Object>> inquireUpdate(@RequestBody Inquire inquire) {
-        if (service.validate(inquire)) {
-            if (service.inquireUpdate(inquire)) {
-                return ResponseEntity.ok()
-                        .body(Map.of("message", Map.of("type", "success"
-                                , "text", STR."\{inquire.getInquireId()}번 문의글이 수정되었습니다.")));
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    public ResponseEntity<Map<String, Object>> inquireUpdate(@RequestBody Inquire inquire, Authentication authentication) {
+        if (service.hasAccess(inquire.getInquireId(), authentication) || service.isAdmin(authentication)) {
+            if (service.validate(inquire)) {
+                if (service.inquireUpdate(inquire)) {
+                    return ResponseEntity.ok()
+                            .body(Map.of("message", Map.of("type", "success"
+                                    , "text", STR."\{inquire.getInquireId()}번 문의글이 수정되었습니다.")));
+                } else {
+                    return ResponseEntity.internalServerError()
+                            .body(Map.of("message", Map.of("type", "error"
+                                    , "text", "문의글 수정 중 문제가 발생하였습니다.")));
+                }
             } else {
-                return ResponseEntity.internalServerError()
-                        .body(Map.of("message", Map.of("type", "error"
-                                , "text", "문의글 수정 중 문제가 발생하였습니다.")));
+                return ResponseEntity.badRequest().body(Map.of("message", Map.of("type", "warning",
+                        "text", "제목이나 문의 내용이 비어있을 수 없습니다.")));
             }
         } else {
-            return ResponseEntity.badRequest().body(Map.of("message", Map.of("type", "warning",
-                    "text", "제목이나 문의 내용이 비어있을 수 없습니다.")));
+            return ResponseEntity.status(403)
+                    .body(Map.of("message", Map.of("type", "error"
+                            , "text", "수정 권한이 없습니다.")));
         }
     }
 
