@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
 import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
+import { InquireCommentContainer } from "../../components/comment/InquireCommentContainer.jsx";
 
 export function InquireInfo() {
   const { id, isAdmin } = useContext(AuthenticationContext);
@@ -126,6 +127,10 @@ export function InquireInfo() {
           </Button>
         </Box>
       )}
+
+      <hr />
+
+      <InquireCommentContainer inquireId={inquire.inquireId} />
     </Box>
   );
 }
