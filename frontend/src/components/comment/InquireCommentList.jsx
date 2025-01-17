@@ -9,14 +9,18 @@ export function InquireCommentList({
 }) {
   return (
     <Box>
-      {inquireCommentList.map((inquireComment) => (
-        <InquireCommentItem
-          key={inquireComment.inquireCommentId}
-          inquireComment={inquireComment}
-          onDeleteClick={onDeleteClick}
-          onEditClick={onEditClick}
-        />
-      ))}
+      {inquireCommentList && inquireCommentList.length > 0 ? (
+        inquireCommentList.map((inquireComment) => (
+          <InquireCommentItem
+            key={inquireComment.inquireCommentId}
+            inquireComment={inquireComment}
+            onDeleteClick={onDeleteClick}
+            onEditClick={onEditClick}
+          />
+        ))
+      ) : (
+        <Box>아직 관리자가 답변하지 않았습니다.</Box>
+      )}
     </Box>
   );
 }

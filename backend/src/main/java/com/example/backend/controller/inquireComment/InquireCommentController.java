@@ -19,22 +19,26 @@ public class InquireCommentController {
 
     @PutMapping("inquireCommentEdit")
     @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
-    public ResponseEntity<Map<String, Object>> inquireCommentEdit(@RequestBody InquireComment inquireComment) {
-        if (service.inquireCommentUpdate(inquireComment)) {
-            return ResponseEntity.ok().body(Map.of("message",
-                    Map.of("type", "success",
-                            "text", "댓글이 수정되었습니다.")));
+    public ResponseEntity<Map<String, Object>> inquireCommentEdit(@RequestBody InquireComment inquireComment, Authentication authentication) {
+        if (service.isAdmin(authentication) || service.hasAccess(inquireComment.getInquireCommentId(), authentication)) {
+            if (service.inquireCommentUpdate(inquireComment)) {
+                return ResponseEntity.ok().body(Map.of("message",
+                        Map.of("type", "success",
+                                "text", "댓글이 수정되었습니다.")));
+            } else {
+                return ResponseEntity.internalServerError().body(Map.of("message",
+                        Map.of("type", "error",
+                                "text", "댓글이 수정되지 않았습니다.")));
+            }
         } else {
-            return ResponseEntity.internalServerError().body(Map.of("message",
-                    Map.of("type", "error",
-                            "text", "댓글이 수정되지 않았습니다.")));
+            return ResponseEntity.status(403).build();
         }
     }
 
     @DeleteMapping("/inquireCommentIdRemove/{inquireCommentId}")
     @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> inquireCommentIdRemove(@PathVariable Integer inquireCommentId, Authentication authentication) {
-        if (service.hasAccess(inquireCommentId, authentication) || service.isAdmin(authentication)) {
+        if (service.isAdmin(authentication) || service.hasAccess(inquireCommentId, authentication)) {
             if (service.inquireCommentIdRemove(inquireCommentId)) {
                 return ResponseEntity.ok().body(Map.of("message",
                         Map.of("type", "success",
@@ -55,11 +59,15 @@ public class InquireCommentController {
     }
 
     @PostMapping("/inquireCommentAdd")
-    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    @PreAuthorize("hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> inquireCommentAdd(@RequestBody InquireComment inquireComment, Authentication authentication) {
-        service.inquireCommentAdd(inquireComment, authentication);
-        return ResponseEntity.ok().body(Map.of("message",
-                Map.of("type", "success",
-                        "text", "새 댓글이 등록되었습니다.")));
+        if (service.isAdmin(authentication)) {
+            service.inquireCommentAdd(inquireComment, authentication);
+            return ResponseEntity.ok().body(Map.of("message",
+                    Map.of("type", "success",
+                            "text", "새 댓글이 등록되었습니다.")));
+        } else {
+            return ResponseEntity.status(403).build();
+        }
     }
 }

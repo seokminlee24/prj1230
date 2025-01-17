@@ -28,11 +28,6 @@ public class InquireCommentService {
         return mapper.selectByInquireId(inquireId);
     }
 
-    public boolean hasAccess(Integer inquireCommentId, Authentication authentication) {
-        InquireComment inquireComment = mapper.selectByInquireCommentId(inquireCommentId);
-        return inquireComment.getMemberId().equals(authentication.getName());
-    }
-
     public boolean inquireCommentIdRemove(Integer inquireCommentId) {
         int cnt = mapper.deleteByInquireCommentId(inquireCommentId);
 
@@ -45,9 +40,25 @@ public class InquireCommentService {
     }
 
     public boolean isAdmin(Authentication authentication) {
-        return authentication.getAuthorities()
+        boolean isAdmin = authentication.getAuthorities()
                 .stream()
-                .map(a -> a.toString())
-                .anyMatch(s -> s.equals("SCOPE_admin"));
+                .map(Object::toString)
+                .anyMatch(authority -> authority.equals("SCOPE_admin")); // "SCOPE_admin" 권한을 확인
+
+        // 디버깅 로그
+        System.out.println("isAdmin 권한: " + isAdmin); // isAdmin 권한이 올바르게 설정되어 있는지 확인
+        return isAdmin;
+    }
+
+    public boolean hasAccess(Integer inquireCommentId, Authentication authentication) {
+
+        // 관리자는 모든 댓글을 수정/삭제할 수 있음
+        if (isAdmin(authentication)) {
+            return true; // 관리자에게는 항상 true 반환
+        }
+
+        InquireComment inquireComment = mapper.selectByInquireCommentId(inquireCommentId);
+
+        return inquireComment.getMemberId().equals(authentication.getName());
     }
 }

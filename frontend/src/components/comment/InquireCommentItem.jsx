@@ -89,7 +89,7 @@ export function InquireCommentItem({
   onDeleteClick,
   onEditClick,
 }) {
-  const { hasAccess } = useContext(AuthenticationContext);
+  const { isAdmin } = useContext(AuthenticationContext);
   return (
     <HStack border={"1px solid black"} m={5}>
       <Box flex={1}>
@@ -99,7 +99,7 @@ export function InquireCommentItem({
         </Flex>
         <Box css={{ whiteSpace: "pre" }}>{inquireComment.inquireComment}</Box>
       </Box>
-      {hasAccess(inquireComment.memberId) && (
+      {inquireComment && isAdmin && (
         <Box>
           <EditButton inquireComment={inquireComment} onEditClick={onEditClick}>
             수정

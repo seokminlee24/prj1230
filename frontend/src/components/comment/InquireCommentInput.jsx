@@ -5,7 +5,11 @@ import { AuthenticationContext } from "../context/AuthenticationProvider.jsx";
 
 export function InquireCommentInput({ inquireId, onSaveClick }) {
   const [inquireComment, setInquireComment] = useState("");
-  const { isAuthenticated } = useContext(AuthenticationContext);
+  const { isAuthenticated, isAdmin } = useContext(AuthenticationContext);
+
+  if (!isAdmin) {
+    return null; // 관리자가 아닐 경우 컴포넌트 렌더링하지 않음
+  }
 
   return (
     <Box>
