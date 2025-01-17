@@ -47,9 +47,11 @@ public interface InquireMapper {
     int inquireUpdate(Inquire inquire);
 
     @Select("""
-            SELECT i.inquire_id, i.inquire_category, i.inquire_title, i.inquire_content,i.inquire_writer AS memberId, m.nickname AS inquireWriter, i.inserted
+            SELECT i.inquire_id, i.inquire_category, i.inquire_title, i.inquire_content,i.inquire_writer AS memberId, m.nickname AS inquireWriter, i.inserted,COUNT(ic.inquire_id) AS inquireCountComment
             FROM prj1230.inquire i
             LEFT JOIN member m ON i.inquire_writer = m.member_id
+            LEFT JOIN inquire_comment ic ON i.inquire_id = ic.inquire_id
+            GROUP BY i.inquire_id
             ORDER BY i.inquire_id DESC
             LIMIT #{offset}, 10
             """)

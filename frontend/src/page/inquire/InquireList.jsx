@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
+  Badge,
   Box,
   Heading,
   HStack,
@@ -20,6 +21,7 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
 } from "../../components/ui/pagination.jsx";
+import { FaCommentDots } from "react-icons/fa6";
 
 export function InquireList() {
   const [inquireList, setInquireList] = useState([]);
@@ -85,6 +87,7 @@ export function InquireList() {
             <TableColumnHeader textAlign="center">작성자</TableColumnHeader>
             <TableColumnHeader textAlign="center">문의유형</TableColumnHeader>
             <TableColumnHeader textAlign="center">작성일시</TableColumnHeader>
+            <TableColumnHeader textAlign="center">상태</TableColumnHeader>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -101,6 +104,19 @@ export function InquireList() {
               </TableCell>
               <Table.Cell textAlign="center">
                 {inquire.inserted.replace("T", " ")}
+              </Table.Cell>
+              <Table.Cell textAlign="center">
+                {inquire.inquireCountComment > 0 ? (
+                  <Badge variant={"subtle"} colorPalette={"green"}>
+                    <FaCommentDots />
+                    답변 완료
+                  </Badge>
+                ) : (
+                  <Badge variant={"subtle"} colorPalette={"red"}>
+                    <FaCommentDots />
+                    답변 대기
+                  </Badge>
+                )}
               </Table.Cell>
             </TableRow>
           ))}
