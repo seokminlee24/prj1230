@@ -15,7 +15,10 @@ public class InquireCommentService {
 
     public void inquireCommentAdd(InquireComment inquireComment, Authentication authentication) {
         inquireComment.setMemberId(authentication.getName());
+        System.out.println("inquireId = " + inquireComment.getInquireId());
+        System.out.println("authentication = " + authentication.getName());
+        System.out.println("inquireComment = " + inquireComment.getInquireComment());
 
-        mapper.inquireCommentInsert(inquireComment);
+        mapper.insert(inquireComment);
     }
 }

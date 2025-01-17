@@ -8,9 +8,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface InquireCommentMapper {
 
     @Insert("""
-            INSERT INTO prj1230.inquire_comment
-                (inquire_id,member_id,inquire_comment)
+                INSERT INTO prj1230.inquire_comment
+                    (inquire_id, member_id, inquire_comment) 
                 VALUES (#{inquireId},#{memberId},#{inquireComment})
             """)
-    int inquireCommentInsert(InquireComment inquireComment);
+    int insert(InquireComment inquireComment);
 }

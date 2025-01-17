@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class InquireCommentController {
 
     @PostMapping("/inquireCommentAdd")
     @PreAuthorize("isAuthenticated()")
-    public void inquireCommentAdd(InquireComment inquireComment, Authentication authentication) {
+    public void inquireCommentAdd(@RequestBody InquireComment inquireComment, Authentication authentication) {
         service.inquireCommentAdd(inquireComment, authentication);
     }
 
