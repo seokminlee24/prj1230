@@ -97,7 +97,7 @@ export function InquireCommentItem({
           <h3>{inquireComment.memberId}</h3>
           <h4>{inquireComment.inserted.replace("T", " ")}</h4>
         </Flex>
-        <p>{inquireComment.inquireComment}</p>
+        <Box css={{ whiteSpace: "pre" }}>{inquireComment.inquireComment}</Box>
       </Box>
       {hasAccess(inquireComment.memberId) && (
         <Box>
