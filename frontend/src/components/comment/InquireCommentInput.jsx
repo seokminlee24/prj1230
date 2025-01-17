@@ -12,7 +12,12 @@ export function InquireCommentInput({ inquireId, onSaveClick }) {
           value={inquireComment}
           onChange={(e) => setInquireComment(e.target.value)}
         />
-        <Button onClick={() => onSaveClick(inquireComment)}>
+        <Button
+          onClick={() => {
+            setInquireComment("");
+            onSaveClick(inquireComment);
+          }}
+        >
           문의 댓글 쓰기
         </Button>
       </Group>
