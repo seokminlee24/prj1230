@@ -38,4 +38,9 @@ public class InquireCommentService {
 
         return cnt == 1;
     }
+
+    public boolean inquireCommentUpdate(InquireComment inquireComment) {
+        int cnt = mapper.inquireCommentUpdate(inquireComment);
+        return cnt == 1;
+    }
 }

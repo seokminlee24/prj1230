@@ -53,6 +53,19 @@ export function InquireCommentContainer({ inquireId }) {
       });
   }
 
+  function handleEditClick(inquireCommentId, inquireComment) {
+    setProcessing(true);
+
+    axios
+      .put(`/api/inquireComment/inquireCommentEdit`, {
+        inquireCommentId,
+        inquireComment,
+      })
+      .finally(() => {
+        setProcessing(false);
+      });
+  }
+
   return (
     <Box>
       <Stack gap={5}>
@@ -65,6 +78,7 @@ export function InquireCommentContainer({ inquireId }) {
           inquireId={inquireId}
           inquireCommentList={inquireCommentList}
           onDeleteClick={handleDeleteClick}
+          onEditClick={handleEditClick}
         />
       </Stack>
     </Box>

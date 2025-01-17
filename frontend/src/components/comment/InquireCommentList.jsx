@@ -5,6 +5,7 @@ export function InquireCommentList({
   inquireId,
   inquireCommentList,
   onDeleteClick,
+  onEditClick,
 }) {
   return (
     <Box>
@@ -13,6 +14,7 @@ export function InquireCommentList({
           key={inquireComment.inquireId}
           inquireComment={inquireComment}
           onDeleteClick={onDeleteClick}
+          onEditClick={onEditClick}
         />
       ))}
     </Box>

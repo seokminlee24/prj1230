@@ -1,4 +1,4 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Textarea } from "@chakra-ui/react";
 import { Button } from "../ui/button.jsx";
 import {
   DialogActionTrigger,
@@ -42,7 +42,53 @@ function DeleteButton({ onClick }) {
   );
 }
 
-export function InquireCommentItem({ inquireComment, onDeleteClick }) {
+function EditButton({ inquireComment, onEditClick }) {
+  const [open, setOpen] = useState(false);
+  const [newInquireComment, setNewInquireComment] = useState(
+    inquireComment.inquireComment,
+  );
+
+  return (
+    <>
+      <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <DialogTrigger asChild>
+          <Button colorPalette={"purple"}>수정</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>댓글 수정</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <Textarea
+              value={newInquireComment}
+              onChange={(e) => setNewInquireComment(e.target.value)}
+            />
+          </DialogBody>
+          <DialogFooter>
+            <DialogActionTrigger>
+              <Button variant={"outline"}>취소</Button>
+            </DialogActionTrigger>
+            <Button
+              colorPalette={"purple"}
+              onClick={() => {
+                setOpen(false);
+                onEditClick(inquireComment.inquireCommentId, newInquireComment);
+              }}
+            >
+              수정
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </DialogRoot>
+    </>
+  );
+}
+
+export function InquireCommentItem({
+  inquireComment,
+  onDeleteClick,
+  onEditClick,
+}) {
   const { hasAccess } = useContext(AuthenticationContext);
   return (
     <HStack border={"1px solid black"} m={5}>
@@ -55,7 +101,9 @@ export function InquireCommentItem({ inquireComment, onDeleteClick }) {
       </Box>
       {hasAccess(inquireComment.memberId) && (
         <Box>
-          <Button colorPalette={"purple"}>수정</Button>
+          <EditButton inquireComment={inquireComment} onEditClick={onEditClick}>
+            수정
+          </EditButton>
           <DeleteButton
             onClick={() => onDeleteClick(inquireComment.inquireCommentId)}
           >

@@ -1,10 +1,7 @@
 package com.example.backend.mapper.inquireComment;
 
 import com.example.backend.dto.inquireComment.InquireComment;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -38,4 +35,11 @@ public interface InquireCommentMapper {
             WHERE inquire_comment_id=#{inquireCommentId}
             """)
     int deleteByInquireCommentId(Integer inquireCommentId);
+
+    @Update("""
+                    UPDATE prj1230.inquire_comment
+                    SET inquire_comment = #{inquireComment}
+                    WHERE inquire_comment_id=#{inquireCommentId}
+            """)
+    int inquireCommentUpdate(InquireComment inquireComment);
 }
