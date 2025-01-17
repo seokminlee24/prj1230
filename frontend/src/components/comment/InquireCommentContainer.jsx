@@ -3,6 +3,7 @@ import { InquireCommentInput } from "./InquireCommentInput.jsx";
 import { InquireCommentList } from "./InquireCommentList.jsx";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toaster } from "../ui/toaster.jsx";
 
 export function InquireCommentContainer({ inquireId }) {
   const [inquireCommentList, setInquireCommentList] = useState([]);
@@ -23,6 +24,13 @@ export function InquireCommentContainer({ inquireId }) {
       .post("/api/inquireComment/inquireCommentAdd", {
         inquireId: inquireId,
         inquireComment: inquireComment,
+      })
+      .then((res) => res.data.message)
+      .then((message) => {
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
       })
       .finally(() => {
         setProcessing(false);
