@@ -16,10 +16,12 @@ public interface InquireCommentMapper {
     int insert(InquireComment inquireComment);
 
     @Select("""
-                SELECT *
-                FROM prj1230.inquire_comment
-                WHERE inquire_id=#{inquireId}
-                ORDER BY inquire_comment_id DESC
+                SELECT ic.inquire_comment_id, ic.inquire_id, ic.member_id AS memberId, m.nickname AS nickname, ic.inquire_comment,ic.inserted
+                FROM prj1230.inquire_comment ic
+                LEFT JOIN member m ON ic.member_id = m.member_id
+                LEFT JOIN inquire I ON ic.inquire_id = I.inquire_id
+                WHERE ic.inquire_id=#{inquireId}
+                ORDER BY ic.inquire_comment_id DESC
             """)
     List<InquireComment> selectByInquireId(int inquireId);
 

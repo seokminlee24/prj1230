@@ -94,7 +94,7 @@ export function InquireCommentItem({
     <HStack border={"1px solid black"} m={5}>
       <Box flex={1}>
         <Flex justify={"space-between"}>
-          <h3>{inquireComment.memberId}</h3>
+          <h3>{inquireComment.nickname}</h3>
           <h4>{inquireComment.inserted.replace("T", " ")}</h4>
         </Flex>
         <Box css={{ whiteSpace: "pre" }}>{inquireComment.inquireComment}</Box>

@@ -11,4 +11,5 @@ public class InquireComment {
     private String memberId;
     private String inquireComment;
     private LocalDateTime inserted;
+    private String nickname;
 }

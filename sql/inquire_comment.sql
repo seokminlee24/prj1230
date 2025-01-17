@@ -11,3 +11,13 @@ CREATE TABLE inquire_comment
 
 SELECT *
 FROM inquire_comment;
+
+SELECT ic.inquire_comment_id,
+       ic.inquire_id,
+       ic.member_id AS memberId,
+       m.nickname   AS nickname,
+       ic.inquire_comment,
+       ic.inserted
+FROM prj1230.inquire_comment ic
+         LEFT JOIN member m ON ic.member_id = m.member_id
+WHERE ic.inquire_id
