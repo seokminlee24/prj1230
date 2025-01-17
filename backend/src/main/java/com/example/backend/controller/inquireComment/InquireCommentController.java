@@ -19,9 +19,19 @@ public class InquireCommentController {
 
     @DeleteMapping("/inquireCommentIdRemove/{inquireCommentId}")
     @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
-    public void inquireCommentIdRemove(@PathVariable Integer inquireCommentId, Authentication authentication) {
+    public ResponseEntity<Map<String, Object>> inquireCommentIdRemove(@PathVariable Integer inquireCommentId, Authentication authentication) {
         if (service.hasAccess(inquireCommentId, authentication)) {
-            service.inquireCommentIdRemove(inquireCommentId);
+            if (service.inquireCommentIdRemove(inquireCommentId)) {
+                return ResponseEntity.ok().body(Map.of("message",
+                        Map.of("type", "success",
+                                "text", "댓글이 삭제되었습니다.")));
+            } else {
+                return ResponseEntity.internalServerError().body(Map.of("message",
+                        Map.of("type", "error",
+                                "text", "댓글이 삭제되지 않았습니다.")));
+            }
+        } else {
+            return ResponseEntity.status(403).build();
         }
     }
 

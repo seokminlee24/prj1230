@@ -33,8 +33,9 @@ public class InquireCommentService {
         return inquireComment.getMemberId().equals(authentication.getName());
     }
 
-    public void inquireCommentIdRemove(Integer inquireCommentId) {
-        mapper.deleteByInquireCommentId(inquireCommentId);
+    public boolean inquireCommentIdRemove(Integer inquireCommentId) {
+        int cnt = mapper.deleteByInquireCommentId(inquireCommentId);
 
+        return cnt == 1;
     }
 }

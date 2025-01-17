@@ -41,6 +41,13 @@ export function InquireCommentContainer({ inquireId }) {
     setProcessing(true);
     axios
       .delete(`/api/inquireComment/inquireCommentIdRemove/${inquireCommentId}`)
+      .then((res) => res.data.message)
+      .then((message) => {
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+      })
       .finally(() => {
         setProcessing(false);
       });
