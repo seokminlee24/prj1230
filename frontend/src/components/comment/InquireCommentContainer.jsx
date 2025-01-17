@@ -8,7 +8,7 @@ export function InquireCommentContainer({ inquireId }) {
       <Stack gap={5}>
         <Heading>문의글 답변</Heading>
         <InquireCommentInput inquireId={inquireId} />
-        <InquireCommentList />
+        <InquireCommentList inquireId={inquireId} />
       </Stack>
     </Box>
   );

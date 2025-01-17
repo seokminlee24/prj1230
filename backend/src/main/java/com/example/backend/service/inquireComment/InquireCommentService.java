@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -20,5 +22,9 @@ public class InquireCommentService {
         System.out.println("inquireComment = " + inquireComment.getInquireComment());
 
         mapper.insert(inquireComment);
+    }
+
+    public List<InquireComment> inquireList(Integer inquireId) {
+        return mapper.selectByInquireId(inquireId);
     }
 }
