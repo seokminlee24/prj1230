@@ -6,24 +6,28 @@ import { useEffect, useState } from "react";
 
 export function InquireCommentContainer({ inquireId }) {
   const [inquireCommentList, setInquireCommentList] = useState([]);
+  const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    if (!processing) {
+      axios
+        .get(`/api/inquireComment/inquireList/${inquireId}`)
+        .then((res) => res.data)
+        .then((data) => setInquireCommentList(data));
+    }
+  }, [processing]);
 
   function handleSaveClick(inquireComment) {
+    setProcessing(true);
     axios
       .post("/api/inquireComment/inquireCommentAdd", {
         inquireId: inquireId,
         inquireComment: inquireComment,
       })
-      .then()
-      .catch()
-      .then();
+      .finally(() => {
+        setProcessing(false);
+      });
   }
-
-  useEffect(() => {
-    axios
-      .get(`/api/inquireComment/inquireList/${inquireId}`)
-      .then((res) => res.data)
-      .then((data) => setInquireCommentList(data));
-  }, []);
 
   return (
     <Box>
