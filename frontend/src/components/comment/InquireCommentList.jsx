@@ -11,7 +11,7 @@ export function InquireCommentList({
     <Box>
       {inquireCommentList.map((inquireComment) => (
         <InquireCommentItem
-          key={inquireComment.inquireId}
+          key={inquireComment.inquireCommentId}
           inquireComment={inquireComment}
           onDeleteClick={onDeleteClick}
           onEditClick={onEditClick}

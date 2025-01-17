@@ -13,35 +13,6 @@ import {
 import { AuthenticationContext } from "../context/AuthenticationProvider.jsx";
 import { useContext, useState } from "react";
 
-function DeleteButton({ onClick }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-        <DialogTrigger asChild>
-          <Button colorPalette={"red"}>삭제</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>삭제 확인</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <p>댓글을 삭제하시겠습니까?</p>
-          </DialogBody>
-          <DialogFooter>
-            <DialogActionTrigger>
-              <Button variant={"outline"}>취소</Button>
-            </DialogActionTrigger>
-            <Button colorPalette={"red"} onClick={onClick}>
-              삭제
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </DialogRoot>
-    </>
-  );
-}
-
 function EditButton({ inquireComment, onEditClick }) {
   const [open, setOpen] = useState(false);
   const [newInquireComment, setNewInquireComment] = useState(
@@ -76,6 +47,35 @@ function EditButton({ inquireComment, onEditClick }) {
               }}
             >
               수정
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </DialogRoot>
+    </>
+  );
+}
+
+function DeleteButton({ onClick }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <DialogTrigger asChild>
+          <Button colorPalette={"red"}>삭제</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>삭제 확인</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <p>댓글을 삭제하시겠습니까?</p>
+          </DialogBody>
+          <DialogFooter>
+            <DialogActionTrigger>
+              <Button variant={"outline"}>취소</Button>
+            </DialogActionTrigger>
+            <Button colorPalette={"red"} onClick={onClick}>
+              삭제
             </Button>
           </DialogFooter>
         </DialogContent>
