@@ -27,4 +27,14 @@ public class InquireCommentService {
     public List<InquireComment> inquireList(Integer inquireId) {
         return mapper.selectByInquireId(inquireId);
     }
+
+    public boolean hasAccess(Integer inquireCommentId, Authentication authentication) {
+        InquireComment inquireComment = mapper.selectByInquireCommentId(inquireCommentId);
+        return inquireComment.getMemberId().equals(authentication.getName());
+    }
+
+    public void inquireCommentIdRemove(Integer inquireCommentId) {
+        mapper.deleteByInquireCommentId(inquireCommentId);
+
+    }
 }

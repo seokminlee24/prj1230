@@ -1,6 +1,7 @@
 package com.example.backend.mapper.inquireComment;
 
 import com.example.backend.dto.inquireComment.InquireComment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -24,4 +25,17 @@ public interface InquireCommentMapper {
                 ORDER BY inquire_comment_id DESC
             """)
     List<InquireComment> selectByInquireId(int inquireId);
+
+    @Select("""
+            SELECT *
+            FROM prj1230.inquire_comment
+            WHERE inquire_comment_id=#{inquireCommentId}
+            """)
+    InquireComment selectByInquireCommentId(Integer inquireCommentId);
+
+    @Delete("""
+            DELETE FROM prj1230.inquire_comment
+            WHERE inquire_comment_id=#{inquireCommentId}
+            """)
+    int deleteByInquireCommentId(Integer inquireCommentId);
 }

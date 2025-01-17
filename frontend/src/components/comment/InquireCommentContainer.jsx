@@ -29,6 +29,15 @@ export function InquireCommentContainer({ inquireId }) {
       });
   }
 
+  function handleDeleteClick(inquireCommentId) {
+    setProcessing(true);
+    axios
+      .delete(`/api/inquireComment/inquireCommentIdRemove/${inquireCommentId}`)
+      .finally(() => {
+        setProcessing(false);
+      });
+  }
+
   return (
     <Box>
       <Stack gap={5}>
@@ -40,6 +49,7 @@ export function InquireCommentContainer({ inquireId }) {
         <InquireCommentList
           inquireId={inquireId}
           inquireCommentList={inquireCommentList}
+          onDeleteClick={handleDeleteClick}
         />
       </Stack>
     </Box>

@@ -15,6 +15,14 @@ import java.util.List;
 public class InquireCommentController {
     final InquireCommentService service;
 
+    @DeleteMapping("/inquireCommentIdRemove/{inquireCommentId}")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    public void inquireCommentIdRemove(@PathVariable Integer inquireCommentId, Authentication authentication) {
+        if (service.hasAccess(inquireCommentId, authentication)) {
+            service.inquireCommentIdRemove(inquireCommentId);
+        }
+    }
+
     @PostMapping("/inquireCommentAdd")
     @PreAuthorize("isAuthenticated()")
     public void inquireCommentAdd(@RequestBody InquireComment inquireComment, Authentication authentication) {
