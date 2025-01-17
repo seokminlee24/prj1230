@@ -18,7 +18,7 @@ public class InquireCommentController {
     final InquireCommentService service;
 
     @PutMapping("inquireCommentEdit")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> inquireCommentEdit(@RequestBody InquireComment inquireComment) {
         if (service.inquireCommentUpdate(inquireComment)) {
             return ResponseEntity.ok().body(Map.of("message",
@@ -34,7 +34,7 @@ public class InquireCommentController {
     @DeleteMapping("/inquireCommentIdRemove/{inquireCommentId}")
     @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> inquireCommentIdRemove(@PathVariable Integer inquireCommentId, Authentication authentication) {
-        if (service.hasAccess(inquireCommentId, authentication)) {
+        if (service.hasAccess(inquireCommentId, authentication) || service.isAdmin(authentication)) {
             if (service.inquireCommentIdRemove(inquireCommentId)) {
                 return ResponseEntity.ok().body(Map.of("message",
                         Map.of("type", "success",

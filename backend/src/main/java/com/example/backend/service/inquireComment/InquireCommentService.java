@@ -43,4 +43,11 @@ public class InquireCommentService {
         int cnt = mapper.inquireCommentUpdate(inquireComment);
         return cnt == 1;
     }
+
+    public boolean isAdmin(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .map(a -> a.toString())
+                .anyMatch(s -> s.equals("SCOPE_admin"));
+    }
 }
