@@ -44,4 +44,10 @@ public interface InquireCommentMapper {
                     WHERE inquire_comment_id=#{inquireCommentId}
             """)
     int inquireCommentUpdate(InquireComment inquireComment);
+
+    @Delete("""
+                DELETE FROM prj1230.inquire_comment
+                WHERE inquire_id=#{inquireId}
+            """)
+    int deleteByInquireId(int inquireId);
 }

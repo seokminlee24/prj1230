@@ -2,6 +2,7 @@ package com.example.backend.service.inquire;
 
 import com.example.backend.dto.inquire.Inquire;
 import com.example.backend.mapper.inquire.InquireMapper;
+import com.example.backend.mapper.inquireComment.InquireCommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class InquireService {
     final InquireMapper mapper;
+    final InquireCommentMapper inquireCommentMapper;
 
     public boolean inquireAdd(Inquire inquire, Authentication authentication) {
         inquire.setInquireWriter(authentication.getName());
@@ -39,6 +41,10 @@ public class InquireService {
     }
 
     public boolean inquireRemove(int inquireId) {
+        //문의글 댓글 삭제
+        inquireCommentMapper.deleteByInquireId(inquireId);
+
+        // 문의글 삭제
         int cnt = mapper.inquireDeleteByInquireId(inquireId);
         return cnt == 1;
     }
