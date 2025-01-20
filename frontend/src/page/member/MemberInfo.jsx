@@ -1,5 +1,5 @@
 import { Box, Heading, Input, Spinner, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
@@ -15,12 +15,15 @@ import {
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
 import { toaster } from "../../components/ui/toaster.jsx";
+import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 
 export function MemberInfo() {
   const [member, setMember] = useState(null);
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
+
   const { memberId } = useParams();
+  const { logout } = useContext(AuthenticationContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +38,7 @@ export function MemberInfo() {
         data: { memberId, password },
       })
       .then((res) => {
+        logout();
         const message = res.data.message;
         toaster.create({
           type: message.type,
