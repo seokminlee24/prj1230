@@ -68,7 +68,7 @@ export function Navbar() {
                   </Box>
                   <Box
                     onClick={() => {
-                      navigate("/inquire/inquireAdd");
+                      navigate("/inquire/inquireList");
                     }}
                     padding="0.5rem"
                     cursor="pointer"

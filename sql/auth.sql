@@ -10,5 +10,8 @@ CREATE TABLE auth
 INSERT INTO auth (auth.admin_id, auth)
 VALUES ('leedero', 'admin');
 
+INSERT INTO auth (auth.admin_id, auth)
+VALUES ('lee', 'admin');
+
 SELECT *
 FROM auth;
