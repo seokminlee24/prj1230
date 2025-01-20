@@ -50,4 +50,10 @@ public interface InquireCommentMapper {
                 WHERE inquire_id=#{inquireId}
             """)
     int deleteByInquireId(int inquireId);
+
+    @Delete("""
+                DELETE FROM prj1230.inquire_comment
+                WHERE member_id=#{memberId}
+            """)
+    int deleteByMemberId(String memberId);
 }

@@ -1,6 +1,8 @@
 package com.example.backend.service.member;
 
 import com.example.backend.dto.member.Member;
+import com.example.backend.mapper.inquire.InquireMapper;
+import com.example.backend.mapper.inquireComment.InquireCommentMapper;
 import com.example.backend.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class MemberService {
     final MemberMapper mapper;
     final JwtEncoder jwtEncoder;
+    private final InquireMapper inquireMapper;
+    private final InquireCommentMapper inquireCommentMapper;
 
     //회원 가입
     public boolean MemberAdd(Member member) {
@@ -57,6 +61,20 @@ public class MemberService {
 
         if (db != null) {
             if (db.getPassword().equals(member.getPassword())) {
+
+                // 댓글 지우기
+                inquireCommentMapper.deleteByMemberId(member.getMemberId());
+
+                // 쓴 게시물 목록 얻기
+                List<Integer> inquires = inquireMapper.selectByWriter(member.getMemberId());
+
+                for (Integer inquireId : inquires) {
+                    // 해당 게시물 댓글 삭제
+                    inquireCommentMapper.deleteByInquireId(inquireId);
+
+                    //각 게시물 지우기
+                    inquireMapper.inquireDeleteByInquireId(inquireId);
+                }
                 cnt = mapper.deleteById(member.getMemberId());
             }
         }
@@ -69,6 +87,7 @@ public class MemberService {
         Member db = mapper.selectById(member.getMemberId());
         if (db != null) {
             if (db.getPassword().equals(member.getOldPassword())) {
+
                 cnt = mapper.update(member);
             }
         }

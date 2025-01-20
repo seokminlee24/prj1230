@@ -62,4 +62,11 @@ public interface InquireMapper {
             FROM prj1230.inquire
             """)
     Integer inquireCountAll();
+
+    @Select("""
+                SELECT inquire_id 
+                FROM prj1230.inquire
+                WHERE inquire_writer = #{memberId}
+            """)
+    List<Integer> selectByWriter(String memberId);
 }
