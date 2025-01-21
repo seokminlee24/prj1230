@@ -5,6 +5,7 @@ import {
   Box,
   Heading,
   HStack,
+  Input,
   Table,
   TableBody,
   TableCell,
@@ -26,8 +27,21 @@ import { FaCommentDots } from "react-icons/fa6";
 export function InquireList() {
   const [inquireList, setInquireList] = useState([]);
   const [count, setCount] = useState(0);
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState({
+    type: searchParams.get("st") ?? "all",
+    keyword: searchParams.get("sk") ?? "",
+  });
+  const navigate = useNavigate();
+
+  // 카테고리 매핑 설정
+  const categoryMap = {
+    all: "문의 유형 선택",
+    declaration: "신고",
+    utilization: "이용 안내",
+    account: "계정 문의",
+    Other: "기타 문의",
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -45,6 +59,21 @@ export function InquireList() {
     return () => {
       controller.abort();
     };
+  }, [searchParams]);
+
+  useEffect(() => {
+    const nextSearch = { ...search };
+    if (searchParams.get("st")) {
+      nextSearch.type = searchParams.get("st");
+    } else {
+      nextSearch.type = "all";
+    }
+    if (searchParams.get("sk")) {
+      nextSearch.keyword = searchParams.get("sk");
+    } else {
+      nextSearch.keyword = "";
+    }
+    setSearch(nextSearch);
   }, [searchParams]);
 
   // page 번호
@@ -66,14 +95,22 @@ export function InquireList() {
     setSearchParams(nextSearchParams);
   }
 
-  // 카테고리 매핑 설정
-  const categoryMap = {
-    all: "문의 유형 선택",
-    declaration: "신고",
-    utilization: "이용 안내",
-    account: "계정 문의",
-    Other: "기타 문의",
-  };
+  function handleSearchClick() {
+    if (search.keyword.trim().length > 0) {
+      // 검색
+      const nextSearchParam = new URLSearchParams(searchParams);
+      nextSearchParam.set("st", search.type);
+      nextSearchParam.set("sk", search.keyword);
+      nextSearchParam.set("page", 1);
+      setSearchParams(nextSearchParam);
+    } else {
+      // 검색 안함
+      const nextSearchParam = new URLSearchParams(searchParams);
+      nextSearchParam.delete("st");
+      nextSearchParam.delete("sk");
+      setSearchParams(nextSearchParam);
+    }
+  }
 
   return (
     <Box>
@@ -122,6 +159,26 @@ export function InquireList() {
           ))}
         </TableBody>
       </TableRoot>
+      <HStack>
+        <Box>
+          <select
+            value={search.type}
+            onChange={(e) => setSearch({ ...search, type: e.target.value })}
+          >
+            <option value={"all"}>전체</option>
+            <option value={"inquireTitle"}>제목</option>
+            <option value={"inquireContent"}>내용</option>
+          </select>
+        </Box>
+        <Input
+          value={search.keyword}
+          placeholder="검색어를 입력해 주세요."
+          onChange={(e) =>
+            setSearch({ ...search, keyword: e.target.value.trim() })
+          }
+        />
+        <Button onClick={handleSearchClick}>검색</Button>
+      </HStack>
       <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
         <PaginationRoot
           onPageChange={handlePageChange}

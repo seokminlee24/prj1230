@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -23,10 +24,18 @@ public class InquireService {
         return cnt == 1;
     }
 
-    public Map<String, Object> inquireList(Integer page) {
+    public Map<String, Object> inquireList(Integer page, String searchType, String keyword) {
         //mapper.selectInquireAll();
-        mapper.selectInquirePage((page - 1) * 10);
-        return Map.of("inquireList", mapper.selectInquirePage((page - 1) * 10), "count", mapper.inquireCountAll());
+        // SQL 의 LIMIT 키워드에서 사용되는 offset
+        Integer offset = (page - 1) * 10;
+
+        // 조회 문의글
+        List<Inquire> inquireList = mapper.selectInquirePage(offset, searchType, keyword);
+
+        // 전체 문의글 수
+        Integer count = mapper.inquireCountAll(searchType, keyword);
+
+        return Map.of("inquireList", inquireList, "count", count);
     }
 
     public Inquire getInquire(Integer inquireId) {

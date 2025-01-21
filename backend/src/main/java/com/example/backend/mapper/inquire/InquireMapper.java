@@ -47,21 +47,43 @@ public interface InquireMapper {
     int inquireUpdate(Inquire inquire);
 
     @Select("""
+            <script>
             SELECT i.inquire_id, i.inquire_category, i.inquire_title, i.inquire_content,i.inquire_writer AS memberId, m.nickname AS inquireWriter, i.inserted,COUNT(ic.inquire_id) AS inquireCountComment
             FROM prj1230.inquire i
             LEFT JOIN member m ON i.inquire_writer = m.member_id
             LEFT JOIN inquire_comment ic ON i.inquire_id = ic.inquire_id
+            WHERE
+                <trim prefixOverrides="OR">
+                    <if test="searchType == 'all' or searchType == 'inquireTitle'">
+                        inquire_title LIKE CONCAT('%', #{searchType}, '%')
+                    </if>
+                    <if test="searchType == 'all' or searchType == 'inquireContent'">
+                        OR inquire_content LIKE CONCAT('%', #{keyword}, '%')
+                    </if>
+                </trim>
             GROUP BY i.inquire_id
             ORDER BY i.inquire_id DESC
             LIMIT #{offset}, 10
+            </script>
             """)
-    List<Inquire> selectInquirePage(Integer offset);
+    List<Inquire> selectInquirePage(Integer offset, String searchType, String keyword);
 
     @Select("""
+             <script>
             SELECT COUNT(*)
             FROM prj1230.inquire
+            WHERE
+                <trim prefixOverrides="OR">
+                    <if test="searchType == 'all' or searchType == 'inquireTitle'">
+                        inquire_title LIKE CONCAT('%', #{searchType}, '%')
+                    </if>
+                    <if test="searchType == 'all' or searchType == 'inquireContent'">
+                        OR inquire_content LIKE CONCAT('%', #{keyword}, '%')
+                    </if>
+                </trim>
+             </script>
             """)
-    Integer inquireCountAll();
+    Integer inquireCountAll(String searchType, String keyword);
 
     @Select("""
                 SELECT inquire_id 

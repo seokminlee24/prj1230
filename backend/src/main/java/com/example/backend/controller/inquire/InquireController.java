@@ -71,8 +71,10 @@ public class InquireController {
 
     // 문의글 리스트
     @GetMapping("inquireList")
-    public Map<String, Object> inquireList(@RequestParam(value = "page", defaultValue = "1") Integer page) {
-        return service.inquireList(page);
+    public Map<String, Object> inquireList(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                           @RequestParam(value = "st", defaultValue = "all") String searchType,
+                                           @RequestParam(value = "sk", defaultValue = "") String keyword) {
+        return service.inquireList(page, searchType, keyword);
     }
 
     // 문의글 작성
