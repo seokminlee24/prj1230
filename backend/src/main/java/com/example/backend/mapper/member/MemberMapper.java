@@ -60,4 +60,19 @@ public interface MemberMapper {
             WHERE admin_id = #{memberId}
             """)
     List<String> selectAuthByMemberId(String memberId);
+
+    @Select("""
+            SELECT member_id,nickname,inserted
+            FROM member
+            GROUP BY member_id
+            ORDER BY member_id DESC
+            LIMIT #{offset}, 10
+            """)
+    List<Member> selectMemberPage(Integer offset);
+
+    @Select("""
+             SELECT COUNT(*)
+             FROM member
+            """)
+    Integer memberCountAll();
 }

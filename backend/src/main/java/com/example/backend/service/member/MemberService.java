@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,8 +44,9 @@ public class MemberService {
     }
 
     // 회원 리스트
-    public List<Member> list() {
-        return mapper.selectAll();
+    public Map<String, Object> list(Integer page) {
+        mapper.selectMemberPage((page - 1) * 10);
+        return Map.of("list", mapper.selectMemberPage((page - 1) * 10), "count", mapper.memberCountAll());
     }
 
     // 회원 목록 요청

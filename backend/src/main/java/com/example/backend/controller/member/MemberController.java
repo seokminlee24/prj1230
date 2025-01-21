@@ -96,8 +96,8 @@ public class MemberController {
     //회원 리스트
     @GetMapping("list")
     @PreAuthorize("hasAuthority('SCOPE_admin')")
-    public List<Member> list() {
-        return service.list();
+    public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") Integer page) {
+        return service.list(page);
     }
 
     // 회원 가입 아이디 중복 체크
