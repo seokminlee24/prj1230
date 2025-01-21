@@ -32,7 +32,7 @@ public interface MemberMapper {
 
     // 회원 리스트
     @Select("""
-                    SELECT member_id,nickname,inserted
+                    SELECT member_id,nickname,password,inserted
                     FROM member
                     ORDER BY inserted DESC 
             """)
@@ -62,17 +62,39 @@ public interface MemberMapper {
     List<String> selectAuthByMemberId(String memberId);
 
     @Select("""
-            SELECT member_id,nickname,inserted
-            FROM member
+            <script>
+            SELECT member_id,nickname,password,inserted
+            FROM prj1230.member
+            WHERE
+                <trim prefixOverrides="OR">
+                    <if test="searchType == 'all' or searchType == 'memberId'">
+                        member_id LIKE CONCAT('%', #{searchType}, '%')
+                    </if>
+                    <if test="searchType == 'all' or searchType == 'nickname'">
+                        OR nickname LIKE CONCAT('%', #{keyword}, '%')
+                    </if>
+                </trim>
             GROUP BY member_id
             ORDER BY member_id DESC
             LIMIT #{offset}, 10
+             </script>
             """)
-    List<Member> selectMemberPage(Integer offset);
+    List<Member> selectMemberPage(Integer offset, String searchType, String keyword);
 
     @Select("""
+              <script>
              SELECT COUNT(*)
              FROM member
+             WHERE 
+                <trim prefixOverrides="OR">
+                    <if test="searchType == 'all' or searchType == 'memberId'">
+                        member_id LIKE CONCAT('%', #{searchType}, '%')
+                    </if>
+                    <if test="searchType == 'all' or searchType == 'nickname'">
+                        OR nickname LIKE CONCAT('%', #{keyword}, '%')
+                    </if>
+                </trim>
+              </script>
             """)
-    Integer memberCountAll();
+    Integer memberCountAll(String searchType, String keyword);
 }

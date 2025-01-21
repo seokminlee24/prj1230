@@ -44,9 +44,16 @@ public class MemberService {
     }
 
     // 회원 리스트
-    public Map<String, Object> list(Integer page) {
-        mapper.selectMemberPage((page - 1) * 10);
-        return Map.of("list", mapper.selectMemberPage((page - 1) * 10), "count", mapper.memberCountAll());
+    public Map<String, Object> list(Integer page, String searchType, String keyword) {
+        // SQL 의 LIMIT 키워드에서 사용되는 offset
+        Integer offset = (page - 1) * 10;
+
+        // 조회 되는 게시물
+        List<Member> list = mapper.selectMemberPage(offset, searchType, keyword);
+
+        // 전체 게시물 수
+        Integer count = mapper.memberCountAll(searchType, keyword);
+        return Map.of("list", list, "count", count);
     }
 
     // 회원 목록 요청

@@ -96,8 +96,13 @@ public class MemberController {
     //회원 리스트
     @GetMapping("list")
     @PreAuthorize("hasAuthority('SCOPE_admin')")
-    public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") Integer page) {
-        return service.list(page);
+    public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                    @RequestParam(value = "st", defaultValue = "all") String searchType,
+                                    @RequestParam(value = "sk", defaultValue = "") String keyword) {
+
+        System.out.println("searchType = " + searchType);
+        System.out.println("keyword = " + keyword);
+        return service.list(page, searchType, keyword);
     }
 
     // 회원 가입 아이디 중복 체크
