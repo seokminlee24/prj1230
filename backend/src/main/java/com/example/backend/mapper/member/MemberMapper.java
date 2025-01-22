@@ -68,7 +68,7 @@ public interface MemberMapper {
             WHERE
                 <trim prefixOverrides="OR">
                     <if test="searchType == 'all' or searchType == 'memberId'">
-                        member_id LIKE CONCAT('%', #{searchType}, '%')
+                        member_id LIKE CONCAT('%', #{keyword}, '%')
                     </if>
                     <if test="searchType == 'all' or searchType == 'nickname'">
                         OR nickname LIKE CONCAT('%', #{keyword}, '%')
@@ -88,7 +88,7 @@ public interface MemberMapper {
              WHERE 
                 <trim prefixOverrides="OR">
                     <if test="searchType == 'all' or searchType == 'memberId'">
-                        member_id LIKE CONCAT('%', #{searchType}, '%')
+                        member_id LIKE CONCAT('%', #{keyword}, '%')
                     </if>
                     <if test="searchType == 'all' or searchType == 'nickname'">
                         OR nickname LIKE CONCAT('%', #{keyword}, '%')

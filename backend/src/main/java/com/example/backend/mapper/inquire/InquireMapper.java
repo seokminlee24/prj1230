@@ -55,7 +55,7 @@ public interface InquireMapper {
             WHERE
                 <trim prefixOverrides="OR">
                     <if test="searchType == 'all' or searchType == 'inquireTitle'">
-                        inquire_title LIKE CONCAT('%', #{searchType}, '%')
+                        inquire_title LIKE CONCAT('%', #{keyword}, '%')
                     </if>
                     <if test="searchType == 'all' or searchType == 'inquireContent'">
                         OR inquire_content LIKE CONCAT('%', #{keyword}, '%')
@@ -75,7 +75,7 @@ public interface InquireMapper {
             WHERE
                 <trim prefixOverrides="OR">
                     <if test="searchType == 'all' or searchType == 'inquireTitle'">
-                        inquire_title LIKE CONCAT('%', #{searchType}, '%')
+                        inquire_title LIKE CONCAT('%', #{keyword}, '%')
                     </if>
                     <if test="searchType == 'all' or searchType == 'inquireContent'">
                         OR inquire_content LIKE CONCAT('%', #{keyword}, '%')
