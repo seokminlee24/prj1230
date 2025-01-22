@@ -103,7 +103,7 @@ export function MemberList() {
         <Table.Body>
           {memberList.length === 0 ? (
             <Table.Row>
-              <Table.Cell colSpan={3} textAlign="center">
+              <Table.Cell colSpan={4} textAlign="center">
                 회원 가입자 및 조회된 결과가 없습니다.
               </Table.Cell>
             </Table.Row>

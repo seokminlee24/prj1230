@@ -6,7 +6,6 @@ import {
   Heading,
   HStack,
   Input,
-  Table,
   TableBody,
   TableCell,
   TableColumnHeader,
@@ -128,35 +127,45 @@ export function InquireList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {inquireList.map((inquire) => (
-            <TableRow
-              onClick={() => handleRowClick(inquire.inquireId)}
-              key={inquire.inquireId}
-            >
-              <TableCell textAlign="center">{inquire.inquireId}</TableCell>
-              <TableCell textAlign="center">{inquire.inquireTitle}</TableCell>
-              <TableCell textAlign="center">{inquire.inquireWriter}</TableCell>
-              <TableCell textAlign="center">
-                {categoryMap[inquire.inquireCategory]}
+          {inquireList.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} textAlign="center">
+                문의 글이 없거나 검색조회시 없습니다.
               </TableCell>
-              <Table.Cell textAlign="center">
-                {inquire.inserted.replace("T", " ")}
-              </Table.Cell>
-              <Table.Cell textAlign="center">
-                {inquire.inquireCountComment > 0 ? (
-                  <Badge variant={"subtle"} colorPalette={"green"}>
-                    <FaCommentDots />
-                    답변 완료
-                  </Badge>
-                ) : (
-                  <Badge variant={"subtle"} colorPalette={"red"}>
-                    <FaCommentDots />
-                    답변 대기
-                  </Badge>
-                )}
-              </Table.Cell>
             </TableRow>
-          ))}
+          ) : (
+            inquireList.map((inquire) => (
+              <TableRow
+                onClick={() => handleRowClick(inquire.inquireId)}
+                key={inquire.inquireId}
+              >
+                <TableCell textAlign="center">{inquire.inquireId}</TableCell>
+                <TableCell textAlign="center">{inquire.inquireTitle}</TableCell>
+                <TableCell textAlign="center">
+                  {inquire.inquireWriter}
+                </TableCell>
+                <TableCell textAlign="center">
+                  {categoryMap[inquire.inquireCategory]}
+                </TableCell>
+                <TableCell textAlign="center">
+                  {inquire.inserted.replace("T", " ")}
+                </TableCell>
+                <TableCell textAlign="center">
+                  {inquire.inquireCountComment > 0 ? (
+                    <Badge variant={"subtle"} colorScheme={"green"}>
+                      <FaCommentDots />
+                      답변 완료
+                    </Badge>
+                  ) : (
+                    <Badge variant={"subtle"} colorScheme={"red"}>
+                      <FaCommentDots />
+                      답변 대기
+                    </Badge>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </TableRoot>
       <HStack>
@@ -180,18 +189,20 @@ export function InquireList() {
         <Button onClick={handleSearchClick}>검색</Button>
       </HStack>
       <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
-        <PaginationRoot
-          onPageChange={handlePageChange}
-          count={count}
-          pageSize={10}
-          page={page}
-        >
-          <HStack>
-            <PaginationPrevTrigger />
-            <PaginationItems />
-            <PaginationNextTrigger />
-          </HStack>
-        </PaginationRoot>
+        {count > 0 && (
+          <PaginationRoot
+            onPageChange={handlePageChange}
+            count={count}
+            pageSize={10}
+            page={page}
+          >
+            <HStack>
+              <PaginationPrevTrigger />
+              <PaginationItems />
+              <PaginationNextTrigger />
+            </HStack>
+          </PaginationRoot>
+        )}
       </Box>
     </Box>
   );
