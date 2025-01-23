@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Board {
+    private String boardId;
     private String boardTitle;
     private String boardContent;
     private String boardPlace;

@@ -13,8 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class SmlBoardService {
     final SmlBoardMapper mapper;
 
-    public void boardAdd(Board board, Authentication authentication) {
+    public boolean boardAdd(Board board, Authentication authentication) {
         board.setBoardWriter(authentication.getName());
-        mapper.insert(board);
+        int cnt = mapper.insert(board);
+        return cnt == 1;
     }
 }
