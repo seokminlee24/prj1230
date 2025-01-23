@@ -39,7 +39,7 @@ export function Navbar() {
           _hover={{ backgroundColor: "gray.100" }}
           onClick={() => navigate("/board/boardAdd")}
         >
-          로그인
+          글 작성
         </Box>
 
         {/* 메뉴를 오른쪽 끝으로 밀기 */}
