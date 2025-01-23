@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -25,5 +27,9 @@ public class SmlBoardService {
         boolean BoardPlace = board.getBoardPlace().trim().length() > 0;
 
         return boardTitle && BoardContent && BoardPlace;
+    }
+
+    public List<Board> list() {
+        return mapper.selectBoardAll();
     }
 }

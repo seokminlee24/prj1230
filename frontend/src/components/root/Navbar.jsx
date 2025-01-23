@@ -37,9 +37,9 @@ export function Navbar() {
         <Box
           padding="0.5rem"
           _hover={{ backgroundColor: "gray.100" }}
-          onClick={() => navigate("/board/boardAdd")}
+          onClick={() => navigate("/board/boardList")}
         >
-          글 작성
+          게시판 리스트
         </Box>
 
         {/* 메뉴를 오른쪽 끝으로 밀기 */}

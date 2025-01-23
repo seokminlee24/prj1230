@@ -4,6 +4,9 @@ import com.example.backend.dto.smlBoard.Board;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface SmlBoardMapper {
@@ -14,4 +17,12 @@ public interface SmlBoardMapper {
             """)
     @Options(keyProperty = "boardId", useGeneratedKeys = true)
     int insert(Board board);
+
+    @Select("""
+                SELECT sb.board_id,sb.board_title,sb.board_writer AS memberId, m.nickname AS board_writer,sb.inserted 
+                FROM sml_board sb
+                LEFT JOIN member m ON sb.board_writer = m.member_id
+                ORDER BY sb.board_id DESC
+            """)
+    List<Board> selectBoardAll();
 }

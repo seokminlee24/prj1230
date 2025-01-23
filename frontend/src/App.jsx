@@ -13,6 +13,7 @@ import { InquireList } from "./page/inquire/InquireList.jsx";
 import { InquireInfo } from "./page/inquire/InquireInfo.jsx";
 import { InquireEdit } from "./page/inquire/InquireEdit.jsx";
 import { BoardAdd } from "./page/smlBoard/BoardAdd.jsx";
+import { BoardList } from "./page/smlBoard/BoardList.jsx";
 
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "board/boardAdd",
         element: <BoardAdd />,
+      },
+      {
+        path: "board/boardList",
+        element: <BoardList />,
       },
     ],
   },
