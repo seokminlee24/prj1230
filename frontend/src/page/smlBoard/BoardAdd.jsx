@@ -42,6 +42,12 @@ export function BoardAdd() {
       });
   };
 
+  const disabled = !(
+    boardTitle.trim().length > 0 &&
+    boardContent.trim().length > 0 &&
+    boardPlace.trim().length > 0
+  );
+
   return (
     <Box>
       <Heading>게시판 글 작성</Heading>
@@ -65,7 +71,11 @@ export function BoardAdd() {
           />
         </Field>
         <Box>
-          <Button loading={progress} onClick={handleSaveClick}>
+          <Button
+            disabled={disabled}
+            loading={progress}
+            onClick={handleSaveClick}
+          >
             저장
           </Button>
         </Box>

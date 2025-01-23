@@ -18,4 +18,12 @@ public class SmlBoardService {
         int cnt = mapper.insert(board);
         return cnt == 1;
     }
+
+    public boolean validate(Board board) {
+        boolean boardTitle = board.getBoardTitle().trim().length() > 0;
+        boolean BoardContent = board.getBoardContent().trim().length() > 0;
+        boolean BoardPlace = board.getBoardPlace().trim().length() > 0;
+
+        return boardTitle && BoardContent && BoardPlace;
+    }
 }
