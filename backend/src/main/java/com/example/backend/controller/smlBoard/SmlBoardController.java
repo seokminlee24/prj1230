@@ -10,4 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/board")
 public class SmlBoardController {
     final SmlBoardService service;
+
+
 }

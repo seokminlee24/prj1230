@@ -34,6 +34,14 @@ export function Navbar() {
           로그인
         </Box>
 
+        <Box
+          padding="0.5rem"
+          _hover={{ backgroundColor: "gray.100" }}
+          onClick={() => navigate("/board/boardAdd")}
+        >
+          로그인
+        </Box>
+
         {/* 메뉴를 오른쪽 끝으로 밀기 */}
         <Box ml="auto">
           <MenuRoot>
