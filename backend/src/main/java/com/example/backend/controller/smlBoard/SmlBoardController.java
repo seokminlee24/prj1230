@@ -42,15 +42,22 @@ public class SmlBoardController {
     }
 
     @DeleteMapping("/delete/{boardId}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable int boardId) {
-        if (service.boardRemove(boardId)) {
-            return ResponseEntity.ok()
-                    .body(Map.of("message", Map.of("type", "success"
-                            , "text", STR."\{boardId}번 게시글이 삭제되었습니다.")));
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable int boardId, Authentication authentication) {
+        if (service.hasAccess(boardId, authentication) || service.isAdmin(authentication)) {
+            if (service.boardRemove(boardId)) {
+                return ResponseEntity.ok()
+                        .body(Map.of("message", Map.of("type", "success"
+                                , "text", STR."\{boardId}번 게시글이 삭제되었습니다.")));
+            } else {
+                return ResponseEntity.internalServerError()
+                        .body(Map.of("message", Map.of("type", "error"
+                                , "text", "게시글 삭제 중 문제가 발생하였습니다.")));
+            }
         } else {
-            return ResponseEntity.internalServerError()
+            return ResponseEntity.status(403)
                     .body(Map.of("message", Map.of("type", "error"
-                            , "text", "게시글 삭제 중 문제가 발생하였습니다.")));
+                            , "text", "삭제 권한이 없습니다.")));
         }
     }
 
