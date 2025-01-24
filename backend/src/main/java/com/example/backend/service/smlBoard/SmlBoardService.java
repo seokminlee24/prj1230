@@ -32,4 +32,8 @@ public class SmlBoardService {
     public List<Board> list() {
         return mapper.selectBoardAll();
     }
+
+    public Board get(int boardId) {
+        return mapper.selectByBoardId(boardId);
+    }
 }

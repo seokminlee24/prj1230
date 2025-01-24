@@ -16,6 +16,11 @@ import java.util.Map;
 public class SmlBoardController {
     final SmlBoardService service;
 
+    @GetMapping("/boardInfo/{boardId}")
+    public Board boardInfo(@PathVariable int boardId) {
+        return service.get(boardId);
+    }
+
     @GetMapping("/boardList")
     public List<Board> boardList() {
         return service.list();

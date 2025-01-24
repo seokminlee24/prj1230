@@ -25,4 +25,11 @@ public interface SmlBoardMapper {
                 ORDER BY sb.board_id DESC
             """)
     List<Board> selectBoardAll();
+
+    @Select("""
+                    select *
+                    FROM sml_board
+                    WHERE board_id = #{boardId}
+            """)
+    Board selectByBoardId(int boardId);
 }
