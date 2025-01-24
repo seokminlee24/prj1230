@@ -29,6 +29,7 @@ export function BoardAdd() {
           description: message.text,
           type: message.type,
         });
+        navigate("/board/boardList");
       })
       .catch((e) => {
         const message = e.response.data.message;
