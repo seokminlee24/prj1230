@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
@@ -21,8 +21,10 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
+import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 
 export function BoardEdit() {
+  const { id, isAdmin } = useContext(AuthenticationContext);
   const [board, setBoard] = useState(null);
   const [progress, setProgress] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -65,6 +67,15 @@ export function BoardEdit() {
     return <Spinner />;
   }
 
+  // 본인 또는 관리자 여부 확인
+  const canEdit = isAdmin || id === board.memberId;
+
+  const disabled = !(
+    board.boardTitle.trim().length > 0 &&
+    board.boardContent.trim().length > 0 &&
+    board.boardPlace.trim().length > 0
+  );
+
   return (
     <Box>
       <Heading>참여글 수정</Heading>
@@ -89,36 +100,42 @@ export function BoardEdit() {
             onChange={(e) => setBoard({ ...board, boardPlace: e.target.value })}
           />
         </Field>
-        <Box>
-          <DialogRoot
-            open={dialogOpen}
-            onOpenChange={(e) => setDialogOpen(e.open)}
-          >
-            <DialogTrigger asChild>
-              <Button colorPalette={"cyan"} variant={"outline"}>
-                저장
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>저장 확인</DialogHeader>
-              <DialogBody>
-                <p>{boardId}번 문의글 수정하시겠습니까?</p>
-              </DialogBody>
-              <DialogFooter>
-                <DialogActionTrigger>
-                  <Button variant={"outline"}>취소</Button>
-                </DialogActionTrigger>
+        {canEdit && (
+          <Box>
+            <DialogRoot
+              open={dialogOpen}
+              onOpenChange={(e) => setDialogOpen(e.open)}
+            >
+              <DialogTrigger asChild>
                 <Button
-                  loading={progress}
-                  colorPalette={"blue"}
-                  onClick={handleSaveClick}
+                  disabled={disabled}
+                  colorPalette={"cyan"}
+                  variant={"outline"}
                 >
                   저장
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </DialogRoot>
-        </Box>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>저장 확인</DialogHeader>
+                <DialogBody>
+                  <p>{boardId}번 문의글 수정하시겠습니까?</p>
+                </DialogBody>
+                <DialogFooter>
+                  <DialogActionTrigger>
+                    <Button variant={"outline"}>취소</Button>
+                  </DialogActionTrigger>
+                  <Button
+                    loading={progress}
+                    colorPalette={"blue"}
+                    onClick={handleSaveClick}
+                  >
+                    저장
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
+          </Box>
+        )}
       </Stack>
     </Box>
   );

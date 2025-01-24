@@ -7,7 +7,7 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
@@ -21,8 +21,10 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
+import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 
 export function BoardInfo() {
+  const { id, isAdmin } = useContext(AuthenticationContext);
   const { boardId } = useParams();
   const [board, setBoard] = useState(null);
   const navigate = useNavigate();
@@ -57,6 +59,9 @@ export function BoardInfo() {
     return <Spinner />;
   }
 
+  // 본인 또는 관리자 여부 확인
+  const canEditOrDelete = isAdmin || id === board.memberId;
+
   return (
     <Box>
       <Heading>{boardId} 번 게시물 </Heading>
@@ -76,36 +81,38 @@ export function BoardInfo() {
         <Field label={"작성일시"} readOnly>
           <Input type={"datetime-local"} readOnly value={board.inserted} />
         </Field>
-        <Box>
-          <DialogRoot>
-            <DialogTrigger asChild>
-              <Button colorPalette={"red"} variant={"outline"}>
-                삭제
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>삭제 확인</DialogHeader>
-              <DialogBody>
-                <p>{board.boardId}번 삭제하시겠습니까?</p>
-              </DialogBody>
-              <DialogFooter>
-                <DialogActionTrigger>
-                  <Button variant={"outline"}>취소</Button>
-                </DialogActionTrigger>
-                <Button colorPalette={"red"} onClick={handleDeleteClick}>
+        {canEditOrDelete && (
+          <Box>
+            <DialogRoot>
+              <DialogTrigger asChild>
+                <Button colorPalette={"red"} variant={"outline"}>
                   삭제
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </DialogRoot>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>삭제 확인</DialogHeader>
+                <DialogBody>
+                  <p>{board.boardId}번 삭제하시겠습니까?</p>
+                </DialogBody>
+                <DialogFooter>
+                  <DialogActionTrigger>
+                    <Button variant={"outline"}>취소</Button>
+                  </DialogActionTrigger>
+                  <Button colorPalette={"red"} onClick={handleDeleteClick}>
+                    삭제
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
 
-          <Button
-            colorPalette={"cyan"}
-            onClick={() => navigate(`/board/boardEdit/${boardId}`)}
-          >
-            수정
-          </Button>
-        </Box>
+            <Button
+              colorPalette={"cyan"}
+              onClick={() => navigate(`/board/boardEdit/${boardId}`)}
+            >
+              수정
+            </Button>
+          </Box>
+        )}
       </Stack>
     </Box>
   );
