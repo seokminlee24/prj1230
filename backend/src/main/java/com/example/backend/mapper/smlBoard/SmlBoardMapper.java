@@ -1,10 +1,7 @@
 package com.example.backend.mapper.smlBoard;
 
 import com.example.backend.dto.smlBoard.Board;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,4 +29,10 @@ public interface SmlBoardMapper {
                     WHERE board_id = #{boardId}
             """)
     Board selectByBoardId(int boardId);
+
+    @Delete("""
+                    DELETE FROM sml_board
+                    WHERE board_id = #{boardId}
+            """)
+    int deleteBoardId(int boardId);
 }

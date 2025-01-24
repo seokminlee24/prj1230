@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Heading,
@@ -10,16 +10,39 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
+import { Button } from "../../components/ui/button.jsx";
+import { toaster } from "../../components/ui/toaster.jsx";
 
 export function BoardInfo() {
   const { boardId } = useParams();
   const [board, setBoard] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get(`/api/board/boardInfo/${boardId}`)
       .then((res) => setBoard(res.data));
   }, []);
+
+  const handleDeleteClick = () => {
+    axios
+      .delete(`/api/board/delete/${boardId}`)
+      .then((res) => res.data)
+      .then((data) => {
+        toaster.create({
+          type: data.message.type,
+          description: data.message.text,
+        });
+        navigate("/board/boardList");
+      })
+      .catch((e) => {
+        const data = e.response.data;
+        toaster.create({
+          type: data.message.type,
+          description: data.message.text,
+        });
+      });
+  };
 
   if (board === null) {
     return <Spinner />;
@@ -44,6 +67,11 @@ export function BoardInfo() {
         <Field label={"작성일시"} readOnly>
           <Input type={"datetime-local"} readOnly value={board.inserted} />
         </Field>
+        <Box>
+          <Button colorPalette={"red"} onClick={handleDeleteClick}>
+            삭제
+          </Button>
+        </Box>
       </Stack>
     </Box>
   );

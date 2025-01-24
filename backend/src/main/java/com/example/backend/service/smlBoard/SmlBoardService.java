@@ -36,4 +36,9 @@ public class SmlBoardService {
     public Board get(int boardId) {
         return mapper.selectByBoardId(boardId);
     }
+
+    public boolean boardRemove(int boardId) {
+        int cnt = mapper.deleteBoardId(boardId);
+        return cnt == 1;
+    }
 }
