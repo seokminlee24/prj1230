@@ -53,7 +53,7 @@ export function BoardEdit() {
           />
         </Field>
         <Field label={"장소"}>
-          <Textarea
+          <Input
             value={board.boardPlace}
             onChange={(e) => setBoard({ ...board, boardPlace: e.target.value })}
           />
