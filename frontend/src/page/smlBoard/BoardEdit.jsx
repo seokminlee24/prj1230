@@ -11,6 +11,16 @@ import {
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
+import { toaster } from "../../components/ui/toaster.jsx";
+import {
+  DialogActionTrigger,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+} from "../../components/ui/dialog.jsx";
 
 export function BoardEdit() {
   const [board, setBoard] = useState(null);
@@ -27,7 +37,28 @@ export function BoardEdit() {
   }, []);
 
   const handleSaveClick = () => {
-    axios.put("/api/board/boardUpdate", board);
+    setProgress(true);
+    axios
+      .put("/api/board/boardUpdate", board)
+      .then((res) => res.data)
+      .then((data) => {
+        toaster.create({
+          type: data.message.type,
+          description: data.message.text,
+        });
+        navigate(`/board/boardInfo/${board.boardId}`);
+      })
+      .catch((e) => {
+        const message = e.response.data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+      })
+      .finally(() => {
+        setProgress(false);
+        setDialogOpen(false);
+      });
   };
 
   if (board === null) {
@@ -59,7 +90,34 @@ export function BoardEdit() {
           />
         </Field>
         <Box>
-          <Button onClick={handleSaveClick}>저장</Button>
+          <DialogRoot
+            open={dialogOpen}
+            onOpenChange={(e) => setDialogOpen(e.open)}
+          >
+            <DialogTrigger asChild>
+              <Button colorPalette={"cyan"} variant={"outline"}>
+                저장
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>저장 확인</DialogHeader>
+              <DialogBody>
+                <p>{boardId}번 문의글 수정하시겠습니까?</p>
+              </DialogBody>
+              <DialogFooter>
+                <DialogActionTrigger>
+                  <Button variant={"outline"}>취소</Button>
+                </DialogActionTrigger>
+                <Button
+                  loading={progress}
+                  colorPalette={"blue"}
+                  onClick={handleSaveClick}
+                >
+                  저장
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </DialogRoot>
         </Box>
       </Stack>
     </Box>

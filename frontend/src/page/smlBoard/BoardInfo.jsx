@@ -101,7 +101,7 @@ export function BoardInfo() {
 
           <Button
             colorPalette={"cyan"}
-            onClick={() => navigate(`/board/boardEdit/${boardId}}`)}
+            onClick={() => navigate(`/board/boardEdit/${boardId}`)}
           >
             수정
           </Button>

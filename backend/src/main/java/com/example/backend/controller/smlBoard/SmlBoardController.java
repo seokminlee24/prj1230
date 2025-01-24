@@ -17,8 +17,16 @@ public class SmlBoardController {
     final SmlBoardService service;
 
     @PutMapping("/boardUpdate")
-    public void boardUpdate(@RequestBody Board board) {
-        service.boardUpdate(board);
+    public ResponseEntity<Map<String, Object>> boardUpdate(@RequestBody Board board) {
+        if (service.boardUpdate(board)) {
+            return ResponseEntity.ok()
+                    .body(Map.of("message", Map.of("type", "success"
+                            , "text", STR."\{board.getBoardId()}번 문의글이 수정되었습니다.")));
+        } else {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("message", Map.of("type", "error"
+                            , "text", "문의글 수정 중 문제가 발생하였습니다.")));
+        }
     }
 
     @DeleteMapping("/delete/{boardId}")

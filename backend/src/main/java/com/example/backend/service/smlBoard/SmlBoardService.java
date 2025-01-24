@@ -42,7 +42,8 @@ public class SmlBoardService {
         return cnt == 1;
     }
 
-    public void boardUpdate(Board board) {
-        mapper.boardUpdate(board);
+    public boolean boardUpdate(Board board) {
+        int cnt = mapper.boardUpdate(board);
+        return cnt == 1;
     }
 }
