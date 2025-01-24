@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -29,8 +30,17 @@ public class SmlBoardService {
         return boardTitle && BoardContent && BoardPlace;
     }
 
-    public List<Board> list() {
-        return mapper.selectBoardAll();
+    public Map<String, Object> list(Integer page, String searchType, String keyword) {
+        // SQL 의 LIMIT 키워드에서 사용되는 offset
+        Integer offset = (page - 1) * 10;
+
+        // 조회 문의글
+        List<Board> list = mapper.selectBoardPage(offset, searchType, keyword);
+
+        // 전체 문의글 수
+        Integer count = mapper.boardCountAll(searchType, keyword);
+
+        return Map.of("list", list, "count", count);
     }
 
     public Board get(int boardId) {

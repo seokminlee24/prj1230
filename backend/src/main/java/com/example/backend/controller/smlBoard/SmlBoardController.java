@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -48,8 +47,10 @@ public class SmlBoardController {
     }
 
     @GetMapping("/boardList")
-    public List<Board> boardList() {
-        return service.list();
+    public Map<String, Object> boardList(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                         @RequestParam(value = "st", defaultValue = "all") String searchType,
+                                         @RequestParam(value = "sk", defaultValue = "") String keyword) {
+        return service.list(page, searchType, keyword);
     }
 
     @PostMapping("/boardAdd")
