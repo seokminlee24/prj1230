@@ -15,6 +15,7 @@ import { InquireEdit } from "./page/inquire/InquireEdit.jsx";
 import { BoardAdd } from "./page/smlBoard/BoardAdd.jsx";
 import { BoardList } from "./page/smlBoard/BoardList.jsx";
 import { BoardInfo } from "./page/smlBoard/BoardInfo.jsx";
+import { BoardEdit } from "./page/smlBoard/BoardEdit.jsx";
 
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "board/boardInfo/:boardId",
         element: <BoardInfo />,
+      },
+      {
+        path: "board/boardEdit/:boardId",
+        element: <BoardEdit />,
       },
     ],
   },

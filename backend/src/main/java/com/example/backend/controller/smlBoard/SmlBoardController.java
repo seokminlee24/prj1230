@@ -16,6 +16,11 @@ import java.util.Map;
 public class SmlBoardController {
     final SmlBoardService service;
 
+    @PutMapping("/boardUpdate")
+    public void boardUpdate(@RequestBody Board board) {
+        service.boardUpdate(board);
+    }
+
     @DeleteMapping("/delete/{boardId}")
     public ResponseEntity<Map<String, Object>> delete(@PathVariable int boardId) {
         if (service.boardRemove(boardId)) {

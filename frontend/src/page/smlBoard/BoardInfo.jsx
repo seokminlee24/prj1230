@@ -98,6 +98,13 @@ export function BoardInfo() {
               </DialogFooter>
             </DialogContent>
           </DialogRoot>
+
+          <Button
+            colorPalette={"cyan"}
+            onClick={() => navigate(`/board/boardEdit/${boardId}}`)}
+          >
+            수정
+          </Button>
         </Box>
       </Stack>
     </Box>

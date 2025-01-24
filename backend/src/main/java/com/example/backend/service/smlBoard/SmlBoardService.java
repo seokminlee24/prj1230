@@ -41,4 +41,8 @@ public class SmlBoardService {
         int cnt = mapper.deleteBoardId(boardId);
         return cnt == 1;
     }
+
+    public void boardUpdate(Board board) {
+        mapper.boardUpdate(board);
+    }
 }

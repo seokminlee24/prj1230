@@ -35,4 +35,13 @@ public interface SmlBoardMapper {
                     WHERE board_id = #{boardId}
             """)
     int deleteBoardId(int boardId);
+
+    @Update("""
+            UPDATE sml_board
+            SET board_title = #{boardTitle},
+                board_content = #{boardContent},
+                board_place = #{boardPlace}
+            WHERE board_id = #{boardId}
+            """)
+    int boardUpdate(Board board);
 }
