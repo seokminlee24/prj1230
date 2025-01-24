@@ -56,4 +56,19 @@ public class SmlBoardService {
         int cnt = mapper.boardUpdate(board);
         return cnt == 1;
     }
+
+    public boolean hasAccess(Integer boardId, Authentication authentication) {
+        Board board = mapper.selectByBoardId(boardId);
+        // 디버깅용 출력
+        System.out.println("DB MemberId: " + board.getMemberId());
+        System.out.println("Authenticated User: " + authentication.getName());
+        return board.getMemberId().equals(authentication.getName());
+    }
+
+    public boolean isAdmin(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .map(a -> a.toString())
+                .anyMatch(s -> s.equals("SCOPE_admin"));
+    }
 }

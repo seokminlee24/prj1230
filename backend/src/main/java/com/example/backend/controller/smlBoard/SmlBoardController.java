@@ -4,6 +4,7 @@ import com.example.backend.dto.smlBoard.Board;
 import com.example.backend.service.smlBoard.SmlBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,27 @@ public class SmlBoardController {
     final SmlBoardService service;
 
     @PutMapping("/boardUpdate")
-    public ResponseEntity<Map<String, Object>> boardUpdate(@RequestBody Board board) {
-        if (service.boardUpdate(board)) {
-            return ResponseEntity.ok()
-                    .body(Map.of("message", Map.of("type", "success"
-                            , "text", STR."\{board.getBoardId()}번 문의글이 수정되었습니다.")));
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    public ResponseEntity<Map<String, Object>> boardUpdate(@RequestBody Board board, Authentication authentication) {
+        if (service.hasAccess(board.getBoardId(), authentication) || service.isAdmin(authentication)) {
+            if (service.validate(board)) {
+                if (service.boardUpdate(board)) {
+                    return ResponseEntity.ok()
+                            .body(Map.of("message", Map.of("type", "success"
+                                    , "text", STR."\{board.getBoardId()}번 문의글이 수정되었습니다.")));
+                } else {
+                    return ResponseEntity.internalServerError()
+                            .body(Map.of("message", Map.of("type", "error"
+                                    , "text", "문의글 수정 중 문제가 발생하였습니다.")));
+                }
+            } else {
+                return ResponseEntity.badRequest().body(Map.of("message", Map.of("type", "warning",
+                        "text", "제목이나 문의 내용, 장소 가 비어있을 수 없습니다.")));
+            }
         } else {
-            return ResponseEntity.internalServerError()
+            return ResponseEntity.status(403)
                     .body(Map.of("message", Map.of("type", "error"
-                            , "text", "문의글 수정 중 문제가 발생하였습니다.")));
+                            , "text", "수정 권한이 없습니다.")));
         }
     }
 

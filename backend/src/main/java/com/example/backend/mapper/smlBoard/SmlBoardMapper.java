@@ -24,9 +24,10 @@ public interface SmlBoardMapper {
     List<Board> selectBoardAll();
 
     @Select("""
-                    select *
-                    FROM sml_board
-                    WHERE board_id = #{boardId}
+                    select sb.board_id,sb.board_title,sb.board_content,sb.board_place,sb.board_writer AS memberId, m.nickname AS board_writer,sb.inserted
+                    FROM sml_board sb
+                    LEFT JOIN member m ON sb.board_writer = m.member_id
+                    WHERE sb.board_id = #{boardId}
             """)
     Board selectByBoardId(int boardId);
 
