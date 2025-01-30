@@ -48,9 +48,10 @@ public interface SmlBoardMapper {
 
     @Select("""
             <script>
-            SELECT sb.board_id,sb.board_title,sb.board_writer AS memberId, m.nickname AS board_writer,sb.inserted 
+            SELECT sb.board_id,sb.board_title,sb.board_writer AS memberId, m.nickname AS board_writer,sb.inserted ,COUNT(bc.board_id) AS boardCountComment
                         FROM sml_board sb
                         LEFT JOIN member m ON sb.board_writer = m.member_id
+                        LEFT JOIN board_comment bc ON sb.board_id = bc.board_id
                         WHERE
                         <trim prefixOverrides="OR">
                             <if test="searchType == 'all' or searchType == 'boardTitle'">
