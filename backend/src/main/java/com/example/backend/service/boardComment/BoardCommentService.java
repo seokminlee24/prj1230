@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -17,5 +19,9 @@ public class BoardCommentService {
         boardComment.setMemberId(authentication.getName());
 
         mapper.boardCommentInsert(boardComment);
+    }
+
+    public List<BoardComment> boardCommentList(Integer boardId) {
+        return mapper.selectByBoardId(boardId);
     }
 }

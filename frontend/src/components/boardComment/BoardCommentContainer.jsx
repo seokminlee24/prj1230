@@ -8,7 +8,7 @@ export function BoardCommentContainer({ boardId }) {
       <Stack gap={5}>
         <Heading>댓글</Heading>
         <BoardCommentInput boardId={boardId} />
-        <BoardCommentList />
+        <BoardCommentList boardId={boardId} />
       </Stack>
     </Box>
   );

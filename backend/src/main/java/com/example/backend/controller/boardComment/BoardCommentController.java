@@ -5,16 +5,20 @@ import com.example.backend.service.boardComment.BoardCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/boardComment")
 @RequiredArgsConstructor
 public class BoardCommentController {
     final BoardCommentService service;
+
+    @GetMapping("boardCommentList/{boardId}")
+    public List<BoardComment> getBoardCommentList(@PathVariable Integer boardId) {
+        return service.boardCommentList(boardId);
+    }
 
     @PostMapping("boardCommentAdd")
     @PreAuthorize("isAuthenticated()")
