@@ -41,4 +41,9 @@ public class BoardCommentService {
     public void remove(Integer boardCommentId) {
         mapper.deleteById(boardCommentId);
     }
+
+    public boolean update(BoardComment boardComment) {
+        int cnt = mapper.update(boardComment);
+        return cnt == 1;
+    }
 }

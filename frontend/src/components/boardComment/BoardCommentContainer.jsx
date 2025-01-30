@@ -44,6 +44,15 @@ export function BoardCommentContainer({ boardId }) {
     });
   }
 
+  function handleEditClick(boardCommentId, boardComment) {
+    setProcessing(true);
+    axios
+      .put(`/api/boardComment/edit`, { boardCommentId, boardComment })
+      .finally(() => {
+        setProcessing(false);
+      });
+  }
+
   return (
     <Box>
       <Stack gap={5}>
@@ -53,6 +62,7 @@ export function BoardCommentContainer({ boardId }) {
           boardId={boardId}
           boardCommentList={boardCommentList}
           onDeleteClick={handleDeleteClick}
+          onEditClick={handleEditClick}
         />
       </Stack>
     </Box>

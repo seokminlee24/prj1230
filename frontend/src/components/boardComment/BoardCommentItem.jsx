@@ -1,4 +1,4 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Textarea } from "@chakra-ui/react";
 import { Button } from "../ui/button.jsx";
 import { useContext, useState } from "react";
 import { AuthenticationContext } from "../context/AuthenticationProvider.jsx";
@@ -42,7 +42,46 @@ function DeleteButton({ onClick }) {
   );
 }
 
-export function BoardCommentItem({ boardComment, onDeleteClick }) {
+function EditButton({ boardComment, onEditClick }) {
+  const [open, setOpen] = useState(false);
+  const [newComment, setNewComment] = useState(boardComment.boardComment);
+  return (
+    <>
+      <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <DialogTrigger asChild>
+          <Button colorPalette={"purple"}>수정</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>댓글 수정</DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <Textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+          </DialogBody>
+          <DialogFooter>
+            <DialogActionTrigger>
+              <Button variant={"outline"}>취소</Button>
+            </DialogActionTrigger>
+            <Button
+              colorPalette={"purple"}
+              onClick={() => {
+                setOpen(false);
+                onEditClick(boardComment.boardCommentId, newComment);
+              }}
+            >
+              수정
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </DialogRoot>
+    </>
+  );
+}
+
+export function BoardCommentItem({ boardComment, onDeleteClick, onEditClick }) {
   const { isAdmin, hasAccess, id } = useContext(AuthenticationContext);
 
   return (
@@ -56,7 +95,9 @@ export function BoardCommentItem({ boardComment, onDeleteClick }) {
       </Box>
       {(boardComment.memberId === id || isAdmin) && (
         <Box>
-          <Button colorPalette={"purple"}>수정</Button>
+          <EditButton boardComment={boardComment} onEditClick={onEditClick}>
+            수정
+          </EditButton>
           <DeleteButton
             onClick={() => onDeleteClick(boardComment.boardCommentId)}
           >
