@@ -3,6 +3,7 @@ import { BoardCommentInput } from "./BoardCommentInput.jsx";
 import { BoardCommentList } from "./BoardCommentList.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toaster } from "../ui/toaster.jsx";
 
 export function BoardCommentContainer({ boardId }) {
   const [boardCommentList, setBoardCommentList] = useState([]);
@@ -24,8 +25,13 @@ export function BoardCommentContainer({ boardId }) {
         boardId: boardId,
         boardComment: boardComment,
       })
-      .then()
-      .catch()
+      .then((res) => res.data.message)
+      .then((message) => {
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+      })
       .finally(() => {
         setProcessing(false);
       });
