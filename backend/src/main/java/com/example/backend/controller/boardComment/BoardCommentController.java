@@ -15,6 +15,14 @@ import java.util.List;
 public class BoardCommentController {
     final BoardCommentService service;
 
+    @DeleteMapping("/remove/{boardCommentId}")
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    public void remove(@PathVariable Integer boardCommentId, Authentication authentication) {
+        if (service.isAdmin(authentication) || service.hasAccess(boardCommentId, authentication)) {
+            service.remove(boardCommentId);
+        }
+    }
+
     @GetMapping("boardCommentList/{boardId}")
     public List<BoardComment> getBoardCommentList(@PathVariable Integer boardId) {
         return service.boardCommentList(boardId);

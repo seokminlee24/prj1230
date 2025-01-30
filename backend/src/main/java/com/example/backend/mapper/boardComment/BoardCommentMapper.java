@@ -1,6 +1,7 @@
 package com.example.backend.mapper.boardComment;
 
 import com.example.backend.dto.boardComment.BoardComment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -25,4 +26,17 @@ public interface BoardCommentMapper {
             ORDER BY bc.board_comment_id DESC
             """)
     List<BoardComment> selectByBoardId(Integer boardId);
+
+    @Select("""
+            SELECT *
+            FROM prj1230.board_comment
+            WHERE board_comment_id=#{boardCommentId}
+            """)
+    BoardComment selectBoardCommentId(Integer boardCommentId);
+
+    @Delete("""
+            DELETE FROM board_comment
+            WHERE board_comment_id = #{boardCommentId}
+            """)
+    int deleteById(Integer boardCommentId);
 }

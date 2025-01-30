@@ -24,4 +24,21 @@ public class BoardCommentService {
     public List<BoardComment> boardCommentList(Integer boardId) {
         return mapper.selectByBoardId(boardId);
     }
+
+    public boolean isAdmin(Authentication authentication) {
+        return authentication.getAuthorities()
+                .stream()
+                .map(a -> a.toString())
+                .anyMatch(s -> s.equals("SCOPE_admin"));
+    }
+
+    public boolean hasAccess(Integer boardCommentId, Authentication authentication) {
+        BoardComment boardComment = mapper.selectBoardCommentId(boardCommentId);
+
+        return boardComment.getMemberId().equals(authentication.getName());
+    }
+
+    public void remove(Integer boardCommentId) {
+        mapper.deleteById(boardCommentId);
+    }
 }

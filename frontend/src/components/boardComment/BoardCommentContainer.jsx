@@ -31,6 +31,13 @@ export function BoardCommentContainer({ boardId }) {
       });
   }
 
+  function handleDeleteClick(boardCommentId) {
+    setProcessing(true);
+    axios.delete(`/api/boardComment/remove/${boardCommentId}`).finally(() => {
+      setProcessing(false);
+    });
+  }
+
   return (
     <Box>
       <Stack gap={5}>
@@ -39,6 +46,7 @@ export function BoardCommentContainer({ boardId }) {
         <BoardCommentList
           boardId={boardId}
           boardCommentList={boardCommentList}
+          onDeleteClick={handleDeleteClick}
         />
       </Stack>
     </Box>
