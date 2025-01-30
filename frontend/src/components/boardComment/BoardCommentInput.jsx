@@ -11,7 +11,14 @@ export function BoardCommentInput({ boardId, onSaveClick }) {
         value={boardComment}
         onChange={(e) => setBoardComment(e.target.value)}
       />
-      <Button onClick={() => onSaveClick(boardComment)}>댓글 쓰기</Button>
+      <Button
+        onClick={() => {
+          setBoardComment("");
+          onSaveClick(boardComment);
+        }}
+      >
+        댓글 쓰기
+      </Button>
     </Box>
   );
 }
