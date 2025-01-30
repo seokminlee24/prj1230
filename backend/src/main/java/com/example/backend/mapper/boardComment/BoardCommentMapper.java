@@ -1,4 +1,7 @@
 package com.example.backend.mapper.boardComment;
 
-public class BoardCommentMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface BoardCommentMapper {
 }
