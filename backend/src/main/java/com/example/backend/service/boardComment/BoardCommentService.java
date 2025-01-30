@@ -15,10 +15,11 @@ import java.util.List;
 public class BoardCommentService {
     final BoardCommentMapper mapper;
 
-    public void boardCommentAdd(BoardComment boardComment, Authentication authentication) {
+    public boolean boardCommentAdd(BoardComment boardComment, Authentication authentication) {
         boardComment.setMemberId(authentication.getName());
 
-        mapper.boardCommentInsert(boardComment);
+        int cnt = mapper.boardCommentInsert(boardComment);
+        return cnt == 0;
     }
 
     public List<BoardComment> boardCommentList(Integer boardId) {

@@ -47,8 +47,10 @@ public class BoardCommentController {
     @PostMapping("boardCommentAdd")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Map<String, Object>> boardCommentAdd(@RequestBody BoardComment boardComment, Authentication authentication) {
+        service.boardCommentAdd(boardComment, authentication);
         return ResponseEntity.ok().body(Map.of("message",
                 Map.of("type", "success",
                         "text", "새 댓글이 등록되었습니다.")));
+
     }
 }
