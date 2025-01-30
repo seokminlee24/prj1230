@@ -48,6 +48,13 @@ export function BoardCommentContainer({ boardId }) {
     setProcessing(true);
     axios
       .put(`/api/boardComment/edit`, { boardCommentId, boardComment })
+      .then((res) => res.data.message)
+      .then((message) => {
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+      })
       .finally(() => {
         setProcessing(false);
       });

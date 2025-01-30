@@ -18,16 +18,20 @@ public class BoardCommentController {
     final BoardCommentService service;
 
     @PutMapping("edit")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Map<String, Object>> edit(@RequestBody BoardComment boardComment) {
-        if (service.update(boardComment)) {
-            return ResponseEntity.ok().body(Map.of("message",
-                    Map.of("type", "success",
-                            "text", "댓글이 수정되었습니다.")));
+    @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
+    public ResponseEntity<Map<String, Object>> edit(@RequestBody BoardComment boardComment, Authentication authentication) {
+        if (service.isAdmin(authentication) || service.hasAccess(boardComment.getBoardCommentId(), authentication)) {
+            if (service.update(boardComment)) {
+                return ResponseEntity.ok().body(Map.of("message",
+                        Map.of("type", "success",
+                                "text", "댓글이 수정되었습니다.")));
+            } else {
+                return ResponseEntity.internalServerError().body(Map.of("message",
+                        Map.of("type", "error",
+                                "text", "댓글이 수정되지 않았습니다.")));
+            }
         } else {
-            return ResponseEntity.internalServerError().body(Map.of("message",
-                    Map.of("type", "error",
-                            "text", "댓글이 수정되지 않았습니다.")));
+            return ResponseEntity.status(403).build();
         }
     }
 
