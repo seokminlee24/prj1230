@@ -18,10 +18,11 @@ public interface BoardCommentMapper {
     int boardCommentInsert(BoardComment boardComment);
 
     @Select("""
-            SELECT board_comment_id,board_id,member_id,board_comment,inserted
-            FROM prj1230.board_comment
-            WHERE board_id=#{boardId}
-            ORDER BY board_comment_id DESC
+            SELECT bc.board_comment_id,bc.board_id,bc.member_id AS member_id,m.nickname AS nickname,bc.board_comment,bc.inserted
+            FROM prj1230.board_comment bc 
+            LEFT JOIN member m ON bc.member_id = m.member_id
+            WHERE bc.board_id=#{boardId}
+            ORDER BY bc.board_comment_id DESC
             """)
     List<BoardComment> selectByBoardId(Integer boardId);
 }
