@@ -43,7 +43,7 @@ function DeleteButton({ onClick }) {
 }
 
 export function BoardCommentItem({ boardComment, onDeleteClick }) {
-  const { isAdmin, hasAccess } = useContext(AuthenticationContext);
+  const { isAdmin, hasAccess, id } = useContext(AuthenticationContext);
 
   return (
     <HStack border={"1px solid black"} m={5}>
@@ -54,7 +54,7 @@ export function BoardCommentItem({ boardComment, onDeleteClick }) {
         </Flex>
         <p>{boardComment.boardComment}</p>
       </Box>
-      {hasAccess(boardComment.memberId) && (
+      {(boardComment.memberId === id || isAdmin) && (
         <Box>
           <Button colorPalette={"purple"}>수정</Button>
           <DeleteButton
