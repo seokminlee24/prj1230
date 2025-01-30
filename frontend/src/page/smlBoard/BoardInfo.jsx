@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
 import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
+import { BoardCommentContainer } from "../../components/boardComment/BoardCommentContainer.jsx";
 
 export function BoardInfo() {
   const { id, isAdmin } = useContext(AuthenticationContext);
@@ -114,6 +115,9 @@ export function BoardInfo() {
           </Box>
         )}
       </Stack>
+
+      <hr />
+      <BoardCommentContainer boardId={board.boardId} />
     </Box>
   );
 }
