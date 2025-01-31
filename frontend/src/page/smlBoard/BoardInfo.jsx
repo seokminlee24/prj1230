@@ -59,6 +59,13 @@ export function BoardInfo() {
       });
   };
 
+  useEffect(() => {
+    axios
+      .get(`/api/board/like/${boardId}`)
+      .then((res) => res.data)
+      .then((data) => setJoin(data));
+  }, []);
+
   if (board === null) {
     return <Spinner />;
   }

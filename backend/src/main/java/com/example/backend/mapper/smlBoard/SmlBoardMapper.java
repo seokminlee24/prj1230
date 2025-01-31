@@ -4,6 +4,7 @@ import com.example.backend.dto.smlBoard.Board;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface SmlBoardMapper {
@@ -104,4 +105,12 @@ public interface SmlBoardMapper {
             WHERE board_id = #{boardId}
             """)
     int countJoin(Integer boardId);
+
+    @Select("""
+            SELECT * 
+            FROM board_join
+            WHERE board_id = #{boardId}
+              AND member_id = #{name}
+            """)
+    Map<String, Object> selectJoinByBoardIdAndMemberId(int boardId, String name);
 }

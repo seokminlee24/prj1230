@@ -86,4 +86,17 @@ public class SmlBoardService {
 
         return result;
     }
+
+    public Map<String, Object> getJoin(int boardId, Authentication authentication) {
+        boolean join = false;
+        if (authentication != null) {
+            Map<String, Object> row = mapper.selectJoinByBoardIdAndMemberId(boardId, authentication.getName());
+            if (row != null) {
+                join = true;
+            }
+        }
+        int countJoin = mapper.countJoin(boardId);
+        Map<String, Object> result = Map.of("join", join, "count", countJoin);
+        return result;
+    }
 }
