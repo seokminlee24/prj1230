@@ -71,4 +71,13 @@ public class SmlBoardService {
                 .map(a -> a.toString())
                 .anyMatch(s -> s.equals("SCOPE_admin"));
     }
+
+    public void join(Board board, Authentication authentication) {
+        int cnt = mapper.deleteJoinByBoardIdAndMemberId(board.getBoardId(), authentication.getName());
+
+        if (cnt == 0) {
+            mapper.insertJoin(board.getBoardId(), authentication.getName());
+
+        }
+    }
 }

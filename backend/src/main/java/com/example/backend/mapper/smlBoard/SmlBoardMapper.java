@@ -84,4 +84,17 @@ public interface SmlBoardMapper {
              </script>
             """)
     Integer boardCountAll(String searchType, String keyword);
+
+    @Delete("""
+                    DELETE FROM board_join
+                    WHERE board_id = #{boardId}
+                    AND member_id = #{name}
+            """)
+    int deleteJoinByBoardIdAndMemberId(Integer boardId, String name);
+
+    @Insert("""
+            INSERT INTO board_join
+            VALUES (#{boardId}, #{name})
+            """)
+    int insertJoin(Integer boardId, String name);
 }

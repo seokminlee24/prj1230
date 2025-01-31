@@ -16,6 +16,12 @@ import java.util.Map;
 public class SmlBoardController {
     final SmlBoardService service;
 
+    @PostMapping("/join")
+    @PreAuthorize("isAuthenticated()")
+    public void join(@RequestBody Board board, Authentication authentication) {
+        service.join(board, authentication);
+    }
+
     @PutMapping("/boardUpdate")
     @PreAuthorize("isAuthenticated() or hasAuthority('SCOPE_admin')")
     public ResponseEntity<Map<String, Object>> boardUpdate(@RequestBody Board board, Authentication authentication) {

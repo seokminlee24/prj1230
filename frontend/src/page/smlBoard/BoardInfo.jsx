@@ -1,7 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
+  Flex,
   Heading,
+  HStack,
   Input,
   Spinner,
   Stack,
@@ -60,6 +62,16 @@ export function BoardInfo() {
     return <Spinner />;
   }
 
+  const handleJoinClick = () => {
+    axios
+      .post("/api/board/join", {
+        boardId: boardId,
+      })
+      .then()
+      .catch()
+      .finally();
+  };
+
   // 본인 또는 관리자 여부 확인
   const canEditOrDelete = isAdmin || id === board.memberId;
 
@@ -82,6 +94,15 @@ export function BoardInfo() {
         <Field label={"작성일시"} readOnly>
           <Input type={"datetime-local"} readOnly value={board.inserted} />
         </Field>
+        <Flex>
+          <Heading me={"auto"}>{id} 번 게시물</Heading>
+          <HStack>
+            <Button onClick={handleJoinClick}>참가</Button>
+            <Box>
+              <Heading>3</Heading>
+            </Box>
+          </HStack>
+        </Flex>
         {canEditOrDelete && (
           <Box>
             <DialogRoot>
