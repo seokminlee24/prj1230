@@ -97,4 +97,11 @@ public interface SmlBoardMapper {
             VALUES (#{boardId}, #{name})
             """)
     int insertJoin(Integer boardId, String name);
+
+    @Select("""
+            SELECT COUNT(*)
+            FROM board_join
+            WHERE board_id = #{boardId}
+            """)
+    int countJoin(Integer boardId);
 }

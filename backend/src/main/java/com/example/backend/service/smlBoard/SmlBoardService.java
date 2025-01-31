@@ -72,12 +72,18 @@ public class SmlBoardService {
                 .anyMatch(s -> s.equals("SCOPE_admin"));
     }
 
-    public void join(Board board, Authentication authentication) {
+    public Map<String, Object> join(Board board, Authentication authentication) {
         int cnt = mapper.deleteJoinByBoardIdAndMemberId(board.getBoardId(), authentication.getName());
 
         if (cnt == 0) {
             mapper.insertJoin(board.getBoardId(), authentication.getName());
 
         }
+
+        int countJoin = mapper.countJoin(board.getBoardId());
+
+        Map<String, Object> result = Map.of("join", (cnt == 0), "count", countJoin);
+
+        return result;
     }
 }

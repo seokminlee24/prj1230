@@ -30,6 +30,7 @@ export function BoardInfo() {
   const { id, isAdmin } = useContext(AuthenticationContext);
   const { boardId } = useParams();
   const [board, setBoard] = useState(null);
+  const [join, setJoin] = useState({ join: false, count: 0 });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,7 +68,8 @@ export function BoardInfo() {
       .post("/api/board/join", {
         boardId: boardId,
       })
-      .then()
+      .then((res) => res.data)
+      .then((data) => setJoin(data))
       .catch()
       .finally();
   };
@@ -95,11 +97,15 @@ export function BoardInfo() {
           <Input type={"datetime-local"} readOnly value={board.inserted} />
         </Field>
         <Flex>
-          <Heading me={"auto"}>{id} 번 게시물</Heading>
           <HStack>
-            <Button onClick={handleJoinClick}>참가</Button>
+            <Button
+              onClick={handleJoinClick}
+              colorPalette={join.join ? "red" : "blue"}
+            >
+              {join.join ? "참가취소" : "참가"}
+            </Button>
             <Box>
-              <Heading>3</Heading>
+              <Heading>{join.count}</Heading>
             </Box>
           </HStack>
         </Flex>

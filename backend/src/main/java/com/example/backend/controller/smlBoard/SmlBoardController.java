@@ -18,8 +18,8 @@ public class SmlBoardController {
 
     @PostMapping("/join")
     @PreAuthorize("isAuthenticated()")
-    public void join(@RequestBody Board board, Authentication authentication) {
-        service.join(board, authentication);
+    public Map<String, Object> join(@RequestBody Board board, Authentication authentication) {
+        return service.join(board, authentication);
     }
 
     @PutMapping("/boardUpdate")
