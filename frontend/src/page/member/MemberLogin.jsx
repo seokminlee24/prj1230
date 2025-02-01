@@ -7,11 +7,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { toaster } from "../../components/ui/toaster.jsx";
 import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 import { MdOutlineEmail } from "react-icons/md";
-import { TbLock } from "react-icons/tb";
+import { TbEye, TbEyeOff, TbLock } from "react-icons/tb";
 
 export function MemberLogin() {
   const [memberId, setMemberId] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const authentication = useContext(AuthenticationContext);
@@ -75,25 +76,33 @@ export function MemberLogin() {
               />
             </Group>
           </Field>
-          <Group attached w={"100%"}>
-            <Button
-              variant={"outline"}
-              _hover={{ bg: "transparent" }}
-              size={"xl"}
-              cursor={"default"}
-              tabIndex={-1}
-            >
-              <TbLock />
-            </Button>
-            <Field>
+          <Field>
+            <Group attached w={"100%"}>
+              <Button
+                variant={"outline"}
+                _hover={{ bg: "transparent" }}
+                size={"xl"}
+                cursor={"default"}
+                tabIndex={-1}
+              >
+                <TbLock />
+              </Button>
               <Input
                 size={"xl"}
-                placeholder="이메일"
+                type={showPassword ? "text" : "password"}
+                placeholder="비밀번호"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </Field>
-          </Group>
+              <Button
+                variant={"ghost"}
+                size={"xl"}
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <TbEyeOff /> : <TbEye />}
+              </Button>
+            </Group>
+          </Field>
 
           <Box display="flex" mt={5}>
             <Button w={"100%"} onClick={handleLoginClick} isLoading={loading}>
