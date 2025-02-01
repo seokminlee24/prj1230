@@ -22,13 +22,6 @@ export function Navbar() {
         <Box
           padding="0.5rem"
           _hover={{ backgroundColor: "gray.100" }}
-          onClick={() => navigate("/member/signup")}
-        >
-          가입
-        </Box>
-        <Box
-          padding="0.5rem"
-          _hover={{ backgroundColor: "gray.100" }}
           onClick={() => navigate("/member/login")}
         >
           로그인
