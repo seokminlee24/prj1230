@@ -45,14 +45,7 @@ export function MemberLogin() {
 
   return (
     <Flex height="100vh" align="center" justify="center" bg="white">
-      <Box
-        maxWidth="400px"
-        width="100%"
-        padding="6"
-        borderRadius="lg"
-        boxShadow="lg"
-        bg="white"
-      >
+      <Box maxWidth="400px" width="100%" padding="6" bg="white">
         <Heading size="lg" textAlign="center" mb="6">
           로그인
         </Heading>
@@ -95,11 +88,11 @@ export function MemberLogin() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <Button
-                variant={"ghost"}
+                variant={"outline"}
                 size={"xl"}
                 onClick={() => setShowPassword((prev) => !prev)}
               >
-                {showPassword ? <TbEyeOff /> : <TbEye />}
+                {showPassword ? <TbEye /> : <TbEyeOff />}
               </Button>
             </Group>
           </Field>

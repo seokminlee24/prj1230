@@ -1,11 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import { Box, Group, Heading, Input, Stack } from "@chakra-ui/react";
+import { Box, Group, Input, Stack, Text } from "@chakra-ui/react";
 import { Field } from "../../components/ui/field.jsx";
 import { Radio, RadioGroup } from "../../components/ui/radio.jsx";
 import { Button } from "../../components/ui/button.jsx";
 import { toaster } from "../../components/ui/toaster.jsx";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineEmail } from "react-icons/md";
+import { TbLock, TbLockCheck } from "react-icons/tb";
+import { FaRegUser } from "react-icons/fa";
 
 export function MemberSignup() {
   const [memberId, setMemberId] = useState("");
@@ -129,12 +132,35 @@ export function MemberSignup() {
   }
 
   return (
-    <Box>
-      <Heading>회원 가입</Heading>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      height="100vh"
+    >
       <Stack gap={5}>
-        <Field label={"아이디"}>
+        <Text
+          fontSize="2xl"
+          fontWeight="bold"
+          justifyContent="center"
+          display="flex"
+          mb={8}
+        >
+          회원가입
+        </Text>
+        <Field>
           <Group attached w={"100%"}>
+            <Button
+              variant={"outline"}
+              _hover={{ bg: "transparent" }}
+              size={"xl"}
+              cursor={"default"}
+              tabIndex={-1}
+            >
+              <MdOutlineEmail />
+            </Button>
             <Input
+              size={"xl"}
               placeholder={"아이디 입력을 하세요."}
               value={memberId}
               onChange={(e) => {
@@ -142,28 +168,66 @@ export function MemberSignup() {
                 setMemberId(e.target.value);
               }}
             />
-            <Button onClick={handleIdCheckClick} variant={"outline"}>
+            <Button
+              size={"xl"}
+              onClick={handleIdCheckClick}
+              variant={"outline"}
+            >
               중복확인
             </Button>
           </Group>
         </Field>
-        <Field label={"비밀번호"}>
-          <Input
-            placeholder={"비밀번호를 입력해주세요."}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Field>
-        <Field label={"비밀번호 확인"}>
-          <Input
-            placeholder={"비밀번호를 재입력해주세요."}
-            value={passwordCheck}
-            onChange={(e) => setPasswordCheck(e.target.value)}
-          />
-        </Field>
-        <Field label={"별명"}>
+        <Field>
           <Group attached w={"100%"}>
+            <Button
+              variant={"outline"}
+              _hover={{ bg: "transparent" }}
+              size={"xl"}
+              cursor={"default"}
+              tabIndex={-1}
+            >
+              <TbLock />
+            </Button>
             <Input
+              size={"xl"}
+              placeholder={"비밀번호를 입력해주세요."}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Group>
+        </Field>
+        <Field>
+          <Group attached w={"100%"}>
+            <Button
+              variant={"outline"}
+              _hover={{ bg: "transparent" }}
+              size={"xl"}
+              cursor={"default"}
+              tabIndex={-1}
+            >
+              <TbLockCheck />
+            </Button>
+            <Input
+              size={"xl"}
+              placeholder={"비밀번호를 재입력해주세요."}
+              value={passwordCheck}
+              onChange={(e) => setPasswordCheck(e.target.value)}
+            />
+          </Group>
+        </Field>
+        <Field>
+          <Group attached w={"100%"}>
+            <Button
+              variant={"outline"}
+              _hover={{ bg: "transparent" }}
+              size={"xl"}
+              cursor={"default"}
+              tabIndex={-1}
+            >
+              <FaRegUser />
+            </Button>
+            <Input
+              size={"xl"}
               placeholder={"별명를 입력해주세요."}
               value={nickname}
               onChange={(e) => {
@@ -171,7 +235,11 @@ export function MemberSignup() {
                 setNickname(e.target.value);
               }}
             />
-            <Button onClick={handleNicknameCheckClick} variant={"outline"}>
+            <Button
+              size={"xl"}
+              onClick={handleNicknameCheckClick}
+              variant={"outline"}
+            >
               중복확인
             </Button>
           </Group>
@@ -194,7 +262,7 @@ export function MemberSignup() {
         </Field>
 
         <Box>
-          <Button disabled={disabled} onClick={handleSaveClick}>
+          <Button w={"100%"} disabled={disabled} onClick={handleSaveClick}>
             가입
           </Button>
         </Box>
