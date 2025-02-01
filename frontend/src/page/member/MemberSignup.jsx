@@ -5,7 +5,7 @@ import { Field } from "../../components/ui/field.jsx";
 import { Radio, RadioGroup } from "../../components/ui/radio.jsx";
 import { Button } from "../../components/ui/button.jsx";
 import { toaster } from "../../components/ui/toaster.jsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineEmail } from "react-icons/md";
 import { TbLock, TbLockCheck } from "react-icons/tb";
 import { FaRegUser } from "react-icons/fa";
@@ -270,6 +270,9 @@ export function MemberSignup() {
           <Button w={"100%"} disabled={disabled} onClick={handleSaveClick}>
             가입
           </Button>
+        </Box>
+        <Box textAlign="end" mt={3}>
+          <Link to="/member/login">로그인</Link>
         </Box>
       </Stack>
     </Box>
