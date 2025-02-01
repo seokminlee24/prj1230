@@ -244,21 +244,26 @@ export function MemberSignup() {
             </Button>
           </Group>
         </Field>
-        <Field label={"성별"}>
-          {!gender && ( // 성별이 선택되지 않았을 떄 메세지 표시
-            <Box color="gray.500" mt={2} fontSize={"sm"}>
-              성별을 선택해야 합니다.
-            </Box>
-          )}
-          <RadioGroup
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-          >
-            <Stack direction="row">
-              <Radio value="M">남성</Radio>
-              <Radio value="F">여성</Radio>
-            </Stack>
-          </RadioGroup>
+        <Field>
+          <Stack direction="row" spacing={4} align="center" w={"100%"}>
+            <Text>성별 : </Text>
+            <RadioGroup
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <Stack direction="row" spacing={4}>
+                {" "}
+                {/* spacing 추가 */}
+                <Radio value="M">남성</Radio>
+                <Radio value="F">여성</Radio>
+              </Stack>
+            </RadioGroup>
+            {!gender && ( // 성별이 선택되지 않았을 때 메시지 표시
+              <Box color="green.500" fontSize={"sm"}>
+                성별을 선택해야 합니다.
+              </Box>
+            )}
+          </Stack>
         </Field>
 
         <Box>
