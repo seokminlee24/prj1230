@@ -87,6 +87,9 @@ public class MemberService {
                     smlBoardMapper.deleteBoardId(boardId);
                 }
 
+                // 좋아요 지우기
+                smlBoardMapper.deleteJoinByMemberId(member.getMemberId());
+
                 // 댓글 지우기
                 inquireCommentMapper.deleteByMemberId(member.getMemberId());
 

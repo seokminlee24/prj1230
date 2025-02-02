@@ -128,4 +128,10 @@ public interface SmlBoardMapper {
             WHERE board_writer = #{memberId}
             """)
     List<Integer> selectByWriter(String memberId);
+
+    @Delete("""
+                DELETE FROM board_join
+                WHERE member_id = #{memberId}
+            """)
+    int deleteJoinByMemberId(String memberId);
 }
