@@ -48,24 +48,26 @@ public interface SmlBoardMapper {
     int boardUpdate(Board board);
 
     @Select("""
-            <script>
-            SELECT sb.board_id,sb.board_title,sb.board_writer AS memberId, m.nickname AS board_writer,sb.inserted ,COUNT(bc.board_id) AS boardCountComment
-                        FROM sml_board sb
-                        LEFT JOIN member m ON sb.board_writer = m.member_id
-                        LEFT JOIN board_comment bc ON sb.board_id = bc.board_id
-                        WHERE
-                        <trim prefixOverrides="OR">
-                            <if test="searchType == 'all' or searchType == 'boardTitle'">
-                                board_title LIKE CONCAT('%', #{keyword}, '%')
-                            </if>
-                            <if test="searchType == 'all' or searchType == 'boardContent'">
-                                OR board_content LIKE CONCAT('%', #{keyword}, '%')
-                            </if>
-                        </trim>
-                        GROUP BY sb.board_id
-                        ORDER BY sb.board_id DESC
-                        LIMIT #{offset}, 10
-            </script>
+                 <script>
+                 SELECT sb.board_id,sb.board_title,sb.board_writer AS memberId, m.nickname AS board_writer,sb.inserted ,
+            COUNT(DISTINCT bc.board_id) AS boardCountComment,COUNT(DISTINCT bj.member_id) boardCountJoin
+                             FROM sml_board sb
+                             LEFT JOIN member m ON sb.board_writer = m.member_id
+                             LEFT JOIN board_comment bc ON sb.board_id = bc.board_id
+                                LEFT JOIN board_join bj ON sb.board_id = bj.board_id
+                             WHERE
+                             <trim prefixOverrides="OR">
+                                 <if test="searchType == 'all' or searchType == 'boardTitle'">
+                                     board_title LIKE CONCAT('%', #{keyword}, '%')
+                                 </if>
+                                 <if test="searchType == 'all' or searchType == 'boardContent'">
+                                     OR board_content LIKE CONCAT('%', #{keyword}, '%')
+                                 </if>
+                             </trim>
+                             GROUP BY sb.board_id
+                             ORDER BY sb.board_id DESC
+                             LIMIT #{offset}, 10
+                 </script>
             """)
     List<Board> selectBoardPage(Integer offset, String searchType, String keyword);
 

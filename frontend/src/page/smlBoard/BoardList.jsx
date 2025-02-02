@@ -134,6 +134,7 @@ export function BoardList() {
               <Table.ColumnHeader textAlign="center">
                 작성일시
               </Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="center">참여자</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -155,6 +156,9 @@ export function BoardList() {
                 <Table.Cell textAlign="center">{board.boardWriter}</Table.Cell>
                 <Table.Cell textAlign="center">
                   {board.inserted.replace("T", " ")}
+                </Table.Cell>
+                <Table.Cell textAlign="center">
+                  {board.boardCountJoin > 0 ? board.boardCountJoin : "0"}
                 </Table.Cell>
               </Table.Row>
             ))}

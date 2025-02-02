@@ -14,4 +14,5 @@ public class Board {
     private LocalDateTime inserted;
     private String memberId;
     private Integer boardCountComment;
+    private Integer boardCountJoin;
 }
