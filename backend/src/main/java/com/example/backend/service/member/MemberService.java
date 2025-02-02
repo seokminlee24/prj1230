@@ -1,9 +1,11 @@
 package com.example.backend.service.member;
 
 import com.example.backend.dto.member.Member;
+import com.example.backend.mapper.boardComment.BoardCommentMapper;
 import com.example.backend.mapper.inquire.InquireMapper;
 import com.example.backend.mapper.inquireComment.InquireCommentMapper;
 import com.example.backend.mapper.member.MemberMapper;
+import com.example.backend.mapper.smlBoard.SmlBoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -25,6 +27,8 @@ public class MemberService {
     final JwtEncoder jwtEncoder;
     private final InquireMapper inquireMapper;
     private final InquireCommentMapper inquireCommentMapper;
+    private final SmlBoardMapper smlBoardMapper;
+    private final BoardCommentMapper boardCommentMapper;
 
     //회원 가입
     public boolean MemberAdd(Member member) {
@@ -70,6 +74,10 @@ public class MemberService {
 
         if (db != null) {
             if (db.getPassword().equals(member.getPassword())) {
+
+                // 참여글 댓글 지우기
+
+                // 쓴 참여글 목록 억기
 
                 // 댓글 지우기
                 inquireCommentMapper.deleteByMemberId(member.getMemberId());
