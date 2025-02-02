@@ -113,8 +113,8 @@ export function BoardInfo() {
         </Box>
 
         {/* 참가 버튼과 참여자 수 */}
-        {id && (
-          <HStack spacing={4}>
+        <HStack spacing={4}>
+          {id && (
             <Button
               onClick={handleJoinClick}
               colorScheme={join.join ? "red" : "blue"}
@@ -123,11 +123,11 @@ export function BoardInfo() {
             >
               {join.join ? "참가취소" : "참가"}
             </Button>
-            <Text fontSize="sm" color="gray.600">
-              참여자 수: {join.count}
-            </Text>
-          </HStack>
-        )}
+          )}
+          <Text fontSize="sm" color="gray.600">
+            참여자 수: {join.count}
+          </Text>
+        </HStack>
       </HStack>
       <hr />
       <Stack spacing={5} mt={4}>

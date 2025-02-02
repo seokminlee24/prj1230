@@ -78,17 +78,21 @@ public class MemberService {
                 // 참여글 댓글 지우기
                 boardCommentMapper.deleteByMemberId(member.getMemberId());
 
+                // 좋아요 지우기
+                smlBoardMapper.deleteJoinByMemberId(member.getMemberId());
+
                 // 쓴 참여글 목록 억기
                 List<Integer> boards = smlBoardMapper.selectByWriter(member.getMemberId());
                 for (Integer boardId : boards) {
                     // 댓글 지우기
                     boardCommentMapper.deleteByBoardId(boardId);
+
+                    // 좋아요 지우기
+                    smlBoardMapper.deleteJoinByBoardId(boardId);
+
                     // 각 참여글 지우기
                     smlBoardMapper.deleteBoardId(boardId);
                 }
-
-                // 좋아요 지우기
-                smlBoardMapper.deleteJoinByMemberId(member.getMemberId());
 
                 // 댓글 지우기
                 inquireCommentMapper.deleteByMemberId(member.getMemberId());
