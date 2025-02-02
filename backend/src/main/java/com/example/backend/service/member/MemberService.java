@@ -76,8 +76,16 @@ public class MemberService {
             if (db.getPassword().equals(member.getPassword())) {
 
                 // 참여글 댓글 지우기
+                boardCommentMapper.deleteByMemberId(member.getMemberId());
 
                 // 쓴 참여글 목록 억기
+                List<Integer> boards = smlBoardMapper.selectByWriter(member.getMemberId());
+                for (Integer boardId : boards) {
+                    // 댓글 지우기
+                    boardCommentMapper.deleteByBoardId(boardId);
+                    // 각 참여글 지우기
+                    smlBoardMapper.deleteBoardId(boardId);
+                }
 
                 // 댓글 지우기
                 inquireCommentMapper.deleteByMemberId(member.getMemberId());
