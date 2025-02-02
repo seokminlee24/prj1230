@@ -1,4 +1,4 @@
-import { Badge, Box, Heading, HStack, Input, Table } from "@chakra-ui/react";
+import { Badge, Box, Flex, HStack, Input, Table, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -91,10 +91,33 @@ export function BoardList() {
 
   return (
     <Box>
-      <Heading>참여글 리스트</Heading>
-      <Box>
-        <Button onClick={handleGoBoardAdd}>참여글 작성</Button>
-      </Box>
+      <Flex justify="space-between" align="center" width="100%">
+        <Text fontSize="2xl" fontWeight="bold">
+          참여글
+        </Text>
+        <Button onClick={handleGoBoardAdd}>문의글 작성</Button>
+      </Flex>
+      <HStack m={4}>
+        <Box>
+          <select
+            value={search.type}
+            onChange={(e) => setSearch({ ...search, type: e.target.value })}
+          >
+            <option value={"all"}>전체</option>
+            <option value={"boardTitle"}>제목</option>
+            <option value={"boardContent"}>내용</option>
+            <option value={"board"}>내용</option>
+          </select>
+        </Box>
+        <Input
+          value={search.keyword}
+          placeholder="검색어를 입력해 주세요."
+          onChange={(e) =>
+            setSearch({ ...search, keyword: e.target.value.trim() })
+          }
+        />
+        <Button onClick={handleSearchClick}>검색</Button>
+      </HStack>
       <Table.Root interactive>
         <Table.Header>
           <Table.Row>
@@ -128,27 +151,6 @@ export function BoardList() {
           ))}
         </Table.Body>
       </Table.Root>
-      <HStack>
-        <Box>
-          <select
-            value={search.type}
-            onChange={(e) => setSearch({ ...search, type: e.target.value })}
-          >
-            <option value={"all"}>전체</option>
-            <option value={"boardTitle"}>제목</option>
-            <option value={"boardContent"}>내용</option>
-            <option value={"board"}>내용</option>
-          </select>
-        </Box>
-        <Input
-          value={search.keyword}
-          placeholder="검색어를 입력해 주세요."
-          onChange={(e) =>
-            setSearch({ ...search, keyword: e.target.value.trim() })
-          }
-        />
-        <Button onClick={handleSearchClick}>검색</Button>
-      </HStack>
       <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
         {count > 0 && (
           <PaginationRoot
