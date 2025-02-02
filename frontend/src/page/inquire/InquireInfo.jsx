@@ -1,9 +1,11 @@
 import {
   Box,
+  Flex,
   Heading,
   Input,
   Spinner,
   Stack,
+  Text,
   Textarea,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -77,60 +79,97 @@ export function InquireInfo() {
   const canEditOrDelete = isAdmin || id === inquire.memberId;
 
   return (
-    <Box>
-      <Heading>{inquireId}번 게시물</Heading>
-      <Stack gap={5}>
-        <Field label="문의 유형" readOnly>
-          <Input value={categoryMap[inquire.inquireCategory]} width="100px" />
-        </Field>
-        <Field label="제목" readOnly>
-          <Input value={inquire.inquireTitle} />
-        </Field>
-        <Field label="문의 내용" readOnly>
-          <Textarea value={inquire.inquireContent} />
-        </Field>
-        <Field label="작성자" readOnly>
-          <Input value={inquire.inquireWriter} />
-        </Field>
-        <Field label="작성일시" readOnly>
-          <Input value={inquire.inserted} type={"datetime-local"} />
-        </Field>
-      </Stack>
-      {canEditOrDelete && (
-        <Box>
-          <DialogRoot>
-            <DialogTrigger asChild>
-              <Button colorPalette={"red"} variant={"outline"}>
-                삭제
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>삭제 확인</DialogHeader>
-              <DialogBody>
-                <p>{inquire.inquireId}번 삭제하시겠습니까?</p>
-              </DialogBody>
-              <DialogFooter>
-                <DialogActionTrigger>
-                  <Button variant={"outline"}>취소</Button>
-                </DialogActionTrigger>
-                <Button colorPalette={"red"} onClick={handleDeleteClick}>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+    >
+      <Box width="500px" p={5} boxShadow="lg" borderRadius="md" bg="white">
+        <Heading textAlign="center" mb={4}>
+          문의 상세 보기
+        </Heading>
+        <Stack gap={5}>
+          <Flex justify="space-between" align="center">
+            <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+              문의 유형
+            </Text>
+            <Field readOnly>
+              <Input
+                value={categoryMap[inquire.inquireCategory]}
+                width="100px"
+                mr={4}
+              />
+            </Field>
+          </Flex>
+          <Flex justify="space-between" align="center">
+            <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+              문의 제목
+            </Text>
+            <Field readOnly>
+              <Input value={inquire.inquireTitle} />
+            </Field>
+          </Flex>
+          <Flex justify="space-between" align="center">
+            <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+              작성자
+            </Text>
+            <Field readOnly>
+              <Input value={inquire.inquireWriter} />
+            </Field>
+          </Flex>
+          <Flex justify="space-between" align="center">
+            <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+              작성 일시
+            </Text>
+            <Field readOnly>
+              <Input value={inquire.inserted} type="datetime-local" />
+            </Field>
+          </Flex>
+          <Flex justify="space-between" align="center">
+            <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+              작성 일시
+            </Text>
+            <Field readOnly>
+              <Textarea value={inquire.inquireContent} />
+            </Field>
+          </Flex>
+        </Stack>
+        {canEditOrDelete && (
+          <Box mt={4} display="flex" justifyContent="space-between" w="100%">
+            <DialogRoot>
+              <DialogTrigger asChild>
+                <Button colorPalette="red" variant="outline" minW="100px">
                   삭제
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </DialogRoot>
-          <Button
-            colorPalette={"cyan"}
-            onClick={() => navigate(`/inquire/inquireEdit/${inquireId}`)}
-          >
-            수정
-          </Button>
-        </Box>
-      )}
-
-      <hr />
-
-      <InquireCommentContainer inquireId={inquire.inquireId} />
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>삭제 확인</DialogHeader>
+                <DialogBody>
+                  <p>{inquire.inquireId}번 삭제하시겠습니까?</p>
+                </DialogBody>
+                <DialogFooter>
+                  <DialogActionTrigger>
+                    <Button variant="outline">취소</Button>
+                  </DialogActionTrigger>
+                  <Button colorPalette="red" onClick={handleDeleteClick}>
+                    삭제
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
+            <Button
+              colorPalette="cyan"
+              minW="100px"
+              onClick={() => navigate(`/inquire/inquireEdit/${inquireId}`)}
+            >
+              수정
+            </Button>
+          </Box>
+        )}
+        <hr style={{ margin: "20px 0" }} />
+        <InquireCommentContainer inquireId={inquire.inquireId} />
+      </Box>
     </Box>
   );
 }
