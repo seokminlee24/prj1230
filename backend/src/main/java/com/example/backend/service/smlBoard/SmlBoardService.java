@@ -1,6 +1,7 @@
 package com.example.backend.service.smlBoard;
 
 import com.example.backend.dto.smlBoard.Board;
+import com.example.backend.mapper.boardComment.BoardCommentMapper;
 import com.example.backend.mapper.smlBoard.SmlBoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SmlBoardService {
     final SmlBoardMapper mapper;
+
+    private final BoardCommentMapper boardCommentMapper;
+
 
     public boolean boardAdd(Board board, Authentication authentication) {
         board.setBoardWriter(authentication.getName());
@@ -48,6 +52,9 @@ public class SmlBoardService {
     }
 
     public boolean boardRemove(int boardId) {
+        // 댓글 지우기
+        boardCommentMapper.deleteByBoardId(boardId);
+
         int cnt = mapper.deleteBoardId(boardId);
         return cnt == 1;
     }

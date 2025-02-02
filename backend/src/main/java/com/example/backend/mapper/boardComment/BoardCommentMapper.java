@@ -43,4 +43,10 @@ public interface BoardCommentMapper {
             WHERE board_comment_id = #{boardCommentId}
             """)
     int update(BoardComment boardComment);
+
+    @Delete("""
+            DELETE FROM board_comment
+            WHERE board_id=#{boardId}
+            """)
+    int deleteByBoardId(int boardId);
 }
