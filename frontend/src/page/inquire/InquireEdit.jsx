@@ -72,10 +72,13 @@ export function InquireEdit() {
   const canEdit = isAdmin || id === inquire.memberId;
 
   // 제목이나 본문이 비어있는 지 확인
-  const disabled = !(
-    inquire.inquireTitle.trim().length > 0 &&
-    inquire.inquireContent.trim().length > 0
-  );
+  const disabled =
+    inquire.inquireCategory === "" ||
+    inquire.inquireCategory === "문의 유형 선택" ||
+    !(
+      inquire.inquireTitle.trim().length > 0 &&
+      inquire.inquireContent.trim().length > 0
+    );
 
   return (
     <Center height="100vh">
