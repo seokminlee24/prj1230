@@ -55,6 +55,9 @@ public class SmlBoardService {
         // 댓글 지우기
         boardCommentMapper.deleteByBoardId(boardId);
 
+        // 좋아요 지우기
+        mapper.deleteJoinByBoardId(boardId);
+
         int cnt = mapper.deleteBoardId(boardId);
         return cnt == 1;
     }

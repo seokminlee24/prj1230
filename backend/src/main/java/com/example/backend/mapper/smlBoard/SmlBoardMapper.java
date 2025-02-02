@@ -115,4 +115,10 @@ public interface SmlBoardMapper {
               AND member_id = #{name}
             """)
     Map<String, Object> selectJoinByBoardIdAndMemberId(int boardId, String name);
+
+    @Delete("""
+            DELETE FROM board_join
+            WHERE board_id = #{boardId}
+            """)
+    int deleteJoinByBoardId(int boardId);
 }
