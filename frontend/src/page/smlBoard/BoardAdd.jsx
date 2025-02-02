@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Box, Heading, Input, Stack, Textarea } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Input,
+  Stack,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
@@ -10,7 +18,6 @@ export function BoardAdd() {
   const [boardTitle, setBoardTitle] = useState("");
   const [boardContent, setBoardContent] = useState("");
   const [boardPlace, setBoardPlace] = useState("");
-  const [boardWriter, setBoardWriter] = useState("");
   const [progress, setProgress] = useState(false);
   const navigate = useNavigate();
 
@@ -50,37 +57,58 @@ export function BoardAdd() {
   );
 
   return (
-    <Box>
-      <Heading>게시판 글 작성</Heading>
-      <Stack gap={5}>
-        <Field label={"제목"}>
-          <Input
-            value={boardTitle}
-            onChange={(e) => setBoardTitle(e.target.value)}
-          />
-        </Field>
-        <Field label={"본문"}>
-          <Textarea
-            value={boardContent}
-            onChange={(e) => setBoardContent(e.target.value)}
-          />
-        </Field>
-        <Field label={"장소"}>
-          <Input
-            value={boardPlace}
-            onChange={(e) => setBoardPlace(e.target.value)}
-          />
-        </Field>
-        <Box>
-          <Button
-            disabled={disabled}
-            loading={progress}
-            onClick={handleSaveClick}
-          >
-            저장
-          </Button>
-        </Box>
-      </Stack>
+    <Box display="flex" justifyContent="center">
+      <Box width="400px" p={5} boxShadow="md" borderRadius="md" bg="white">
+        <Heading mb={3} textAlign="center">
+          게시판 글 작성
+        </Heading>
+
+        <Stack gap={5}>
+          <hr />
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                제목
+              </Text>
+              <Input
+                value={boardTitle}
+                onChange={(e) => setBoardTitle(e.target.value)}
+              />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                본문
+              </Text>
+              <Textarea
+                value={boardContent}
+                onChange={(e) => setBoardContent(e.target.value)}
+              />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                장소
+              </Text>
+              <Input
+                value={boardPlace}
+                onChange={(e) => setBoardPlace(e.target.value)}
+              />
+            </Flex>
+          </Field>
+          <Box textAlign="center">
+            <Button
+              disabled={disabled}
+              loading={progress}
+              onClick={handleSaveClick}
+            >
+              저장
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
     </Box>
   );
 }
