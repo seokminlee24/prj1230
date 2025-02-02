@@ -1,4 +1,12 @@
-import { Box, Heading, Input, Spinner, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Input,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -66,59 +74,93 @@ export function MemberInfo() {
   const genderText = member.gender === "M" ? "남자" : "여자";
 
   return (
-    <Box>
-      <Heading>회원 정보</Heading>
-      <Stack gap={5}>
-        <Field label={"아이디"}>
-          <Input readOnly value={member.memberId} />
-        </Field>
-        <Field label={"암호"}>
-          <Input readOnly value={member.password} />
-        </Field>
-        <Field label={"닉네임"}>
-          <Input readOnly value={member.nickname} />
-        </Field>
-        <Field label={"성별"}>
-          <Input readOnly value={genderText} />
-        </Field>
-        <Field label={"비밀번호"}>
-          <Input type={"datetime-local"} readOnly value={member.inserted} />
-        </Field>
-        <Box>
-          <Button onClick={() => navigate(`/member/edit/${memberId}`)}>
-            수정
-          </Button>
-          <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-            <DialogTrigger asChild>
-              <Button colorPalette={"red"}>탈퇴</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>탈퇴 확인</DialogTitle>
-              </DialogHeader>
-              <DialogBody>
-                <Stack gap={5}>
-                  <Field label={"비밀번호"}>
-                    <Input
-                      placeholder={"비밀번호를 입력해주세요."}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </Field>
-                </Stack>
-              </DialogBody>
-              <DialogFooter>
-                <DialogActionTrigger>
-                  <Button variant={"outline"}>취소</Button>
-                </DialogActionTrigger>
-                <Button colorPalette={"red"} onClick={handleDeleteClick}>
-                  탈퇴
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </DialogRoot>
-        </Box>
-      </Stack>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+    >
+      <Box width="500px" p={5} boxShadow="lg" borderRadius="md" bg="white">
+        <Heading textAlign="center" mb={4}>
+          회원 정보
+        </Heading>
+        <Stack gap={5}>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                아이디
+              </Text>
+              <Input readOnly value={member.memberId} />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                암호
+              </Text>
+              <Input readOnly value={member.password} />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                별명
+              </Text>
+              <Input readOnly value={member.nickname} />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                성별
+              </Text>
+              <Input readOnly value={genderText} />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                가입일
+              </Text>
+              <Input type={"datetime-local"} readOnly value={member.inserted} />
+            </Flex>
+          </Field>
+          <Box display="flex" justifyContent="space-between">
+            <Button onClick={() => navigate(`/member/edit/${memberId}`)}>
+              수정
+            </Button>
+            <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+              <DialogTrigger asChild>
+                <Button colorPalette={"red"}>탈퇴</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>탈퇴 확인</DialogTitle>
+                </DialogHeader>
+                <DialogBody>
+                  <Stack gap={5}>
+                    <Field label={"비밀번호"}>
+                      <Input
+                        placeholder={"비밀번호를 입력해주세요."}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </Field>
+                  </Stack>
+                </DialogBody>
+                <DialogFooter>
+                  <DialogActionTrigger>
+                    <Button variant={"outline"}>취소</Button>
+                  </DialogActionTrigger>
+                  <Button colorPalette={"red"} onClick={handleDeleteClick}>
+                    탈퇴
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
+          </Box>
+        </Stack>
+      </Box>
     </Box>
   );
 }
