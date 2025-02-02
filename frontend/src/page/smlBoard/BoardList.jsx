@@ -90,82 +90,92 @@ export function BoardList() {
   }
 
   return (
-    <Box>
-      <Flex justify="space-between" align="center" width="100%">
-        <Text fontSize="2xl" fontWeight="bold">
-          참여글
-        </Text>
-        <Button onClick={handleGoBoardAdd}>문의글 작성</Button>
-      </Flex>
-      <HStack m={4}>
-        <Box>
-          <select
-            value={search.type}
-            onChange={(e) => setSearch({ ...search, type: e.target.value })}
-          >
-            <option value={"all"}>전체</option>
-            <option value={"boardTitle"}>제목</option>
-            <option value={"boardContent"}>내용</option>
-            <option value={"board"}>내용</option>
-          </select>
-        </Box>
-        <Input
-          value={search.keyword}
-          placeholder="검색어를 입력해 주세요."
-          onChange={(e) =>
-            setSearch({ ...search, keyword: e.target.value.trim() })
-          }
-        />
-        <Button onClick={handleSearchClick}>검색</Button>
-      </HStack>
-      <Table.Root interactive>
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader textAlign="center">번호</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center">제목</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center">작성자</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center">작성일시</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {boardList.map((board) => (
-            <Table.Row
-              onClick={() => handleRowClick(board.boardId)}
-              key={board.boardId}
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+      textAlign="center"
+    >
+      <Box width="100%" maxWidth="900px">
+        <Flex justify="space-between" align="center" width="100%">
+          <Text fontSize="2xl" fontWeight="bold">
+            참여글
+          </Text>
+          <Button onClick={handleGoBoardAdd}>문의글 작성</Button>
+        </Flex>
+        <HStack m={4}>
+          <Box>
+            <select
+              value={search.type}
+              onChange={(e) => setSearch({ ...search, type: e.target.value })}
             >
-              <Table.Cell textAlign="center">{board.boardId}</Table.Cell>
-              <Table.Cell textAlign="center">
-                {board.boardTitle}
-                {board.boardCountComment > 0 && (
-                  <Badge variant={"subtle"} colorPalette={"green"}>
-                    <FaCommentDots />
-                    {board.boardCountComment}
-                  </Badge>
-                )}
-              </Table.Cell>
-              <Table.Cell textAlign="center">{board.boardWriter}</Table.Cell>
-              <Table.Cell textAlign="center">
-                {board.inserted.replace("T", " ")}
-              </Table.Cell>
+              <option value={"all"}>전체</option>
+              <option value={"boardTitle"}>제목</option>
+              <option value={"boardContent"}>내용</option>
+              <option value={"board"}>내용</option>
+            </select>
+          </Box>
+          <Input
+            value={search.keyword}
+            placeholder="검색어를 입력해 주세요."
+            onChange={(e) =>
+              setSearch({ ...search, keyword: e.target.value.trim() })
+            }
+          />
+          <Button onClick={handleSearchClick}>검색</Button>
+        </HStack>
+        <Table.Root interactive>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader textAlign="center">번호</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="center">제목</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="center">작성자</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="center">
+                작성일시
+              </Table.ColumnHeader>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-      <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
-        {count > 0 && (
-          <PaginationRoot
-            onPageChange={handlePageChange}
-            count={count}
-            pageSize={10}
-            page={page}
-          >
-            <HStack>
-              <PaginationPrevTrigger />
-              <PaginationItems />
-              <PaginationNextTrigger />
-            </HStack>
-          </PaginationRoot>
-        )}
+          </Table.Header>
+          <Table.Body>
+            {boardList.map((board) => (
+              <Table.Row
+                onClick={() => handleRowClick(board.boardId)}
+                key={board.boardId}
+              >
+                <Table.Cell textAlign="center">{board.boardId}</Table.Cell>
+                <Table.Cell textAlign="center">
+                  {board.boardTitle}
+                  {board.boardCountComment > 0 && (
+                    <Badge variant={"subtle"} colorPalette={"green"}>
+                      <FaCommentDots />
+                      {board.boardCountComment}
+                    </Badge>
+                  )}
+                </Table.Cell>
+                <Table.Cell textAlign="center">{board.boardWriter}</Table.Cell>
+                <Table.Cell textAlign="center">
+                  {board.inserted.replace("T", " ")}
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+        <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
+          {count > 0 && (
+            <PaginationRoot
+              onPageChange={handlePageChange}
+              count={count}
+              pageSize={10}
+              page={page}
+            >
+              <HStack>
+                <PaginationPrevTrigger />
+                <PaginationItems />
+                <PaginationNextTrigger />
+              </HStack>
+            </PaginationRoot>
+          )}
+        </Box>
       </Box>
     </Box>
   );
