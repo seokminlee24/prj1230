@@ -102,7 +102,7 @@ export function BoardList() {
           <Text fontSize="2xl" fontWeight="bold">
             참여글
           </Text>
-          <Button onClick={handleGoBoardAdd}>문의글 작성</Button>
+          <Button onClick={handleGoBoardAdd}>참여글 작성</Button>
         </Flex>
         <HStack m={4}>
           <Box>
