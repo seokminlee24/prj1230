@@ -1,7 +1,16 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Group, Heading, Input, Spinner, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Group,
+  Heading,
+  Input,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { Field } from "../../components/ui/field.jsx";
 import {
   DialogActionTrigger,
@@ -108,64 +117,95 @@ export function MemberEdit() {
   const genderText = member.gender === "M" ? "남자" : "여자";
 
   return (
-    <Box>
-      <Heading>회원 정보 수정</Heading>
-      <Stack gap={5}>
-        <Field readOnly label={"아이디"}>
-          <Input defaultValue={member.memberId} />
-        </Field>
-        <Field label={"비밀번호"}>
-          <Input
-            Value={member.password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Field>
-        <Field label={"별명"}>
-          <Group attached w={"100%"}>
-            <Input
-              Value={member.nickname}
-              onChange={(e) => setNickname(e.target.value)}
-            />
-            <Button onClick={handleNicknameCheckClick} variant={"outline"}>
-              중복확인
-            </Button>
-          </Group>
-        </Field>
-        <Field readOnly label={"성별"}>
-          <Input Value={genderText} />
-        </Field>
-        <Box>
-          <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-            <DialogTrigger asChild>
-              <Button colorPalette={"blue"}>저장</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>회원 정보 변경 확인</DialogTitle>
-              </DialogHeader>
-              <DialogBody>
-                <Stack gap={5}>
-                  <Field label={"기존 암호"}>
-                    <Input
-                      placeholder={"기존 암호를 입력해주세요."}
-                      value={oldPassword}
-                      onChange={(e) => setOldPassword(e.target.value)}
-                    />
-                  </Field>
-                </Stack>
-              </DialogBody>
-              <DialogFooter>
-                <DialogActionTrigger>
-                  <Button variant={"outline"}>취소</Button>
-                </DialogActionTrigger>
-                <Button colorPalette={"blue"} onClick={handleSaveClick}>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+    >
+      <Box width="500px" p={5} boxShadow="lg" borderRadius="md" bg="white">
+        <Heading textAlign="center" mb={4}>
+          회원 정보 수정
+        </Heading>
+        <Stack gap={5}>
+          <Field readOnly>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                아이디
+              </Text>
+              <Input defaultValue={member.memberId} />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                암호
+              </Text>
+              <Input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                별명
+              </Text>
+              <Group attached w={"100%"}>
+                <Input
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                />
+                <Button onClick={handleNicknameCheckClick} variant={"outline"}>
+                  중복확인
+                </Button>
+              </Group>
+            </Flex>
+          </Field>
+          <Field>
+            <Flex justify="space-between" align="center" w={"100%"}>
+              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+                성별
+              </Text>
+              <Input value={genderText} />
+            </Flex>
+          </Field>
+          <Box textAlign="center">
+            <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+              <DialogTrigger asChild>
+                <Button w={"100%"} colorPalette={"blue"}>
                   저장
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </DialogRoot>
-        </Box>
-      </Stack>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>회원 정보 변경 확인</DialogTitle>
+                </DialogHeader>
+                <DialogBody>
+                  <Stack gap={5}>
+                    <Field label={"기존 암호"}>
+                      <Input
+                        placeholder={"기존 암호를 입력해주세요."}
+                        value={oldPassword}
+                        onChange={(e) => setOldPassword(e.target.value)}
+                      />
+                    </Field>
+                  </Stack>
+                </DialogBody>
+                <DialogFooter>
+                  <DialogActionTrigger>
+                    <Button variant={"outline"}>취소</Button>
+                  </DialogActionTrigger>
+                  <Button colorPalette={"blue"} onClick={handleSaveClick}>
+                    저장
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
+          </Box>
+        </Stack>
+      </Box>
     </Box>
   );
 }
