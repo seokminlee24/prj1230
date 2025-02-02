@@ -97,7 +97,7 @@ export function InquireInfo() {
             <Field readOnly>
               <Input
                 value={categoryMap[inquire.inquireCategory]}
-                width="100px"
+                width="130px"
                 mr={4}
               />
             </Field>
