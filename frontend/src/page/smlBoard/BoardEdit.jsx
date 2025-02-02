@@ -2,10 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
+  Flex,
   Heading,
   Input,
   Spinner,
   Stack,
+  Text,
   Textarea,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -77,40 +79,74 @@ export function BoardEdit() {
   );
 
   return (
-    <Box>
-      <Heading>참여글 수정</Heading>
-      <Stack gap={5}>
-        <Field label={"제목"}>
-          <Input
-            value={board.boardTitle}
-            onChange={(e) => setBoard({ ...board, boardTitle: e.target.value })}
-          />
+    <Box
+      maxWidth="800px"
+      mx="auto"
+      p={8}
+      boxShadow="lg"
+      borderRadius="lg"
+      bg="white"
+    >
+      <Heading textAlign="center" mb={5}>
+        참여글 수정
+      </Heading>
+      <Stack gap={6}>
+        <hr />
+        <Field>
+          <Flex justify="space-between" align="center" w={"100%"}>
+            <Text fontSize="md" fontWeight="bold" width="10%" ml={3}>
+              제목
+            </Text>
+            <Input
+              size="lg"
+              value={board.boardTitle}
+              onChange={(e) =>
+                setBoard({ ...board, boardTitle: e.target.value })
+              }
+            />
+          </Flex>
         </Field>
-        <Field label={"본문"}>
-          <Textarea
-            value={board.boardContent}
-            onChange={(e) =>
-              setBoard({ ...board, boardContent: e.target.value })
-            }
-          />
+        <Field>
+          <Flex justify="space-between" align="center" w={"100%"}>
+            <Text fontSize="md" fontWeight="bold" width="10%" ml={3}>
+              본문
+            </Text>
+            <Textarea
+              size="lg"
+              height="200px"
+              value={board.boardContent}
+              onChange={(e) =>
+                setBoard({ ...board, boardContent: e.target.value })
+              }
+            />
+          </Flex>
         </Field>
-        <Field label={"장소"}>
-          <Input
-            value={board.boardPlace}
-            onChange={(e) => setBoard({ ...board, boardPlace: e.target.value })}
-          />
+        <Field>
+          <Flex justify="space-between" align="center" w={"100%"}>
+            <Text fontSize="md" fontWeight="bold" width="10%" ml={3}>
+              장소
+            </Text>
+            <Input
+              size="lg"
+              value={board.boardPlace}
+              onChange={(e) =>
+                setBoard({ ...board, boardPlace: e.target.value })
+              }
+            />
+          </Flex>
         </Field>
         {canEdit && (
-          <Box>
+          <Box textAlign="center">
             <DialogRoot
               open={dialogOpen}
               onOpenChange={(e) => setDialogOpen(e.open)}
             >
               <DialogTrigger asChild>
                 <Button
+                  w={"75%"}
                   disabled={disabled}
-                  colorPalette={"cyan"}
-                  variant={"outline"}
+                  colorPalette="cyan"
+                  variant="outline"
                 >
                   저장
                 </Button>
@@ -122,11 +158,11 @@ export function BoardEdit() {
                 </DialogBody>
                 <DialogFooter>
                   <DialogActionTrigger>
-                    <Button variant={"outline"}>취소</Button>
+                    <Button variant="outline">취소</Button>
                   </DialogActionTrigger>
                   <Button
                     loading={progress}
-                    colorPalette={"blue"}
+                    colorPalette="blue"
                     onClick={handleSaveClick}
                   >
                     저장
