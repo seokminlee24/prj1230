@@ -113,102 +113,112 @@ export function InquireList() {
   }
 
   return (
-    <Box>
-      <Flex justify="space-between" align="center">
-        <Text fontSize="2xl" fontWeight="bold">
-          1:1 문의 내역
-        </Text>
-        <Button onClick={handleGoInquireAdd}>문의글 작성</Button>
-      </Flex>
-      <HStack m={4}>
-        <Box>
-          <select
-            value={search.type}
-            onChange={(e) => setSearch({ ...search, type: e.target.value })}
-          >
-            <option value={"all"}>전체</option>
-            <option value={"inquireTitle"}>제목</option>
-            <option value={"inquireContent"}>내용</option>
-          </select>
-        </Box>
-        <Input
-          value={search.keyword}
-          placeholder="검색어를 입력해 주세요."
-          onChange={(e) =>
-            setSearch({ ...search, keyword: e.target.value.trim() })
-          }
-        />
-        <Button onClick={handleSearchClick}>검색</Button>
-      </HStack>
-      <hr />
-      <TableRoot interactive>
-        <TableHeader>
-          <TableRow>
-            <TableColumnHeader textAlign="center">번호</TableColumnHeader>
-            <TableColumnHeader textAlign="center">제목</TableColumnHeader>
-            <TableColumnHeader textAlign="center">작성자</TableColumnHeader>
-            <TableColumnHeader textAlign="center">문의유형</TableColumnHeader>
-            <TableColumnHeader textAlign="center">작성일시</TableColumnHeader>
-            <TableColumnHeader textAlign="center">상태</TableColumnHeader>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {inquireList.length === 0 ? (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+      textAlign="center"
+    >
+      <Box width="100%" maxWidth="900px">
+        <Flex justify="space-between" align="center" width="100%">
+          <Text fontSize="2xl" fontWeight="bold">
+            1:1 문의 내역
+          </Text>
+          <Button onClick={handleGoInquireAdd}>문의글 작성</Button>
+        </Flex>
+        <HStack m={4} justify="center" width="100%">
+          <Box>
+            <select
+              value={search.type}
+              onChange={(e) => setSearch({ ...search, type: e.target.value })}
+            >
+              <option value={"all"}>전체</option>
+              <option value={"inquireTitle"}>제목</option>
+              <option value={"inquireContent"}>내용</option>
+            </select>
+          </Box>
+          <Input
+            value={search.keyword}
+            placeholder="검색어를 입력해 주세요."
+            onChange={(e) =>
+              setSearch({ ...search, keyword: e.target.value.trim() })
+            }
+          />
+          <Button onClick={handleSearchClick}>검색</Button>
+        </HStack>
+        <hr />
+        <TableRoot interactive width="100%">
+          <TableHeader>
             <TableRow>
-              <TableCell colSpan={6} textAlign="center">
-                문의 글이 없거나 검색조회시 없습니다.
-              </TableCell>
+              <TableColumnHeader textAlign="center">번호</TableColumnHeader>
+              <TableColumnHeader textAlign="center">제목</TableColumnHeader>
+              <TableColumnHeader textAlign="center">작성자</TableColumnHeader>
+              <TableColumnHeader textAlign="center">문의유형</TableColumnHeader>
+              <TableColumnHeader textAlign="center">작성일시</TableColumnHeader>
+              <TableColumnHeader textAlign="center">상태</TableColumnHeader>
             </TableRow>
-          ) : (
-            inquireList.map((inquire) => (
-              <TableRow
-                onClick={() => handleRowClick(inquire.inquireId)}
-                key={inquire.inquireId}
-              >
-                <TableCell textAlign="center">{inquire.inquireId}</TableCell>
-                <TableCell textAlign="center">{inquire.inquireTitle}</TableCell>
-                <TableCell textAlign="center">
-                  {inquire.inquireWriter}
-                </TableCell>
-                <TableCell textAlign="center">
-                  {categoryMap[inquire.inquireCategory]}
-                </TableCell>
-                <TableCell textAlign="center">
-                  {inquire.inserted.replace("T", " ")}
-                </TableCell>
-                <TableCell textAlign="center">
-                  {inquire.inquireCountComment > 0 ? (
-                    <Badge variant={"subtle"} colorScheme={"green"}>
-                      <FaCommentDots />
-                      답변 완료
-                    </Badge>
-                  ) : (
-                    <Badge variant={"subtle"} colorScheme={"red"}>
-                      <FaCommentDots />
-                      답변 대기
-                    </Badge>
-                  )}
+          </TableHeader>
+          <TableBody>
+            {inquireList.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} textAlign="center">
+                  문의 글이 없거나 검색조회시 없습니다.
                 </TableCell>
               </TableRow>
-            ))
+            ) : (
+              inquireList.map((inquire) => (
+                <TableRow
+                  onClick={() => handleRowClick(inquire.inquireId)}
+                  key={inquire.inquireId}
+                >
+                  <TableCell textAlign="center">{inquire.inquireId}</TableCell>
+                  <TableCell textAlign="center">
+                    {inquire.inquireTitle}
+                  </TableCell>
+                  <TableCell textAlign="center">
+                    {inquire.inquireWriter}
+                  </TableCell>
+                  <TableCell textAlign="center">
+                    {categoryMap[inquire.inquireCategory]}
+                  </TableCell>
+                  <TableCell textAlign="center">
+                    {inquire.inserted.replace("T", " ")}
+                  </TableCell>
+                  <TableCell textAlign="center">
+                    {inquire.inquireCountComment > 0 ? (
+                      <Badge variant={"subtle"} colorScheme={"green"}>
+                        <FaCommentDots />
+                        답변 완료
+                      </Badge>
+                    ) : (
+                      <Badge variant={"subtle"} colorScheme={"red"}>
+                        <FaCommentDots />
+                        답변 대기
+                      </Badge>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </TableRoot>
+        <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
+          {count > 0 && (
+            <PaginationRoot
+              onPageChange={handlePageChange}
+              count={count}
+              pageSize={10}
+              page={page}
+            >
+              <HStack>
+                <PaginationPrevTrigger />
+                <PaginationItems />
+                <PaginationNextTrigger />
+              </HStack>
+            </PaginationRoot>
           )}
-        </TableBody>
-      </TableRoot>
-      <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
-        {count > 0 && (
-          <PaginationRoot
-            onPageChange={handlePageChange}
-            count={count}
-            pageSize={10}
-            page={page}
-          >
-            <HStack>
-              <PaginationPrevTrigger />
-              <PaginationItems />
-              <PaginationNextTrigger />
-            </HStack>
-          </PaginationRoot>
-        )}
+        </Box>
       </Box>
     </Box>
   );
