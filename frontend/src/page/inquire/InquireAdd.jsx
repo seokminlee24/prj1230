@@ -51,9 +51,10 @@ export function InquireAdd() {
       });
   };
 
-  const disabled = !(
-    inquireTitle.trim().length > 0 && inquireContent.trim().length > 0
-  );
+  const disabled =
+    inquireCategory === "" ||
+    inquireCategory === "문의 유형 선택" ||
+    !(inquireTitle.trim().length > 0 && inquireContent.trim().length > 0);
 
   return (
     <Box
