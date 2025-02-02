@@ -78,7 +78,7 @@ export function BoardAdd() {
                 제목
               </Text>
               <Input
-                width="90%"
+                width="100%"
                 value={boardTitle}
                 onChange={(e) => setBoardTitle(e.target.value)}
               />
@@ -90,7 +90,7 @@ export function BoardAdd() {
                 본문
               </Text>
               <Textarea
-                width="90%"
+                width="100%"
                 value={boardContent}
                 onChange={(e) => setBoardContent(e.target.value)}
               />
@@ -102,7 +102,7 @@ export function BoardAdd() {
                 장소
               </Text>
               <Input
-                width="90%"
+                width="100%"
                 value={boardPlace}
                 onChange={(e) => setBoardPlace(e.target.value)}
               />
