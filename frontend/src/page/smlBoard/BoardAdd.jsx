@@ -58,41 +58,51 @@ export function BoardAdd() {
 
   return (
     <Box display="flex" justifyContent="center">
-      <Box width="400px" p={5} boxShadow="md" borderRadius="md" bg="white">
-        <Heading mb={3} textAlign="center">
+      <Box
+        width="90%"
+        maxWidth="600px"
+        p={6}
+        boxShadow="lg"
+        borderRadius="lg"
+        bg="white"
+      >
+        <Heading mb={4} textAlign="center">
           게시판 글 작성
         </Heading>
 
-        <Stack gap={5}>
+        <Stack gap={6}>
           <hr />
           <Field>
-            <Flex justify="space-between" align="center" w={"100%"}>
-              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+            <Flex justify="space-between" align="center" w="100%">
+              <Text fontSize="md" fontWeight="bold" width="20%" ml={3}>
                 제목
               </Text>
               <Input
+                width="75%"
                 value={boardTitle}
                 onChange={(e) => setBoardTitle(e.target.value)}
               />
             </Flex>
           </Field>
           <Field>
-            <Flex justify="space-between" align="center" w={"100%"}>
-              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+            <Flex justify="space-between" align="center" w="100%">
+              <Text fontSize="md" fontWeight="bold" width="20%" ml={3}>
                 본문
               </Text>
               <Textarea
+                width="75%"
                 value={boardContent}
                 onChange={(e) => setBoardContent(e.target.value)}
               />
             </Flex>
           </Field>
           <Field>
-            <Flex justify="space-between" align="center" w={"100%"}>
-              <Text fontSize="md" fontWeight="bold" width="23%" ml={3}>
+            <Flex justify="space-between" align="center" w="100%">
+              <Text fontSize="md" fontWeight="bold" width="20%" ml={3}>
                 장소
               </Text>
               <Input
+                width="75%"
                 value={boardPlace}
                 onChange={(e) => setBoardPlace(e.target.value)}
               />
