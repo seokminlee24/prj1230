@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Center,
@@ -182,6 +182,9 @@ export function InquireEdit() {
               </DialogRoot>
             </Box>
           )}
+          <Box textAlign="end" mt={3}>
+            <Link to={`/inquire/${inquire.inquireId}`}>문의 상세 보기</Link>
+          </Box>
         </Stack>
       </Box>
     </Center>
