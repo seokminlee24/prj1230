@@ -1,4 +1,4 @@
-import { Box, HStack, Input, Table } from "@chakra-ui/react";
+import { Box, HStack, Input, Table, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -86,79 +86,87 @@ export function MemberList() {
   }
 
   return (
-    <Box>
-      <h3>회원 목록</h3>
-
-      <Table.Root interactive>
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center">닉네임</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center">비밀번호</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="center">
-              가입 날짜
-            </Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {memberList.length === 0 ? (
+    <Box display="flex" justifyContent="center" alignItems="center">
+      <Box width="80%" maxWidth="1200px">
+        {" "}
+        {/* 테이블의 최대 너비를 설정 */}
+        <Text fontSize="2xl" fontWeight="bold" textAlign="center">
+          회원가입 리스트
+        </Text>
+        <HStack m={4}>
+          <Box>
+            <select
+              value={search.type}
+              onChange={(e) => setSearch({ ...search, type: e.target.value })}
+            >
+              <option value={"all"}>전체</option>
+              <option value={"memberId"}>아이디</option>
+              <option value={"nickname"}>별명</option>
+            </select>
+          </Box>
+          <Input
+            value={search.keyword}
+            placeholder="검색어를 입력해 주세요."
+            onChange={(e) =>
+              setSearch({ ...search, keyword: e.target.value.trim() })
+            }
+          />
+          <Button onClick={handleSearchClick}>검색</Button>
+        </HStack>
+        <hr />
+        <Table.Root interactive>
+          <Table.Header>
             <Table.Row>
-              <Table.Cell colSpan={4} textAlign="center">
-                회원 가입자 및 조회된 결과가 없습니다.
-              </Table.Cell>
+              <Table.ColumnHeader textAlign="center">ID</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="center">닉네임</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="center">
+                비밀번호
+              </Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="center">
+                가입 날짜
+              </Table.ColumnHeader>
             </Table.Row>
-          ) : (
-            memberList.map((member) => (
-              <Table.Row
-                onClick={() => handleRowClick(member.memberId)}
-                key={member.memberId}
-              >
-                <Table.Cell textAlign="center">{member.memberId}</Table.Cell>
-                <Table.Cell textAlign="center">{member.nickname}</Table.Cell>
-                <Table.Cell textAlign="center">{member.password}</Table.Cell>
-                <Table.Cell textAlign="center">
-                  {member.inserted.replace("T", " ")}
+          </Table.Header>
+          <Table.Body>
+            {memberList.length === 0 ? (
+              <Table.Row>
+                <Table.Cell colSpan={4} textAlign="center">
+                  회원 가입자 및 조회된 결과가 없습니다.
                 </Table.Cell>
               </Table.Row>
-            ))
+            ) : (
+              memberList.map((member) => (
+                <Table.Row
+                  onClick={() => handleRowClick(member.memberId)}
+                  key={member.memberId}
+                >
+                  <Table.Cell textAlign="center">{member.memberId}</Table.Cell>
+                  <Table.Cell textAlign="center">{member.nickname}</Table.Cell>
+                  <Table.Cell textAlign="center">{member.password}</Table.Cell>
+                  <Table.Cell textAlign="center">
+                    {member.inserted.replace("T", " ")}
+                  </Table.Cell>
+                </Table.Row>
+              ))
+            )}
+          </Table.Body>
+        </Table.Root>
+        <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
+          {count > 0 && (
+            <PaginationRoot
+              onPageChange={handlePageChange}
+              count={count}
+              pageSize={10}
+              page={page}
+            >
+              <HStack>
+                <PaginationPrevTrigger />
+                <PaginationItems />
+                <PaginationNextTrigger />
+              </HStack>
+            </PaginationRoot>
           )}
-        </Table.Body>
-      </Table.Root>
-      <HStack>
-        <Box>
-          <select
-            value={search.type}
-            onChange={(e) => setSearch({ ...search, type: e.target.value })}
-          >
-            <option value={"all"}>전체</option>
-            <option value={"memberId"}>아이디</option>
-            <option value={"nickname"}>별명</option>
-          </select>
         </Box>
-        <Input
-          value={search.keyword}
-          placeholder="검색어를 입력해 주세요."
-          onChange={(e) =>
-            setSearch({ ...search, keyword: e.target.value.trim() })
-          }
-        />
-        <Button onClick={handleSearchClick}>검색</Button>
-      </HStack>
-      <Box display="flex" justifyContent="center" alignItems="center" mt={4}>
-        {count > 0 && (
-          <PaginationRoot
-            onPageChange={handlePageChange}
-            count={count}
-            pageSize={10}
-            page={page}
-          >
-            <HStack>
-              <PaginationPrevTrigger />
-              <PaginationItems />
-              <PaginationNextTrigger />
-            </HStack>
-          </PaginationRoot>
-        )}
       </Box>
     </Box>
   );
