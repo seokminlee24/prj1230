@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Textarea } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, Textarea } from "@chakra-ui/react";
 import { Button } from "../ui/button.jsx";
 import { useContext, useState } from "react";
 import { AuthenticationContext } from "../context/AuthenticationProvider.jsx";
@@ -26,7 +26,7 @@ function DeleteButton({ onClick }) {
             <DialogTitle>삭제 확인</DialogTitle>
           </DialogHeader>
           <DialogBody>
-            <p>댓글을 삭제하시겠습니까?</p>
+            <Text>댓글을 삭제하시겠습니까?</Text>
           </DialogBody>
           <DialogFooter>
             <DialogActionTrigger>
@@ -59,6 +59,7 @@ function EditButton({ boardComment, onEditClick }) {
             <Textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
+              placeholder="댓글을 수정하세요"
             />
           </DialogBody>
           <DialogFooter>
@@ -85,26 +86,43 @@ export function BoardCommentItem({ boardComment, onDeleteClick, onEditClick }) {
   const { isAdmin, hasAccess, id } = useContext(AuthenticationContext);
 
   return (
-    <HStack border={"1px solid black"} m={5}>
+    <HStack
+      border={"1px solid #e2e8f0"}
+      borderRadius={"md"}
+      p={4}
+      m={3}
+      bg={"white"}
+      boxShadow={"md"}
+      spacing={4}
+      alignItems={"start"}
+    >
       <Box flex={1}>
-        <Flex justify={"space-between"}>
-          <h3>{boardComment.nickname}</h3>
-          <h4>{boardComment.inserted.replace("T", " ")}</h4>
+        <Flex justify={"space-between"} alignItems={"center"}>
+          <Text fontWeight={"bold"}>{boardComment.nickname}</Text>
+          <Text fontSize={"sm"} color={"gray.500"}>
+            {boardComment.inserted.replace("T", " ")}
+          </Text>
         </Flex>
-        <Box css={{ whiteSpace: "pre" }}>{boardComment.boardComment}</Box>
-      </Box>
-      {(boardComment.memberId === id || isAdmin) && (
-        <Box>
-          <EditButton boardComment={boardComment} onEditClick={onEditClick}>
-            수정
-          </EditButton>
-          <DeleteButton
-            onClick={() => onDeleteClick(boardComment.boardCommentId)}
-          >
-            삭제
-          </DeleteButton>
+        <hr />
+        <Box mt={2} css={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+          {boardComment.boardComment}
         </Box>
-      )}
+        {(boardComment.memberId === id || isAdmin) && (
+          <Box mt={2}>
+            <Flex justify={"flex-end"} spacing={3}>
+              <HStack spacing={3}>
+                <EditButton
+                  boardComment={boardComment}
+                  onEditClick={onEditClick}
+                />
+                <DeleteButton
+                  onClick={() => onDeleteClick(boardComment.boardCommentId)}
+                />
+              </HStack>
+            </Flex>
+          </Box>
+        )}
+      </Box>
     </HStack>
   );
 }
