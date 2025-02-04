@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Textarea } from "@chakra-ui/react";
+import { Box, Flex, Text, Textarea } from "@chakra-ui/react";
 import { Button } from "../ui/button.jsx";
 import {
   DialogActionTrigger,
@@ -20,67 +20,67 @@ function EditButton({ inquireComment, onEditClick }) {
   );
 
   return (
-    <>
-      <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-        <DialogTrigger asChild>
-          <Button colorPalette={"purple"}>수정</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>댓글 수정</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <Textarea
-              value={newInquireComment}
-              onChange={(e) => setNewInquireComment(e.target.value)}
-            />
-          </DialogBody>
-          <DialogFooter>
-            <DialogActionTrigger>
-              <Button variant={"outline"}>취소</Button>
-            </DialogActionTrigger>
-            <Button
-              colorPalette={"purple"}
-              onClick={() => {
-                setOpen(false);
-                onEditClick(inquireComment.inquireCommentId, newInquireComment);
-              }}
-            >
-              수정
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </DialogRoot>
-    </>
+    <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+      <DialogTrigger asChild>
+        <Button colorPalette="purple" size="sm">
+          수정
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>댓글 수정</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <Textarea
+            value={newInquireComment}
+            onChange={(e) => setNewInquireComment(e.target.value)}
+          />
+        </DialogBody>
+        <DialogFooter>
+          <DialogActionTrigger>
+            <Button variant="outline">취소</Button>
+          </DialogActionTrigger>
+          <Button
+            colorPalette="purple"
+            onClick={() => {
+              setOpen(false);
+              onEditClick(inquireComment.inquireCommentId, newInquireComment);
+            }}
+          >
+            수정
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 }
 
 function DeleteButton({ onClick }) {
   const [open, setOpen] = useState(false);
   return (
-    <>
-      <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-        <DialogTrigger asChild>
-          <Button colorPalette={"red"}>삭제</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>삭제 확인</DialogTitle>
-          </DialogHeader>
-          <DialogBody>
-            <p>댓글을 삭제하시겠습니까?</p>
-          </DialogBody>
-          <DialogFooter>
-            <DialogActionTrigger>
-              <Button variant={"outline"}>취소</Button>
-            </DialogActionTrigger>
-            <Button colorPalette={"red"} onClick={onClick}>
-              삭제
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </DialogRoot>
-    </>
+    <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
+      <DialogTrigger asChild>
+        <Button colorPalette="red" size="sm">
+          삭제
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>삭제 확인</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <Text>댓글을 삭제하시겠습니까?</Text>
+        </DialogBody>
+        <DialogFooter>
+          <DialogActionTrigger>
+            <Button variant="outline">취소</Button>
+          </DialogActionTrigger>
+          <Button colorPalette="red" onClick={onClick}>
+            삭제
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 }
 
@@ -91,26 +91,34 @@ export function InquireCommentItem({
 }) {
   const { isAdmin } = useContext(AuthenticationContext);
   return (
-    <HStack border={"1px solid black"} m={5}>
-      <Box flex={1}>
-        <Flex justify={"space-between"}>
-          <h3>{inquireComment.nickname}</h3>
-          <h4>{inquireComment.inserted.replace("T", " ")}</h4>
-        </Flex>
-        <Box css={{ whiteSpace: "pre" }}>{inquireComment.inquireComment}</Box>
+    <Box
+      border="1px solid #ddd"
+      borderRadius="8px"
+      boxShadow="sm"
+      p={4}
+      m={3}
+      bg="white"
+    >
+      <Flex justify="space-between" align="center" mb={2}>
+        <Text fontWeight="bold">{inquireComment.nickname}</Text>
+        <Text fontSize="sm" color="gray.500">
+          {inquireComment.inserted.replace("T", " ")}
+        </Text>
+      </Flex>
+      <Box whiteSpace="pre-wrap" p={2} bg="gray.50" borderRadius="md">
+        {inquireComment.inquireComment}
       </Box>
-      {inquireComment && isAdmin && (
-        <Box>
-          <EditButton inquireComment={inquireComment} onEditClick={onEditClick}>
-            수정
-          </EditButton>
+      {isAdmin && (
+        <Flex justify="flex-end" mt={3} gap={2}>
+          <EditButton
+            inquireComment={inquireComment}
+            onEditClick={onEditClick}
+          />
           <DeleteButton
             onClick={() => onDeleteClick(inquireComment.inquireCommentId)}
-          >
-            삭제
-          </DeleteButton>
-        </Box>
+          />
+        </Flex>
       )}
-    </HStack>
+    </Box>
   );
 }
