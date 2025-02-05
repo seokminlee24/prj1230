@@ -109,4 +109,14 @@ public class SmlBoardService {
         Map<String, Object> result = Map.of("join", join, "count", countJoin);
         return result;
     }
+
+
+    public Map<String, Object> joinList(String memberId, Integer page) {
+        Integer offset = (page - 1) * 10;
+        List<Board> list = mapper.selectJoinBoardPage(memberId, offset);
+
+        // 전체 문의글 수
+        Integer count = mapper.boardJoinCount(memberId);
+        return Map.of("list", list, "count", count);
+    }
 }

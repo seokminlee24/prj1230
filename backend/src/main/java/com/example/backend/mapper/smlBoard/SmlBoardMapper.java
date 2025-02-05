@@ -134,4 +134,32 @@ public interface SmlBoardMapper {
                 WHERE member_id = #{memberId}
             """)
     int deleteJoinByMemberId(String memberId);
+
+    @Select("""
+            <script>
+            SELECT sb.board_id, sb.board_title, sb.board_writer AS memberId, 
+                   m.nickname AS board_writer, sb.inserted,
+                   COUNT(DISTINCT bc.board_id) AS boardCountComment,
+                   COUNT(DISTINCT bj.member_id) AS boardCountJoin
+            FROM sml_board sb
+            JOIN board_join bj ON sb.board_id = bj.board_id
+            LEFT JOIN member m ON sb.board_writer = m.member_id
+            LEFT JOIN board_comment bc ON sb.board_id = bc.board_id
+            WHERE bj.member_id = #{memberId} -- 현재 로그인한 사용자만 조회
+            GROUP BY sb.board_id
+            ORDER BY sb.board_id DESC
+            LIMIT #{offset}, 10
+            </script>
+            """)
+    List<Board> selectJoinBoardPage(String memberId, Integer offset);
+
+    @Select("""
+            <script>
+            SELECT COUNT(DISTINCT sb.board_id)
+            FROM sml_board sb
+            JOIN board_join bj ON sb.board_id = bj.board_id
+            WHERE bj.member_id = #{memberId} -- 로그인한 사용자만
+            </script>
+            """)
+    Integer boardJoinCount(String memberId);
 }

@@ -16,6 +16,7 @@ import { BoardAdd } from "./page/smlBoard/BoardAdd.jsx";
 import { BoardList } from "./page/smlBoard/BoardList.jsx";
 import { BoardInfo } from "./page/smlBoard/BoardInfo.jsx";
 import { BoardEdit } from "./page/smlBoard/BoardEdit.jsx";
+import { BoardJoinList } from "./page/smlBoard/BoardJoinList.jsx";
 
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem("token");
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "board/boardList",
         element: <BoardList />,
+      },
+      {
+        path: "board/boardJoinList",
+        element: <BoardJoinList />,
       },
       {
         path: "board/boardInfo/:boardId",

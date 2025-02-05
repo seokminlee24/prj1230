@@ -16,6 +16,17 @@ import java.util.Map;
 public class SmlBoardController {
     final SmlBoardService service;
 
+    @GetMapping("/boardJoinList")
+    @PreAuthorize("isAuthenticated()")
+    public Map<String, Object> boardJoinList(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            Authentication authentication) {
+
+        String memberId = authentication.getName();
+        return service.joinList(memberId, page);
+    }
+
+
     @GetMapping("like/{boardId}")
     public Map<String, Object> getLike(@PathVariable int boardId,
                                        Authentication authentication) {
