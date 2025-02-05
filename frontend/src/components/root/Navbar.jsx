@@ -69,6 +69,17 @@ export function Navbar() {
                   </Box>
                   <Box
                     onClick={() => {
+                      navigate(`/board/boardJoinList`);
+                    }}
+                    padding="0.5rem"
+                    textAlign={"center"}
+                    cursor="pointer"
+                    _hover={{ backgroundColor: "red.100", color: "red.800" }}
+                  >
+                    참여 목록
+                  </Box>
+                  <Box
+                    onClick={() => {
                       navigate("/inquire/inquireList");
                     }}
                     padding="0.5rem"
