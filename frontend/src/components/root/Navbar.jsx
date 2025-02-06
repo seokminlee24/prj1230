@@ -78,7 +78,7 @@ export function Navbar() {
                     textAlign={"center"}
                     _hover={{ backgroundColor: "red.100", color: "red.800" }}
                   >
-                    문의하기
+                    문의목록
                   </Box>
                   {authentication.isAdmin && (
                     <Box
