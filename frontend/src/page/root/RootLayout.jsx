@@ -23,9 +23,12 @@ export function RootLayout() {
 
   return (
     <Stack>
-      <Box>
-        <Navbar />
-      </Box>
+      {/* 로그인한 사용자만 네브바 보이게 */}
+      {isAuthenticated && (
+        <Box>
+          <Navbar />
+        </Box>
+      )}
       <Box>
         <Outlet />
       </Box>
