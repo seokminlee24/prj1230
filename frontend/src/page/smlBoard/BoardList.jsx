@@ -100,7 +100,7 @@ export function BoardList() {
       <Box width="100%" maxWidth="900px">
         <Flex justify="space-between" align="center" width="100%">
           <Text fontSize="2xl" fontWeight="bold">
-            참여글
+            참여글 목록
           </Text>
           <Button onClick={handleGoBoardAdd}>참여글 작성</Button>
         </Flex>

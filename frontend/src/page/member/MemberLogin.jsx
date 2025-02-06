@@ -27,7 +27,7 @@ export function MemberLogin() {
           type: data.message.type,
           description: data.message.text,
         });
-        navigate("/");
+        navigate("/board/boardList");
         authentication.login(data.token);
       })
       .catch((e) => {

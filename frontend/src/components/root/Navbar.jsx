@@ -18,21 +18,12 @@ export function Navbar() {
   return (
     <Box background={"white"}>
       <Flex justify="center" flex="1" gap={3}>
-        {/* 중앙 정렬된 가입 및 로그인 */}
-        <Box
-          padding="0.5rem"
-          _hover={{ backgroundColor: "gray.100" }}
-          onClick={() => navigate("/member/login")}
-        >
-          로그인
-        </Box>
-
         <Box
           padding="0.5rem"
           _hover={{ backgroundColor: "gray.100" }}
           onClick={() => navigate("/board/boardList")}
         >
-          게시판 리스트
+          참여글 목록
         </Box>
 
         {/* 메뉴를 오른쪽 끝으로 밀기 */}
