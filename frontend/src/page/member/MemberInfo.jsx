@@ -31,7 +31,7 @@ export function MemberInfo() {
   const [open, setOpen] = useState(false);
 
   const { memberId } = useParams();
-  const { logout } = useContext(AuthenticationContext);
+  const { logout, isAdmin } = useContext(AuthenticationContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,13 +46,19 @@ export function MemberInfo() {
         data: { memberId, password },
       })
       .then((res) => {
-        logout();
         const message = res.data.message;
         toaster.create({
           type: message.type,
           description: message.text,
         });
-        navigate("/member/signup");
+
+        // 관리자가 계정을 삭제하면 /member/list로 이동
+        if (!isAdmin) {
+          navigate("/member/signup");
+          logout();
+        } else {
+          navigate("/member/list");
+        }
       })
       .catch((e) => {
         const message = e.response.data.message;
