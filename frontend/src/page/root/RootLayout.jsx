@@ -15,7 +15,10 @@ export function RootLayout() {
         navigate("/board/boardList", { replace: true });
       }
     } else {
-      if (location.pathname !== "/member/login") {
+      if (
+        location.pathname !== "/member/login" &&
+        location.pathname !== "/member/signup"
+      ) {
         navigate("/member/login", { replace: true });
       }
     }
