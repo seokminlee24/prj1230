@@ -113,7 +113,6 @@ export function BoardList() {
               <option value={"all"}>전체</option>
               <option value={"boardTitle"}>제목</option>
               <option value={"boardContent"}>내용</option>
-              <option value={"board"}>내용</option>
             </select>
           </Box>
           <Input
