@@ -147,7 +147,7 @@ export function BoardList() {
                 <Table.Cell textAlign="center">
                   {board.boardTitle}
                   {board.boardCountComment > 0 && (
-                    <Badge variant={"subtle"} colorPalette={"green"}>
+                    <Badge variant="subtle" colorScheme="green">
                       <FaCommentDots />
                       {board.boardCountComment}
                     </Badge>

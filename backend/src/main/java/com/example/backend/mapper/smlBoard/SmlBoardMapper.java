@@ -139,7 +139,7 @@ public interface SmlBoardMapper {
             <script>
             SELECT sb.board_id, sb.board_title, sb.board_writer AS memberId, 
                    m.nickname AS board_writer, sb.inserted,
-                   COUNT(DISTINCT bc.board_id) AS boardCountComment,
+                   COUNT(bc.board_id) AS boardCountComment,
                    COUNT(DISTINCT bj.member_id) AS boardCountJoin
             FROM sml_board sb
             JOIN board_join bj ON sb.board_id = bj.board_id
